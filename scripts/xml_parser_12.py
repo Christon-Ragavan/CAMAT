@@ -4,21 +4,18 @@ Working on voices and parts
 """
 
 import sys
-
 sys.path.append('/Users/chris/DocumentLocal/workspace')
-from hfm.scripts_in_progress.examples.hfm_database_search import run_search
+from hfm_database_search import run_search
 import os
 import re
 import tempfile
 import xml.etree.ElementTree as ET
-from progressbar import progressbar as pbar
 import music21 as m21
 import numpy as np
 import pandas as pd
-from bs4 import BeautifulSoup as bs
 import requests
-from hfm.scripts_in_progress.examples.pianoroll_matplotlib import plot_pianoroll
 from music21 import *
+from utils import _create_pianoroll_single_parts, _create_pianoroll_single
 
 print("Pandas Version", pd.__version__)
 print("MUSIC21 Version", m21.__version__)
@@ -701,7 +698,6 @@ def _get_file(search_keywords, testing, extract_extire_database):
     return path
 
 def plotting_wrapper(df):
-    from hfm.scripts_in_progress.xml_parser.scripts.utils import _create_pianoroll_single, _create_pianoroll_single_parts
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
     duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
     midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
@@ -710,7 +706,6 @@ def plotting_wrapper(df):
 
 def plotting_wrapper_parts(df):
 
-    from hfm.scripts_in_progress.xml_parser.scripts.utils import _create_pianoroll_single, _create_pianoroll_single_parts
 
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
     duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))

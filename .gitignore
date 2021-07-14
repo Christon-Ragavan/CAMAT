@@ -131,3 +131,5 @@ dmypy.json
 
 #Additional
 xml_files/
+git_push.sh
+clear_pycache.sh
