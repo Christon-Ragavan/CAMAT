@@ -130,6 +130,8 @@ dmypy.json
 
 
 #Additional
+git_push.sh
+.DS_Store
 xml_files/
 git_push.sh
 clear_pycache.sh
