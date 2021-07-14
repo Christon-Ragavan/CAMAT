@@ -10,15 +10,15 @@ This expands conventional approaches to analysis and opens up and explores new p
 
 All software used in the teaching units is freely accessible and can be used royalty-free. In this way, the project follows the principle of OA, open access to publicly funded project results and independence from commercially oriented IT companies.
 
-h2. Teaching units and modules
+## Teaching units and modules
 
 Two teaching units are provided here, which, based on music analytical questions, can be converted into different possibilities of computer-aided analysis of sheet music or Insert audio files. Each lesson consists of a basic module (Basics grades or Basics Audio) and an Advanced specialization. The teaching units can be used in self-study or within courses. The duration of the lessons is about three sessions of a 90-minute, with additional preparations, homework and optional in-depth studies.
 
-h2. Resources and documentation
+## Resources and documentation
 
 These pages contain information on the installation of the required software, a database of note files of several 1000 compositions, comprehensive documentation of the sheet music analysis programs developed in the project, and other materials.
 
-h2. Research
+## Research
 
 Further information on the objectives, employees, publications, etc. of the project, links to similar research projects and publications can be found on the research page. The project Computer-aided Music Analysis in Digital Higher Education is located at the Institute of Musicology Weimar-Jena of the Franz Liszt Weimar University of Music. It is funded by the Thuringian Ministry of Economic Affairs, Science and Digital Change and the Stifterverband. The project sees itself as a contribution to Computational Musicology or Digital Musicology within the Digital Humanties.
 
