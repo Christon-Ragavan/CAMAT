@@ -153,6 +153,7 @@ def _search_database(col, keywords):
         entrie_database_list = []
 
         for id, i in enumerate(composer_data):
+
             print(f"{id}/{len(composer_data)} - {i}")
             pd_data = extract_tables(i[1])
             entrie_database_list.append(pd_data)
@@ -279,7 +280,7 @@ def search_database_intern2(df, col, keywords):
     s_df = df[df[col].str.contains(search_key)]
     return s_df
 
-def scrape_database(database_csv):
+def scrape_database(database_csv, do_print=False):
     composer_url = "https://analyse.hfm-weimar.de/doku.php?id=komponisten"
     composer_data = extract_links(url=composer_url)
 
@@ -287,7 +288,11 @@ def scrape_database(database_csv):
     entrie_database_list = []
     # 51 62
     for id, i in enumerate(composer_data):
-        print(f"{id}/{len(composer_data)} - {i}")
+        if do_print:
+            print(f"{id}/{len(composer_data)} - {i}")
+        if i[0]=='hier':
+            continue
+
         pd_data = extract_tables(i[0], i[1])
         entrie_database_list.append(pd_data)
     df_entrie_database = pd.concat(entrie_database_list,
@@ -300,25 +305,28 @@ def scrape_database(database_csv):
     return df_entrie_database
 
 
-def search_database_intern(df, search_keywords, apply_precise_keyword_search):
+def search_database_intern(df, search_keywords, apply_precise_keyword_search, do_print=False):
 
     db_list = []
-
-    print("-------------------------------------------------")
-    print("Searching...")
-    print("-------------------------------------------------")
+    if do_print:
+        print("-------------------------------------------------")
+        print("Searching...")
+        print("-------------------------------------------------")
 
     for col in search_keywords:
         sepra = ", "
         if search_keywords[col] == None:
             s = 'None'
-            print(f"{col : <20} {s: <20}")
+            if do_print:
+                print(f"{col : <20} {s: <20}")
         else:
-            if type(search_keywords[col]) == str:
-                print(f"{col : <20} { search_keywords[col] : <20}")
-            else:
-                print(f"{col : <20} { sepra.join(search_keywords[col]) : <20}")
-    print("-------------------------------------------------")
+            if do_print:
+                if type(search_keywords[col]) == str:
+                    print(f"{col : <20} { search_keywords[col] : <20}")
+                else:
+                    print(f"{col : <20} { sepra.join(search_keywords[col]) : <20}")
+    if do_print:
+        print("-------------------------------------------------")
 
     for col in search_keywords:
 
@@ -385,8 +393,6 @@ def search_database_intern(df, search_keywords, apply_precise_keyword_search):
     else:
         print(" ERROR : NO SEARCH HAS BEEN PERFORMED")
         df_s_db_drop = df
-
-
     return df_s_db_drop
 
 
@@ -397,7 +403,7 @@ def run_search(search_keywords,
                extract_database=True,
                apply_precise_keyword_search=True,
                extract_extire_database=False,
-               save_extracted_database_path='',
+               save_extracted_database_path='', do_save_csv=False, do_print=False,
                save_search_output_path='search_output.csv'):
     """
 
@@ -446,21 +452,26 @@ def run_search(search_keywords,
     if extract_database == False:
         df_entrie_database = pd.read_csv(save_extracted_database_path, sep=';')
         if df_entrie_database.empty:
-            df_entrie_database = scrape_database(save_extracted_database_path)
+            df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
         print("saved at ", save_extracted_database_path)
 
     else:
-        df_entrie_database = scrape_database(save_extracted_database_path)
+        df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
     df_entrie_database = df_entrie_database.replace(np.nan, '', regex=True)
 
     if extract_extire_database:
         df_entrie_database.reset_index(drop=True, inplace=True)
-        df_entrie_database.to_csv(save_search_output_path, index=False,  sep=';')
+        if do_save_csv:
+            df_entrie_database.to_csv(save_search_output_path, index=False,  sep=';')
         return df_entrie_database
     else:
-        df_s = search_database_intern(df=df_entrie_database, search_keywords=search_keywords, apply_precise_keyword_search=apply_precise_keyword_search)
+        df_s = search_database_intern(df=df_entrie_database,
+                                      search_keywords=search_keywords,
+                                      apply_precise_keyword_search=apply_precise_keyword_search,
+                                      do_print=do_print)
         df_s.reset_index(drop=True, inplace=True)
-        df_s.to_csv(save_search_output_path, index=False,  sep=';')
+        if do_save_csv:
+            df_s.to_csv(save_search_output_path, index=False,  sep=';')
         return df_s
 
 
@@ -482,4 +493,4 @@ if __name__=='__main__':
                       apply_precise_keyword_search=True,
                       save_extracted_database_path=database_csv_path,
                       save_search_output_path='search_output.csv')
-    print(df_s)
+    #print(df_s)

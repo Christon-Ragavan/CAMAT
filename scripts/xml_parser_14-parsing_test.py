@@ -685,6 +685,10 @@ def _get_file(search_keywords, testing, extract_extire_database):
         df_s = _scrape_database(search_keywords, extract_extire_database)
         print(f"database shape {np.shape(df_s)}")
         urls = df_s['url'].to_list()
+
+        base_d = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+        data = pd.read_csv(base_d,  header=None)
+        print(data)
         path = _download_xml_file(urls)
 
     #assert os.path.isfile(path), "File not found {}".format(path)
@@ -735,9 +739,10 @@ if __name__ == "__main__":
                        'Life Time Range': None,
                        'Year Range': None}
 
-    paths = _get_file(search_keywords, testing=True, extract_extire_database=True)
+    paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
     c= 0
     e=0
+    paths  = paths[:1]
     for i, path in enumerate(paths):
         try:
             xml_tools = XMLToolBox(file_path=path)
@@ -752,14 +757,11 @@ if __name__ == "__main__":
 
                 correct_list.append(str(path))
                 print(df_data_midi)
-
-                #plotting_wrapper(df_data_midi)
-                plotting_wrapper_parts(df_data_midi)
         except:
-            error_list.append(str(path))
+            error_list.append(os.path.basename(path))
             e+=1
         print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
 
-    #print("TOTAL Files ERROR", len(error_list))
-
-
+    print("TOTAL Files ERROR", len(error_list))
+    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated.csv"
+    np.savetxt(save_at, error_list, delimiter=',', fmt ='% s')

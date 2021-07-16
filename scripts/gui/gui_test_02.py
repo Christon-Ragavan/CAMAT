@@ -1,16 +1,26 @@
 # Author: Miguel Martinez Lopez
 # Version: 0.20
+import re
+import sys
 
+import numpy as np
+
+sys.path.append('/Users/chris/DocumentLocal/workspace')
 try:
     from Tkinter import Frame, Label, Message, StringVar, Canvas
     from ttk import Scrollbar
     from Tkconstants import *
+    import Tkinter as tk
+
 except ImportError:
     from tkinter import Frame, Label, Message, StringVar, Canvas
     from tkinter.ttk import Scrollbar
     from tkinter.constants import *
+    import tkinter as tk
 
 import platform
+from functools import partial
+from hfm.scripts_in_progress.xml_parser.scripts.hfm_database_search import run_search
 
 OS = platform.system()
 
@@ -553,25 +563,204 @@ class Table(Frame):
     def on_change_data(self, callback):
         self._on_change_data = callback
 
+def _Get_search(c, t , k ,mn, lty, ltr, y):
+    """
+        Composer': list, (example: ['Composer1', 'Composer2'])
+        'Movement Number': list, (example: ['Mov1', 'Mov2'])
+        'Title': list, (example: ['Title1', 'Title2'])
+        'Key': list,  (example: ['C', 'G'])
+        'Life Time Year': list, (example: [1300, 1600, 1880])
+        'Life Time Range': str, (example: '1300-1600')
+        'Year Range': str, (example: '1300-1600')
+        """
+    database_csv_path = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/database/'
+
+
+
+
+    c = None if 'none' in c or 'None' in c else re.split(',', c)
+    mn = None if 'none' in mn or 'None' in mn else re.split(',', mn)
+    t = None if 'none' in t or 'None' in t else re.split(',', t)
+    lty = None if 'none' in lty or 'None' in lty else re.split(',', lty)
+    k = None if 'none' in k or 'None' in k else re.split(',', k)
+    if 'none' in ltr or 'None' in ltr: ltr =None
+    if 'none' in y or 'None' in y: y =None
+
+
+    search_keywords = {'Composer': c,
+                       'Movement Number': mn,
+                       'Title': t,
+                       'Key': k,
+                       'Life Time Year': lty,
+                       'Life Time Range': ltr,
+                       'Year Range': y}
+    print(search_keywords)
+    df_s = run_search(search_keywords=search_keywords,
+                      extract_database=False,
+                      apply_precise_keyword_search=True,
+                      extract_extire_database=False,
+                      save_extracted_database_path=database_csv_path,
+                      do_save_csv=False,
+                      do_print=False,
+                      save_search_output_path='_.csv')
+    df_s = df_s.reset_index()
+    print(df_s)
+    list_df = df_s.values.tolist()
+
+
+    columns= list(df_s.columns.values)
+    c_l = []
+    for l in columns:
+        if "Movement" in l:
+            a = "Movement Nr."
+        else:
+            a = l
+        c_l.append(a)
+
+    print(c_l)
+    return c_l, list_df
+
+class UI_interact():
+    def __init__(self, root,canvas1):
+        self.root = root
+        self.canvas1 = canvas1
+
+    def clear_button(self, data):
+        self.table.forget()
+
+
+    def search_button(self, data):
+        try:
+            self.clear_button(data)
+        except:
+            pass
+        c = composer_e.get()
+        mn = m_nr_e.get()
+        t = title_e.get()
+        lty = life_time_year_e.get()
+        ltr = life_time_range_e.get()
+        y = year_range_e.get()
+        k = k_e.get()
+
+
+        cols, list_df = _Get_search(c, t , k ,mn, lty, ltr, y)
+        if len(list_df) ==0:
+            list_df = [['NA']*len(cols)]
+
+        self.table = Table(self.root, cols, column_minwidths=[100]*len(cols))
+        self.table.pack(padx=2, pady=2)
+        self.table.set_data(list_df)
+
+        self.root.update()
+        self.root.geometry("%sx%s" % (self.root.winfo_reqwidth(), 10000))
+
 
 if __name__ == "__main__":
+
+    #c = _Get_search('bach')
+
     try:
         from Tkinter import Tk
+
     except ImportError:
         from tkinter import Tk
 
     root = Tk()
+    root.title('HFM Database Corpus Query')
 
-    table = Table(root, ["column A", "column B", "column C"], column_minwidths=[None, None, None])
-    table.pack(padx=10, pady=10)
+    root.geometry("%sx%s" % (900, 300))
 
-    table.set_data([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [15, 16, 18], [19, 20, 21]])
-    table.cell(0, 0, " a fdas fasd fasdf asdf asdfasdf asdf asdfa sdfas asd sadf ")
+    canvas1 = tk.Canvas(root, width=900, height=300, relief='raised')
+    canvas1.pack()
 
-    table.insert_row([22, 23, 24])
-    table.insert_row([25, 26, 27])
+    label1 = tk.Label(root, text='Search hfm Database')
+    label1.config(font=('helvetica', 14))
+    canvas1.create_window(350, 25, window=label1)
 
-    root.update()
-    root.geometry("%sx%s" % (root.winfo_reqwidth(), 250))
+    composer_var = tk.StringVar(root, value=None)
+    composer_var.set("Jos")
 
+
+    title_var = tk.StringVar(root, value=None)
+    title_var.set("missa")
+
+    key_var = tk.StringVar(root, value=None)
+    key_var.set('None')
+
+    m_nr_var = tk.StringVar(root, value=None)
+    m_nr_var.set("1")
+
+
+    life_time_year_var = tk.StringVar(root, value=None)
+    life_time_year_var.set('None')
+
+    life_time_range_var = tk.StringVar(root, value=None)
+    life_time_range_var.set('None')
+
+    year_range_var = tk.StringVar(root, value=None)
+    year_range_var.set('None')
+
+
+
+    x = 200
+    y = 45
+    inc = 20
+    composer_label = tk.Label(root, text='Composer', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=composer_label)
+    composer_e = tk.Entry(root, textvariable=composer_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=composer_e)
+    y += inc
+
+    title_l = tk.Label(root, text='Title', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=title_l)
+    title_e = tk.Entry(root, textvariable=title_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=title_e)
+    y += inc
+
+    k_l = tk.Label(root, text='Key', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=k_l)
+    k_e = tk.Entry(root, textvariable=key_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=k_e)
+    y += inc
+
+    m_nr_l = tk.Label(root, text='Movement Nr.', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=m_nr_l)
+    m_nr_e = tk.Entry(root, textvariable=m_nr_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=m_nr_e)
+    y += inc
+
+    life_time_year_l = tk.Label(root, text='Life Time Year', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=life_time_year_l)
+    life_time_year_e = tk.Entry(root, textvariable=life_time_year_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=life_time_year_e)
+    y += inc
+
+    life_time_range_l = tk.Label(root, text='Life Time Range', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=life_time_range_l)
+    life_time_range_e = tk.Entry(root, textvariable=life_time_range_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=life_time_range_e)
+    y += inc
+
+    year_range_l = tk.Label(root, text='Year Range', font=('calibre', 10, 'bold'))
+    canvas1.create_window(x, y, window=year_range_l)
+    year_range_e = tk.Entry(root, textvariable=year_range_var, font=('calibre', 10, 'normal'))
+    canvas1.create_window(x+150, y, window=year_range_e)
+    y += inc
+
+
+
+    ui_int = UI_interact(root=root, canvas1=canvas1)
+
+    data = 'Keyword: '
+    action_with_arg = partial(ui_int.search_button, data)
+    button1 = tk.Button(root, text='Search', command=action_with_arg, bg='brown', fg='gray',
+                        font=('helvetica', 9, 'bold'))
+    button1.place(x=x+50, y=y)
+
+    action_with_arg = partial(ui_int.clear_button, data)
+    button2 = tk.Button(root, text='Clear', command=action_with_arg, bg='brown', fg='gray',
+                        font=('helvetica', 9, 'bold'))
+    button2.place(x=x+200, y=y)
+
+    canvas1.create_window(200, 180, window=button1)
     root.mainloop()

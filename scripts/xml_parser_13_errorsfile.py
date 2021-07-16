@@ -16,7 +16,7 @@ import pandas as pd
 import requests
 from music21 import *
 from utils import _create_pianoroll_single_parts, _create_pianoroll_single
-
+import traceback
 print("Pandas Version", pd.__version__)
 print("MUSIC21 Version", m21.__version__)
 
@@ -190,7 +190,6 @@ class XMLToolBox:
 
     def strip_xml(self):
         self._strip_part_information()
-
         c = 0
         self.part_id_counter = 0
 
@@ -226,14 +225,26 @@ class XMLToolBox:
                         # print(f" # Note num {self.note_counter} -- {self.curr_measure_offset}")
                         self._find_ties(itt=m_itt)
                         self._find_chords(itt=m_itt)
+                        voice_i  = m_itt.find('voice')
+                        duration_i  = m_itt.find('duration')
+
+                        if voice_i != None:
+                            self.voice_num.append(voice_i.text)
+                        else:
+                            self.voice_num.append("0")
+                        if duration_i != None:
+                            self.duration.append(float(float(duration_i.text) / self.curr_measure_divisions))
+
+                        else:
+                            self.duration.append(0.0)
+
+
 
                         for p in m_itt:  # itterate over pitches
                             c += 1
-                            if p.tag == 'voice':
-                                self.voice_num.append(p.text)
-
                             if p.tag == 'duration':
-                                self.duration.append(float(float(p.text) / self.curr_measure_divisions))
+                                pass
+                                #self.duration.append(float(float(p.text) / self.curr_measure_divisions))
                             is_alter = p.find('alter')
                             if p.tag == 'pitch':
                                 for ppp in p:
@@ -251,15 +262,16 @@ class XMLToolBox:
                                 self.step.append(p.tag)
                                 self.octave.append(p.tag)
 
-        #print(f"self.step               :{len(self.step)}")
-        #print(f"self.octave             :{len(self.octave)}")
-        #print(f"self.tie                :{len(self.tie)}")
-        #print(f"self.duration           :{len(self.duration)}")
-        #print(f"self.chord_tags         :{len(self.chord_tags)}")
-        #print(f"self.voice_num          :{len(self.voice_num)}")
-        #print("curr_measure_num         :", self.curr_measure_num)
-        #print("measure_offset_list      :", len(self.measure_offset_list))
-        assert len(self.step) == len(self.octave)
+        print(f"self.step               :{len(self.step)}")
+        print(f"self.octave             :{len(self.octave)}")
+        print(f"self.tie                :{len(self.tie)}")
+        print(f"self.duration           :{len(self.duration)}")
+        print(f"self.chord_tags         :{len(self.chord_tags)}")
+        print(f"self.voice_num          :{len(self.voice_num)}")
+        print("curr_measure_num         :", self.curr_measure_num)
+        print("measure_offset_list      :", len(self.measure_offset_list))
+
+        assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration)
         assert len(self.step) == len(self.tie)
         assert len(self.duration) == len(self.tie)
         assert len(self.duration) == len(self.chord_tags)
@@ -275,7 +287,7 @@ class XMLToolBox:
             notes.append(n)
 
 
-        if False:
+        if True:
             print(f"self.note_counter_list      :{len(self.note_counter_list)}")
             print(f"self.duration               :{len(self.duration)}")
             print(f"self.step                   :{len(self.step)}")
@@ -292,7 +304,7 @@ class XMLToolBox:
 
 
         try:
-
+            print("Trying first")
             df_data = pd.DataFrame(np.array(
                 [self.note_counter_list, self.duration, self.step, self.octave,
                  self.measure_num_per_note_list, self.voice_num, self.glb_part_id_list,
@@ -302,6 +314,8 @@ class XMLToolBox:
                                             'Chord Tags',
                                             'Tie Type'])
         except:
+            print("Trying second")
+
             df_data = pd.DataFrame(np.array(
                 [self.note_counter_list,
                  self.duration,
@@ -535,13 +549,12 @@ class XMLToolBox:
             if i == 0:
                 c_off = 0.0
             else:
-
                 if part_id_list[i - 1] != pid_trk:  # resetting the container at every change in measure
                     c_off = 0.0
                     del voice_track_container
                     voice_track_container = [[] for i in range(n_num_voice)]
-
                 elif voices_list[i - 1] != v:
+                    print(len(voice_track_container[v-1]), v, v-1)
                     if measure_num_list[i-1]!=m_trk:
                         c_off = curr_measure_offset
                     elif len(voice_track_container[v-1])==0:
@@ -675,24 +688,24 @@ def _get_file(search_keywords, testing, extract_extire_database):
         # path = base_dir + "/breakme.xml"
         # path = base_dir + "/Untitled6.xml"
         # path = base_dir + "/stupid2.xml"
-        path = base_dir + "/test_voice.xml"
         # path = base_dir + "/BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml"
         # path = base_dir + "/test_case_Castuski_1_time_sig_measure.xml"
-        #path = base_dir + "/MoWo_K80_COM_1-4_StringQuar_003_00838.xml"
+        path = base_dir + "/MoWo_K80_COM_1-4_StringQuar_003_00838.xml"
+        path = base_dir + "/rest_voice.xml"
         path = [path]
 
     else:
-        df_s = _scrape_database(search_keywords, extract_extire_database)
-        print(f"database shape {np.shape(df_s)}")
-        urls = df_s['url'].to_list()
-        path = _download_xml_file(urls)
+        p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+        data = pd.read_csv(p)
+        path =  list(np.squeeze(data.values.tolist()))
+
 
     #assert os.path.isfile(path), "File not found {}".format(path)
     print("###### FIles", len(path))
     print("----------------PARSING--------------------")
-    print(path)
     try:
-        b = converter.parse(path)
+        pass
+        # b = converter.parse(path)
         #b.show('text')
     except:
         print("ERROR parsing music21")
@@ -702,12 +715,9 @@ def plotting_wrapper(df):
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
     duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
     midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
-    _create_pianoroll_single(pitch=midi, time=offset, duration =duration, midi_min=55, midi_max=75)
-
+    _create_pianoroll_single(pitch=midi, time=offset, duration=duration, midi_min=55, midi_max=75)
 
 def plotting_wrapper_parts(df):
-
-
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
     duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
     midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
@@ -735,10 +745,12 @@ if __name__ == "__main__":
                        'Life Time Range': None,
                        'Year Range': None}
 
-    paths = _get_file(search_keywords, testing=True, extract_extire_database=True)
+    paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
     c= 0
     e=0
+    paths = paths[1:2]
     for i, path in enumerate(paths):
+        print("----",path)
         try:
             xml_tools = XMLToolBox(file_path=path)
             df_data = xml_tools.strip_xml()
@@ -755,7 +767,8 @@ if __name__ == "__main__":
 
                 #plotting_wrapper(df_data_midi)
                 plotting_wrapper_parts(df_data_midi)
-        except:
+        except Exception as error:
+            traceback.print_exc()
             error_list.append(str(path))
             e+=1
         print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
@@ -763,3 +776,11 @@ if __name__ == "__main__":
     #print("TOTAL Files ERROR", len(error_list))
 
 
+
+"""
+
+001
+002
+003 - - S böck 
+inharmonic information? 
+"""
