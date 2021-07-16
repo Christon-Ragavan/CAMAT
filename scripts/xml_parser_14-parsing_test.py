@@ -742,7 +742,6 @@ if __name__ == "__main__":
     paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
     c= 0
     e=0
-    paths  = paths[:1]
     for i, path in enumerate(paths):
         try:
             xml_tools = XMLToolBox(file_path=path)
