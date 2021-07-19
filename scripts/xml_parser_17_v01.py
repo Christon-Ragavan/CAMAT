@@ -135,7 +135,9 @@ class XMLToolBox:
             raise Exception(f"ERROR: Tie Type Not Understood {ck}")
 
         if False:
+            # if True:
             info = itt.find('tie')
+
             if info != None:
                 self.tie.append(info.attrib['type'])
             else:
@@ -525,12 +527,10 @@ class XMLToolBox:
             if i == 0:
                 m_t = m
             else:
-
                 if measure_num_list[i-1] != m:
                     m_t = m
                 else:
                     continue
-
             idx_new_measure_offsets.append(m_t)
 
         return idx_new_measure_offsets
@@ -774,18 +774,12 @@ def plotting_wrapper_parts(df):
     partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
     _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,duration =duration, midi_min=55, midi_max=75)
 
-
-
 if __name__ == "__main__":
-    """‚
-    Stabel Extractor! TO CHECEK duration 
-
     """
-
+    Stabel Extractor! TO CHECEK duration 
+    """
     correct_list = []
     error_list = []
-
-
     search_keywords = {'Composer': ['josquin'],
                        'Movement Number': None,
                        'Title': ['missa', ],
@@ -800,24 +794,23 @@ if __name__ == "__main__":
     i = 0
     # paths = paths[25:26]
     for path in tqdm(paths):
-        if 'BaJoSe_BWV732_COM_COM_Choralbear_004_01633' in path:
-            try:
-                print("-- ", i, os.path.basename(path))
+        try:
+            print("-- ", i, os.path.basename(path))
 
-                xml_tools = XMLToolBox(file_path=path)
-                df_data = xml_tools.strip_xml()
-                df_data_m = xml_tools.compute_measure_offset(df_data)
-                df_data_v = xml_tools.compute_voice_offset(df_data_m)
-                df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
-                df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
-                c+=1#
-                correct_list.append(str(path))
-            except Exception as error:
-                traceback.print_exc()
-                error_list.append(str(path))
-                e+=1
-                print(f"-- -- {i}  Error {e} corr {c}, {os.path.basename(path)}")
-            i +=1
+            xml_tools = XMLToolBox(file_path=path)
+            df_data = xml_tools.strip_xml()
+            df_data_m = xml_tools.compute_measure_offset(df_data)
+            df_data_v = xml_tools.compute_voice_offset(df_data_m)
+            df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
+            df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
+            c+=1#
+            correct_list.append(str(path))
+        except Exception as error:
+            traceback.print_exc()
+            error_list.append(str(os.path.basename(path)))
+            e+=1
+            print(f"-- -- {i}  Error {e} corr {c}, {os.path.basename(path)}")
+        i +=1
 
     #save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_06.csv"
     #np.savetxt(save_at, error_list, delimiter=',', fmt ='% s')

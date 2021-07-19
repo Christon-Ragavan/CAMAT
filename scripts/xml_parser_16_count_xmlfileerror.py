@@ -798,7 +798,7 @@ if __name__ == "__main__":
             score = ET.parse(path)
             root = score.getroot()
         except:
-            error_list.append(str(path))
+            error_list.append(str(os.path.basename(path)))
             e += 1
             print(f"-- -- {i}  Error {e} corr {c}, {os.path.basename(path)}")
             continue
