@@ -16,7 +16,13 @@ import pandas as pd
 import requests
 from music21 import *
 from utils import _create_pianoroll_single_parts, _create_pianoroll_single
+
+
 import traceback
+
+import progressbar
+
+pbar = progressbar.ProgressBar()
 print("Pandas Version", pd.__version__)
 print("MUSIC21 Version", m21.__version__)
 
@@ -96,6 +102,7 @@ class XMLToolBox:
         self.duration = []
         self.voice_num = []
         self.chord_tags = []
+        self.gracenote_tags = []
 
         self.set_chord = False
         self.measure_number_list = []
@@ -109,8 +116,11 @@ class XMLToolBox:
                            'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11}
         self.rev_dict_12_pc = {v: k for k, v in self.dict_12_pc.items()}
 
-
+    def initial_stats(self):
+        #TODO: get total number of parts, voice info
+        pass
     def pre_process_file(self, file_path):
+
         temp_file = tempfile.NamedTemporaryFile('w', suffix='.xml', prefix='tmp', delete=False, encoding='utf-8')
 
         # Remove the doctype line
@@ -160,6 +170,53 @@ class XMLToolBox:
             self.set_chord = False
             self.chord_tags.append("none")
 
+    def _find_voice(self, itt):
+        voice_i = itt.find('voice')
+        if voice_i != None:
+            self.voice_num.append(voice_i.text)
+        else:
+            self.voice_num.append("0")
+
+    def _find_note(self, itt):
+        note_i = itt.find('note')
+        if note_i != None:
+            for p in note_i:
+                try:
+                    if p.tag == 'pitch':
+                        note_tag = False
+                    else:
+                        note_tag = True
+                except:
+                    continue
+        else:
+            note_tag = False
+        return note_tag
+
+
+    def _find_duration(self, itt):
+        duration_i = itt.find('duration')
+
+        if duration_i == None:
+            grace_i = itt.find('grace')
+            if grace_i:
+                if grace_i.attrib['slash'] == 'yes':
+                    cd = 0.0
+                    self.gracenote_tags.append('grace')
+                else:
+                    self.gracenote_tags.append('none')
+                    cd = 0.0
+            else:
+                cd = 0.0
+                self.gracenote_tags.append('none')
+
+        else:
+            self.gracenote_tags.append('none')
+            cd = float(float(duration_i.text) / self.curr_measure_divisions)
+        self.duration.append(cd)
+        #if duration_i ==None:
+        #    print(itt.tag)
+
+
     def _set_curr_measure_duration(self, itt):
         time_i = itt.find('time')
 
@@ -171,123 +228,122 @@ class XMLToolBox:
                     b[0] = float(t.text)
                 if t.tag == 'beat-type':
                     b[1] = float(t.text)
-
             d = float(b[0] / b[1])
             self.curr_measure_offset = float(4 * d)
-            # print(f"... time signature - {b[0]}/{b[1]} -- curr_measure_offset : {self.curr_measure_offset}")
-
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
+
     def _strip_part_information(self):
         # print("_strip_part_information")
         for p_meta in self.root.iter('part-list'):
             # print(f" --- part-list {p_meta.tag}")
             pass
 
-
-
-
+    def _get_curr_measure(self):
+        pass
 
     def strip_xml(self):
         self._strip_part_information()
         c = 0
         self.part_id_counter = 0
+        self.measure_id_counter = 0
 
         for part in self.root.iter('part'):
             self.part_id_counter +=1
-            # print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
+            self.measure_id_counter = 0
+            #print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
             self.part_id_list.append(part.attrib['id'])
             self.curr_part_id = self.part_id_counter
             # self.curr_part_id = part.attrib['id']
 
             for m in part:
-                # print(f"measure {m.tag} {m.attrib['number']} ")
-                self.curr_measure_num = int(m.attrib['number'])
+                self.measure_id_counter += 1
+                #print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
+
+                self.curr_measure_num = self.measure_id_counter
+                #self.curr_measure_num = int(m.attrib['number'])
+
                 self.measure_number_list.append(self.curr_measure_num)
-                if int(m.attrib['number']) == 1:
+                if self.curr_measure_num== 1:
+                    #if int(m.attrib['number']) == 1:
                     self.measure_offset_list.append(0.0)
                 else:
                     self.measure_offset_list.append(self.curr_measure_offset)
-                for m_itt in m:  # itterate over measure
-                    if m_itt.tag == 'attributes':
-                        division_i = m_itt.find('divisions')
+                #print(len(self.measure_offset_list), self.measure_offset_list)
 
-                        self._set_curr_measure_duration(itt=m_itt)
+                note_i = m.find('note')
+                if note_i != None:
+                    note_tag = True
+                else:
+                    note_tag = False
+                if note_tag:
+                    for m_itt in m:  # itterate over measure
+                        if m_itt.tag == 'attributes':
+                            division_i = m_itt.find('divisions')
+                            self._set_curr_measure_duration(itt=m_itt)
+                            if division_i != None:
+                                self.curr_measure_divisions = float(division_i.text)
 
-                        if division_i != None:
-                            self.curr_measure_divisions = float(division_i.text)
+                        if m_itt.tag == 'note':
+                            # if note_tag:
+                            self.note_counter += 1
+                            self.glb_part_id_list.append(self.curr_part_id)
+                            self.note_counter_list.append(self.note_counter)
+                            self.measure_num_per_note_list.append(self.curr_measure_num)
+                            # print(f" # Note num {self.note_counter} -- {self.curr_measure_offset}")
+                            self._find_ties(itt=m_itt)
+                            self._find_chords(itt=m_itt)
+                            self._find_voice(itt=m_itt)
+                            self._find_duration(itt=m_itt)
 
-                    if m_itt.tag == 'note':
-                        self.note_counter += 1
-                        self.glb_part_id_list.append(self.curr_part_id)
-                        self.note_counter_list.append(self.note_counter)
-                        self.measure_num_per_note_list.append(self.curr_measure_num)
-                        # print(f" # Note num {self.note_counter} -- {self.curr_measure_offset}")
-                        self._find_ties(itt=m_itt)
-                        self._find_chords(itt=m_itt)
-                        voice_i  = m_itt.find('voice')
-                        duration_i  = m_itt.find('duration')
-
-                        if voice_i != None:
-                            self.voice_num.append(voice_i.text)
-                        else:
-                            self.voice_num.append("0")
-                        if duration_i != None:
-                            self.duration.append(float(float(duration_i.text) / self.curr_measure_divisions))
-
-                        else:
-                            self.duration.append(0.0)
-
-
-
-                        for p in m_itt:  # itterate over pitches
-                            c += 1
-                            if p.tag == 'duration':
-                                pass
-                                #self.duration.append(float(float(p.text) / self.curr_measure_divisions))
-                            is_alter = p.find('alter')
-                            if p.tag == 'pitch':
-                                for ppp in p:
-                                    if ppp.tag == 'step':
-                                        if is_alter != None:
-                                            s = ppp.text + is_alter.text
-                                            self.step.append(s)
-
-                                        else:
-                                            self.step.append(ppp.text)
-
-                                    if ppp.tag == 'octave':
-                                        self.octave.append(ppp.text)
-                            if p.tag == 'rest':
-                                self.step.append(p.tag)
-                                self.octave.append(p.tag)
-
-        print(f"self.step               :{len(self.step)}")
-        print(f"self.octave             :{len(self.octave)}")
-        print(f"self.tie                :{len(self.tie)}")
-        print(f"self.duration           :{len(self.duration)}")
-        print(f"self.chord_tags         :{len(self.chord_tags)}")
-        print(f"self.voice_num          :{len(self.voice_num)}")
-        print("curr_measure_num         :", self.curr_measure_num)
-        print("measure_offset_list      :", len(self.measure_offset_list))
-
-        assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration)
-        assert len(self.step) == len(self.tie)
-        assert len(self.duration) == len(self.tie)
-        assert len(self.duration) == len(self.chord_tags)
-        # assert len(self.duration) == len(self.voice_num)
-        assert len(self.duration) == len(self.glb_part_id_list)
-        # assert self.curr_measure_num== len(self.measure_offset_list)
-
-        notes = []
-        for i in range(len(self.step)):
-            n = str(self.step[i]) + str(self.octave[i])
-            if n == "restrest":
-                n = "rest"
-            notes.append(n)
+                            for p in m_itt:  # itterate over pitches
+                                c += 1
+                                is_alter = p.find('alter')
+                                if p.tag == 'pitch':
+                                    for ppp in p:
+                                        if ppp.tag == 'step':
+                                            if is_alter != None:
+                                                s = ppp.text + is_alter.text
+                                                self.step.append(s)
+                                            else:
+                                                self.step.append(ppp.text)
+                                        if ppp.tag == 'octave':
+                                            self.octave.append(ppp.text)
+                                if p.tag == 'rest':
+                                    self.step.append(p.tag)
+                                    self.octave.append(p.tag)
+                else:
+                    for m_itt in m:  # itterate over measure
+                        if m_itt.tag == 'attributes':
+                            division_i = m_itt.find('divisions')
+                            self._set_curr_measure_duration(itt=m_itt)
+                            if division_i != None:
+                                self.curr_measure_divisions = float(division_i.text)
 
 
-        if True:
+                    self.note_counter += 1
+                    self.glb_part_id_list.append(self.curr_part_id)
+                    self.note_counter_list.append(self.note_counter)
+                    self.measure_num_per_note_list.append(self.curr_measure_num)
+                    self._find_ties(itt=m_itt)
+                    self._find_chords(itt=m_itt)
+                    self._find_voice(itt=m_itt)
+                    self.duration.append (self.curr_measure_offset)
+                    self.gracenote_tags.append('none')
+                    self.step.append('rest')
+                    self.octave.append('rest')
+
+
+        if False:
+            print(f"self.step               :{len(self.step)}")
+            print(f"self.octave             :{len(self.octave)}")
+            print(f"self.tie                :{len(self.tie)}")
+            print(f"self.duration           :{len(self.duration)}")
+            print(f"self.chord_tags         :{len(self.chord_tags)}")
+            print(f"self.voice_num          :{len(self.voice_num)}")
+            print("curr_measure_num         :", self.curr_measure_num)
+            print("measure_offset_list      :", len(self.measure_offset_list))
+            print(f"self.GraceNote              :{len(self.gracenote_tags)}")
             print(f"self.note_counter_list      :{len(self.note_counter_list)}")
             print(f"self.duration               :{len(self.duration)}")
             print(f"self.step                   :{len(self.step)}")
@@ -298,23 +354,27 @@ class XMLToolBox:
             print(f"self.chord_tags             :{len(self.chord_tags)}")
             print(f"self.tie                    :{len(self.tie)}")
 
+        assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration) == len(self.gracenote_tags)
+        assert len(self.step) == len(self.tie)
+        assert len(self.duration) == len(self.tie)
+        assert len(self.duration) == len(self.chord_tags)
+        # assert len(self.duration) == len(self.voice_num)
+        assert len(self.duration) == len(self.glb_part_id_list)
 
         if len(self.voice_num)==0:
             self.voice_num = [1] * len(self.duration)
 
 
         try:
-            print("Trying first")
             df_data = pd.DataFrame(np.array(
                 [self.note_counter_list, self.duration, self.step, self.octave,
                  self.measure_num_per_note_list, self.voice_num, self.glb_part_id_list,
                  self.chord_tags,
-                 self.tie]).T,
+                 self.tie, self.gracenote_tags]).T,
                                    columns=["#Note_Debug", "Duration", 'Pitch', 'Octave', 'Measure', 'Voice', 'PartID',
                                             'Chord Tags',
-                                            'Tie Type'])
+                                            'Tie Type', 'Grace Tag'])
         except:
-            print("Trying second")
 
             df_data = pd.DataFrame(np.array(
                 [self.note_counter_list,
@@ -484,16 +544,18 @@ class XMLToolBox:
     @staticmethod
     def _compute_idx_new_measure_for_multi_parts(measure_num_list):
         idx_new_measure_offsets = []
-        m_t = None
         for i, m in enumerate(measure_num_list):
             if i == 0:
                 m_t = m
             else:
-                if m_t == m:
-                    continue
-                else:
+
+                if measure_num_list[i-1] != m:
                     m_t = m
+                else:
+                    continue
+
             idx_new_measure_offsets.append(m_t)
+
         return idx_new_measure_offsets
 
 
@@ -502,6 +564,9 @@ class XMLToolBox:
         partid_num_list = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
 
         idx_new_measure_offsets = xml_tools._compute_idx_new_measure_for_multi_parts(measure_num_list)  # computing number of measure needed in list
+        #
+        # print(set(idx_new_measure_offsets), idx_new_measure_offsets)
+        # print(set(self.measure_offset_list))
         assert len(idx_new_measure_offsets) == len(self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
             len(idx_new_measure_offsets), len(self.measure_offset_list))
 
@@ -519,7 +584,7 @@ class XMLToolBox:
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
         chord_info_list = list(np.squeeze(df['Chord Tags'].to_numpy()))
         part_id_list = list(np.squeeze(df['PartID'].to_numpy()))
-        n_num_voice = len(list(set(voices_list)))
+        n_num_voice = max(list(set(voices_list)))
         nn_offset_list = []
         nn_voice_list = []
         nn_measure_list = []
@@ -528,12 +593,15 @@ class XMLToolBox:
         c_off = 0.0
         curr_measure_offset = 0.0
         measure_C = 0
+
         for i, v in enumerate(voices_list):
             v_trk = voices_list[i]
             c_ch = chord_info_list[i]
             m_trk = measure_num_list[i]
             pid_trk = part_id_list[i]
             c_dur = duration_list[i]
+            #print(f" i {i} v {v} c_ch {c_ch} m_trk {m_trk} pid_trk {pid_trk} c_dur {c_dur} ")
+
 
             if i in self.n_measure_change_idx: # resetting the container at every change in measure
                 measure_C+=1
@@ -553,8 +621,7 @@ class XMLToolBox:
                     c_off = 0.0
                     del voice_track_container
                     voice_track_container = [[] for i in range(n_num_voice)]
-                elif voices_list[i - 1] != v:
-                    print(len(voice_track_container[v-1]), v, v-1)
+                elif voices_list[i - 1] != v: # if there is a change in voice do this
                     if measure_num_list[i-1]!=m_trk:
                         c_off = curr_measure_offset
                     elif len(voice_track_container[v-1])==0:
@@ -748,39 +815,44 @@ if __name__ == "__main__":
     paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
     c= 0
     e=0
-    paths = paths[1:2]
-    for i, path in enumerate(paths):
-        print("----",path)
+    #paths = paths[6:7]
+    i = 0
+
+    for path in pbar(paths):
         try:
+            print("-- ",i , os.path.basename(path))
+
             xml_tools = XMLToolBox(file_path=path)
             df_data = xml_tools.strip_xml()
-            #print(df_data)
+
+            # print(df_data)
+            #print("---")
             if True:
+
                 df_data_m = xml_tools.compute_measure_offset(df_data)
                 df_data_v = xml_tools.compute_voice_offset(df_data_m)
                 df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
                 df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
+
+                #print(df_data_midi)
                 c+=1#
-
                 correct_list.append(str(path))
-                print(df_data_midi)
 
-                #plotting_wrapper(df_data_midi)
-                plotting_wrapper_parts(df_data_midi)
+                #print(df_data_midi)
+                #plotting_wrapper_parts(df_data_midi)
+
         except Exception as error:
             traceback.print_exc()
             error_list.append(str(path))
             e+=1
-        print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
+            print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
+        i +=1
 
-    #print("TOTAL Files ERROR", len(error_list))
+    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated.csv"
+    np.savetxt(save_at, error_list, delimiter=',', fmt ='% s')
 
 
-
-"""
-
-001
-002
-003 - - S böck 
-inharmonic information? 
-"""
+    """
+    - pitch 
+    - notation model?
+    """

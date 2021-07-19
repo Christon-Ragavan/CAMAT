@@ -269,7 +269,7 @@ def _create_sparse_rep(dlist):
     n_sparse = []
     for i, m in enumerate(dlist):
         if i == 0:
-            n_sparse.append(0)
+            n_sparse.append(1)
         else:
             if m !=dlist[i-1]:
                 n_sparse.append(1)
@@ -288,7 +288,6 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration, midi_
 
     measure_s = _create_sparse_rep(list(measure))
     partid_s = _create_sparse_rep(list(partid))
-
     labels_128 =_get_midi_labels_128()
     assert np.shape(pitch) [0]== np.shape(time)[0]
     time_axis = np.arange(0, time[-1],step=0.10)
@@ -297,6 +296,11 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration, midi_
     #colors = ['r', 'g', 'b', 'k']
 
     for i in range(np.shape(time)[0]):
+        t = time[i]
+        if measure_s[i]==1:
+            #ax.vlines(t,ymax=500, ymin=0, colors='k', linestyles='dotted')
+            ax.vlines(t, ymax=500, ymin=0, colors='grey', linestyles=(0,(2,15)))
+
         color_prt = colors[partid[i]-1]
         c_d = duration[i]
         if pitch[i]== 0:
@@ -304,12 +308,9 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration, midi_
         else:
             p = int(pitch[i])
             a = 0.6
-        t = time[i]
-        if measure_s[i]==1:
 
-            #ax.vlines(t,ymax=500, ymin=0, colors='k', linestyles='dotted')
-            ax.vlines(t,ymax=500, ymin=0, colors='grey', linestyles=(0,(2,15)))
         ax.add_patch(Rectangle((t, p-0.3), width=c_d, height= 0.6, edgecolor='k', facecolor=color_prt, fill=True, alpha=a))
+
     ax.set_yticks(np.arange(128))
     ax.set_yticklabels(labels_128)
     p = []
