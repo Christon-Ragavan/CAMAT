@@ -32,11 +32,9 @@ pd.set_option('display.width', 1000000)
 
 us = m21.environment.UserSettings()
 us_path = us.getSettingsPath()
+
 if not os.path.exists(us_path):
     us.create()
-us['musescoreDirectPNGPath'] = r'/Applications/MuseScore 3.app/Contents/MacOS/mscore'
-us['musicxmlPath'] = r'/Applications/MuseScore 3.app/Contents/MacOS/mscore'
-
 
 mapping_step_midi = {
     'C': 0,
@@ -64,8 +62,12 @@ mapping_dyn_number = {
 class XMLToolBox:
     def __init__(self, file_path):
         self.file_path = self.pre_process_file(file_path)
-        score = ET.parse(self.file_path)
-        self.root = score.getroot()
+        try:
+            score = ET.parse(self.file_path)
+            self.root = score.getroot()
+        except Exception as error:
+            traceback.print_exc()
+            raise Exception ("Unable to read .xml file")
         self.num_voices = self._get_num_voices()
         self.curr_measure_divisions = 0
         self.time_offset = []
@@ -199,35 +201,32 @@ class XMLToolBox:
 
     def _set_curr_measure_duration(self, itt):
         time_i = itt.find('time')
-
         if time_i != None:
             b = [None, None]
-
             for t in time_i:
                 if t.tag == 'beats':
                     b[0] = float(t.text)
-                if t.tag == 'beat-type':
+                elif t.tag == 'beat-type':
                     b[1] = float(t.text)
+                elif t.tag == 'senza-misura':
+                    raise Exception("senza-misura not implemented -> tag found:{}".format(t.tag))
+                else:
+                    raise Exception("Not implemented -> tag found:{}".format(t.tag))
             d = float(b[0] / b[1])
             self.curr_measure_offset = float(4 * d)
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
 
     def _strip_part_information(self):
-        # print("_strip_part_information")
-        for p_meta in self.root.iter('part-list'):
-            # print(f" --- part-list {p_meta.tag}")
-            pass
+        pass
 
     def _get_curr_measure(self):
         pass
 
     def strip_xml(self):
-        self._strip_part_information()
         c = 0
         self.part_id_counter = 0
         self.measure_id_counter = 0
-
         for part in self.root.iter('part'):
             self.part_id_counter +=1
             self.measure_id_counter = 0
@@ -564,7 +563,7 @@ class XMLToolBox:
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
         chord_info_list = list(np.squeeze(df['Chord Tags'].to_numpy()))
         part_id_list = list(np.squeeze(df['PartID'].to_numpy()))
-        n_num_voice = max(list(set(voices_list)))
+        n_num_voice = max(max(list(set(voices_list))), 1)
         nn_offset_list = []
         nn_voice_list = []
         nn_measure_list = []
@@ -580,20 +579,17 @@ class XMLToolBox:
             m_trk = measure_num_list[i]
             pid_trk = part_id_list[i]
             c_dur = duration_list[i]
+
             #print(f" i {i} v {v} c_ch {c_ch} m_trk {m_trk} pid_trk {pid_trk} c_dur {c_dur} ")
-
-
             if i in self.n_measure_change_idx: # resetting the container at every change in measure
                 measure_C+=1
                 curr_measure_offset = self.measure_off_sparse[i]
-                del  voice_track_container
+                del voice_track_container
                 voice_track_container = [[] for i in range(n_num_voice)]
                 # print("########### Curr Measure ",measure_C," ###############", curr_measure_offset, np.shape(voice_track_container))
 
             if part_id_list[i - 1] != pid_trk:  # resetting the container at every change in measure
                 c_off = 0.0
-
-
             if i == 0:
                 c_off = 0.0
             else:
@@ -615,10 +611,6 @@ class XMLToolBox:
                         c_off = nn_offset_list[i - 1]
                     else:
                         c_off = nn_offset_list[i-1]+duration_list[i-1]
-
-
-
-
             voice_track_container[v - 1].append([c_off, c_dur])
             nn_offset_list.append(c_off)
         df.insert(loc=2, column='Offset', value=nn_offset_list)
@@ -693,8 +685,10 @@ def _scrape_database(search_keywords,extract_extire_database):
     return df_s
 
 
-def _download_xml_file(xml_link):
-    save_at = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/web_xml/'
+def _download_xml_file(xml_link, save_at=None):
+    if save_at == None:
+        save_at = os.path.join(str(os.getcwd()), 'web_xml')
+        os.mkdir(save_at)
 
     saved_links = []
     t =len(xml_link)
@@ -742,9 +736,19 @@ def _get_file(search_keywords, testing, extract_extire_database):
         path = [path]
 
     else:
-        p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
-        data = pd.read_csv(p)
-        path =  list(np.squeeze(data.values.tolist()))
+        if extract_extire_database:
+            df_s = _scrape_database(search_keywords, extract_extire_database)
+            print(f"database shape {np.shape(df_s)}")
+            urls = df_s['url'].to_list()
+            save_at = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/web_xml/'
+            path = _download_xml_file(urls, save_at=save_at)
+
+        else:
+            # p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+            # p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated.csv"
+            p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_02.csv"
+            data = pd.read_csv(p)
+            path =  list(np.squeeze(data.values.tolist()))
 
 
     #assert os.path.isfile(path), "File not found {}".format(path)
@@ -775,7 +779,7 @@ def plotting_wrapper_parts(df):
 
 
 if __name__ == "__main__":
-    """
+    """‚
     Stabel Extractor! TO CHECEK duration 
 
     """
@@ -795,38 +799,41 @@ if __name__ == "__main__":
     paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
     c= 0
     e=0
-    #paths = paths[6:7]
     i = 0
-
+    # paths = paths[25:26]
     for path in pbar(paths):
         try:
-            print("-- ",i , os.path.basename(path))
+            print("-- ", i, os.path.basename(path))
 
             xml_tools = XMLToolBox(file_path=path)
             df_data = xml_tools.strip_xml()
+            df_data_m = xml_tools.compute_measure_offset(df_data)
+            df_data_v = xml_tools.compute_voice_offset(df_data_m)
+            df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
+            df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
 
-            # print(df_data)
-            #print("---")
-            if True:
+            #print(df_data_midi)
+            c+=1#
+            correct_list.append(str(path))
 
-                df_data_m = xml_tools.compute_measure_offset(df_data)
-                df_data_v = xml_tools.compute_voice_offset(df_data_m)
-                df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
-                df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
-
-                #print(df_data_midi)
-                c+=1#
-                correct_list.append(str(path))
-
-                #print(df_data_midi)
-                #plotting_wrapper_parts(df_data_midi)
+            #print(df_data_midi)
+            #plotting_wrapper_parts(df_data_midi)
 
         except Exception as error:
             traceback.print_exc()
             error_list.append(str(path))
             e+=1
-            print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
+            print(f"-- -- {i}  Error {e} corr {c}, {os.path.basename(path)}")
         i +=1
 
-    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated.csv"
+    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_04.csv"
     np.savetxt(save_at, error_list, delimiter=',', fmt ='% s')
+
+
+
+    """
+    PLAN 
+    - check measure change
+    - check voice change 
+    - check part change
+    """

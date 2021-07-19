@@ -4,6 +4,7 @@ Working on voices and parts
 """
 
 import sys
+
 sys.path.append('/Users/chris/DocumentLocal/workspace')
 from hfm_database_search import run_search
 import os
@@ -17,8 +18,9 @@ import requests
 from music21 import *
 from utils import _create_pianoroll_single_parts, _create_pianoroll_single
 
-
 import traceback
+from tqdm import tqdm
+
 
 import progressbar
 
@@ -62,8 +64,12 @@ mapping_dyn_number = {
 class XMLToolBox:
     def __init__(self, file_path):
         self.file_path = self.pre_process_file(file_path)
-        score = ET.parse(self.file_path)
-        self.root = score.getroot()
+        try:
+            score = ET.parse(self.file_path)
+            self.root = score.getroot()
+        except Exception as error:
+            traceback.print_exc()
+            raise Exception("Unable to read .xml file")
         self.num_voices = self._get_num_voices()
         self.curr_measure_divisions = 0
         self.time_offset = []
@@ -170,7 +176,6 @@ class XMLToolBox:
             note_tag = False
         return note_tag
 
-
     def _find_duration(self, itt):
         duration_i = itt.find('duration')
 
@@ -191,63 +196,59 @@ class XMLToolBox:
             self.gracenote_tags.append('none')
             cd = float(float(duration_i.text) / self.curr_measure_divisions)
         self.duration.append(cd)
-        #if duration_i ==None:
+        # if duration_i ==None:
         #    print(itt.tag)
-
 
     def _set_curr_measure_duration(self, itt):
         time_i = itt.find('time')
-
         if time_i != None:
             b = [None, None]
-
             for t in time_i:
                 if t.tag == 'beats':
                     b[0] = float(t.text)
-                if t.tag == 'beat-type':
+                elif t.tag == 'beat-type':
                     b[1] = float(t.text)
+                elif t.tag == 'senza-misura':
+                    raise Exception("senza-misura not implemented -> tag found:{}".format(t.tag))
+                else:
+                    raise Exception("Not implemented -> tag found:{}".format(t.tag))
             d = float(b[0] / b[1])
             self.curr_measure_offset = float(4 * d)
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
 
     def _strip_part_information(self):
-        # print("_strip_part_information")
-        for p_meta in self.root.iter('part-list'):
-            # print(f" --- part-list {p_meta.tag}")
-            pass
+        pass
 
     def _get_curr_measure(self):
         pass
 
     def strip_xml(self):
-        self._strip_part_information()
         c = 0
         self.part_id_counter = 0
         self.measure_id_counter = 0
-
         for part in self.root.iter('part'):
-            self.part_id_counter +=1
+            self.part_id_counter += 1
             self.measure_id_counter = 0
-            #print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
+            # print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
             self.part_id_list.append(part.attrib['id'])
             self.curr_part_id = self.part_id_counter
             # self.curr_part_id = part.attrib['id']
 
             for m in part:
                 self.measure_id_counter += 1
-                #print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
+                # print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
 
                 self.curr_measure_num = self.measure_id_counter
-                #self.curr_measure_num = int(m.attrib['number'])
+                # self.curr_measure_num = int(m.attrib['number'])
 
                 self.measure_number_list.append(self.curr_measure_num)
-                if self.curr_measure_num== 1:
-                    #if int(m.attrib['number']) == 1:
+                if self.curr_measure_num == 1:
+                    # if int(m.attrib['number']) == 1:
                     self.measure_offset_list.append(0.0)
                 else:
                     self.measure_offset_list.append(self.curr_measure_offset)
-                #print(len(self.measure_offset_list), self.measure_offset_list)
+                # print(len(self.measure_offset_list), self.measure_offset_list)
 
                 note_i = m.find('note')
                 if note_i != None:
@@ -298,7 +299,6 @@ class XMLToolBox:
                             if division_i != None:
                                 self.curr_measure_divisions = float(division_i.text)
 
-
                     self.note_counter += 1
                     self.glb_part_id_list.append(self.curr_part_id)
                     self.note_counter_list.append(self.note_counter)
@@ -306,13 +306,12 @@ class XMLToolBox:
                     self._find_ties(itt=m_itt)
                     self._find_chords(itt=m_itt)
                     self._find_voice(itt=m_itt)
-                    self.duration.append (self.curr_measure_offset)
+                    self.duration.append(self.curr_measure_offset)
                     self.gracenote_tags.append('none')
                     self.step.append('rest')
                     self.octave.append('rest')
 
-
-        if False:
+        if True:
             print(f"self.step               :{len(self.step)}")
             print(f"self.octave             :{len(self.octave)}")
             print(f"self.tie                :{len(self.tie)}")
@@ -339,9 +338,8 @@ class XMLToolBox:
         # assert len(self.duration) == len(self.voice_num)
         assert len(self.duration) == len(self.glb_part_id_list)
 
-        if len(self.voice_num)==0:
+        if len(self.voice_num) == 0:
             self.voice_num = [1] * len(self.duration)
-
 
         try:
             df_data = pd.DataFrame(np.array(
@@ -374,7 +372,6 @@ class XMLToolBox:
     def _tie_append_wrapper(self, df, idx, sel_df):
         self.df_data_tie = self.df_data_tie.append(sel_df, ignore_index=True)
 
-
     def _pitch_to_midi(self, octave, pitch):
         if octave == 'rest':
             m = None
@@ -387,6 +384,7 @@ class XMLToolBox:
             o = (octave + 1) * 12
             m = int(pitch_class + o)
         return m
+
     def _midi_list(self):
         pass
 
@@ -425,14 +423,11 @@ class XMLToolBox:
         octave_list = list(np.squeeze(df['Octave'].to_numpy(dtype=object)))
         t_pl, t_shifter = self._parse_pitch_ann(pitch_list)
 
-
-        t_pl = [self._pitch_to_midi(octave_list[i], t_pl[i])for i in range(len(t_pl))]
-        self.midi_list = [ t_pl[i]+t_shifter[i] if t_pl[i] !=None  else None for i in range(len(t_pl))]
+        t_pl = [self._pitch_to_midi(octave_list[i], t_pl[i]) for i in range(len(t_pl))]
+        self.midi_list = [t_pl[i] + t_shifter[i] if t_pl[i] != None else None for i in range(len(t_pl))]
 
         df.insert(loc=6, column='MIDI', value=self.midi_list)
         return df
-
-
 
     def compute_tie_duration(self, df):
 
@@ -477,7 +472,6 @@ class XMLToolBox:
                 pass
         return self.df_data_tie
 
-
     @staticmethod
     def _measure_offset_sparse(measure_num_list, partid_num_list, measure_offset, idx_new_measure_offsets):
 
@@ -493,16 +487,17 @@ class XMLToolBox:
         n_sparce_m = []
         n_measure_change_idx = []
         c = 0
-        for i in range(1, len(measure_offset)+1):
+        for i in range(1, len(measure_offset) + 1):
             if i < len(measure_offset):
                 measure_offset_sum.append(np.sum(measure_offset[:i]))
 
                 if idx_new_measure_offsets[i] == 1:
-                    measure_offset[:i] = [0]*i
+                    measure_offset[:i] = [0] * i
             else:
                 measure_offset_sum.append(np.sum(measure_offset))
 
-        assert len(measure_offset_sum)==len(measure_offset), f"Error in generating measure offset sum, measure_offset_sum:  {len(measure_offset_sum)}, measure_offset: {len(measure_offset)}"
+        assert len(measure_offset_sum) == len(
+            measure_offset), f"Error in generating measure offset sum, measure_offset_sum:  {len(measure_offset_sum)}, measure_offset: {len(measure_offset)}"
         for i, m in enumerate(measure_num_list):
             try:
                 if m == idx_new_measure_offsets[c]:
@@ -527,7 +522,7 @@ class XMLToolBox:
                 m_t = m
             else:
 
-                if measure_num_list[i-1] != m:
+                if measure_num_list[i - 1] != m:
                     m_t = m
                 else:
                     continue
@@ -536,24 +531,25 @@ class XMLToolBox:
 
         return idx_new_measure_offsets
 
-
     def compute_measure_offset(self, df):
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
         partid_num_list = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
 
-        idx_new_measure_offsets = xml_tools._compute_idx_new_measure_for_multi_parts(measure_num_list)  # computing number of measure needed in list
+        idx_new_measure_offsets = xml_tools._compute_idx_new_measure_for_multi_parts(
+            measure_num_list)  # computing number of measure needed in list
         #
-        # print(set(idx_new_measure_offsets), idx_new_measure_offsets)
-        # print(set(self.measure_offset_list))
-        assert len(idx_new_measure_offsets) == len(self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
+        print(set(idx_new_measure_offsets), idx_new_measure_offsets)
+        print(set(self.measure_offset_list))
+        assert len(idx_new_measure_offsets) == len(
+            self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
             len(idx_new_measure_offsets), len(self.measure_offset_list))
 
-        self.measure_off_sparse, self.n_measure_change_idx, measure_offset_sum = xml_tools._measure_offset_sparse(measure_num_list,partid_num_list,
-                                                                                                        self.measure_offset_list,
-                                                                                                        idx_new_measure_offsets)
+        self.measure_off_sparse, self.n_measure_change_idx, measure_offset_sum = xml_tools._measure_offset_sparse(
+            measure_num_list, partid_num_list,
+            self.measure_offset_list,
+            idx_new_measure_offsets)
         df.insert(loc=1, column='Offset_ml', value=self.measure_off_sparse)
         return df
-
 
     def compute_voice_offset(self, df):
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
@@ -562,7 +558,7 @@ class XMLToolBox:
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
         chord_info_list = list(np.squeeze(df['Chord Tags'].to_numpy()))
         part_id_list = list(np.squeeze(df['PartID'].to_numpy()))
-        n_num_voice = max(list(set(voices_list)))
+        n_num_voice = max(max(list(set(voices_list))), 1)
         nn_offset_list = []
         nn_voice_list = []
         nn_measure_list = []
@@ -578,20 +574,17 @@ class XMLToolBox:
             m_trk = measure_num_list[i]
             pid_trk = part_id_list[i]
             c_dur = duration_list[i]
-            #print(f" i {i} v {v} c_ch {c_ch} m_trk {m_trk} pid_trk {pid_trk} c_dur {c_dur} ")
 
-
-            if i in self.n_measure_change_idx: # resetting the container at every change in measure
-                measure_C+=1
+            # print(f" i {i} v {v} c_ch {c_ch} m_trk {m_trk} pid_trk {pid_trk} c_dur {c_dur} ")
+            if i in self.n_measure_change_idx:  # resetting the container at every change in measure
+                measure_C += 1
                 curr_measure_offset = self.measure_off_sparse[i]
-                del  voice_track_container
+                del voice_track_container
                 voice_track_container = [[] for i in range(n_num_voice)]
                 # print("########### Curr Measure ",measure_C," ###############", curr_measure_offset, np.shape(voice_track_container))
 
             if part_id_list[i - 1] != pid_trk:  # resetting the container at every change in measure
                 c_off = 0.0
-
-
             if i == 0:
                 c_off = 0.0
             else:
@@ -599,28 +592,27 @@ class XMLToolBox:
                     c_off = 0.0
                     del voice_track_container
                     voice_track_container = [[] for i in range(n_num_voice)]
-                elif voices_list[i - 1] != v: # if there is a change in voice do this
-                    if measure_num_list[i-1]!=m_trk:
+                elif voices_list[i - 1] != v:  # if there is a change in voice do this
+                    if measure_num_list[i - 1] != m_trk:
                         c_off = curr_measure_offset
-                    elif len(voice_track_container[v-1])==0:
+                    elif len(voice_track_container[v - 1]) == 0:
                         c_off = curr_measure_offset
                     else:
-                        c_off = np.sum(voice_track_container[v-1][-1])
+                        c_off = np.sum(voice_track_container[v - 1][-1])
                 else:
-                    if measure_num_list[i-1]!=m_trk:
+                    if measure_num_list[i - 1] != m_trk:
                         c_off = curr_measure_offset
                     elif c_ch == 'chord':
                         c_off = nn_offset_list[i - 1]
                     else:
-                        c_off = nn_offset_list[i-1]+duration_list[i-1]
+                        c_off = nn_offset_list[i - 1] + duration_list[i - 1]
             voice_track_container[v - 1].append([c_off, c_dur])
             nn_offset_list.append(c_off)
         df.insert(loc=2, column='Offset', value=nn_offset_list)
         return df
 
-
     def compute_chord_offset(self, df):
-        nn_offset_list=[]
+        nn_offset_list = []
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
         voices_list = list(np.squeeze(df['Voice'].to_numpy(dtype=int)))
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
@@ -666,8 +658,6 @@ def _compute_idx_new_measure_for_multi_parts(measure_num_list):
     return idx_new_measure_offsets
 
 
-
-
 def _remove_unwanted_cols(df):
     df.pop("Chord Tags")
     df.pop("Tie Type")
@@ -675,7 +665,7 @@ def _remove_unwanted_cols(df):
     return df
 
 
-def _scrape_database(search_keywords,extract_extire_database):
+def _scrape_database(search_keywords, extract_extire_database):
     database_csv_path = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/database/'
     df_s = run_search(search_keywords=search_keywords,
                       extract_database=False,
@@ -693,7 +683,7 @@ def _download_xml_file(xml_link, save_at=None):
         os.mkdir(save_at)
 
     saved_links = []
-    t =len(xml_link)
+    t = len(xml_link)
 
     for i, link in enumerate(xml_link):
         file_name = link.split('/')[-1]
@@ -708,14 +698,14 @@ def _download_xml_file(xml_link, save_at=None):
             with open(s, 'wb') as file:
                 file.write(response.content)
             saved_links.append(s)
-            #print(">>> %s downloaded!\n" % file_name)
+            # print(">>> %s downloaded!\n" % file_name)
     return saved_links
 
 
 def _get_file(search_keywords, testing, extract_extire_database):
     base_dir = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files'
     if testing:
-         #/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/BaJoSe_BWV8_COM_6-6_ChoraleHer_TobisNo_00097.xml
+        # /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/BaJoSe_BWV8_COM_6-6_ChoraleHer_TobisNo_00097.xml
         # path = base_dir + "/test_case_xml_parser_example.xml"
         # path = base_dir + "/test_case_tied_note.xml"
         # path = base_dir + "/ultimate_tie_test.xml"
@@ -738,7 +728,6 @@ def _get_file(search_keywords, testing, extract_extire_database):
         path = [path]
 
     else:
-
         if extract_extire_database:
             df_s = _scrape_database(search_keywords, extract_extire_database)
             print(f"database shape {np.shape(df_s)}")
@@ -747,21 +736,23 @@ def _get_file(search_keywords, testing, extract_extire_database):
             path = _download_xml_file(urls, save_at=save_at)
 
         else:
-            p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+            # p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+            # p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated.csv"
+            p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_02.csv"
             data = pd.read_csv(p)
-            path =  list(np.squeeze(data.values.tolist()))
+            path = list(np.squeeze(data.values.tolist()))
 
-
-    #assert os.path.isfile(path), "File not found {}".format(path)
+    # assert os.path.isfile(path), "File not found {}".format(path)
     print("###### FIles", len(path))
     print("----------------PARSING--------------------")
     try:
         pass
         # b = converter.parse(path)
-        #b.show('text')
+        # b.show('text')
     except:
         print("ERROR parsing music21")
     return path
+
 
 def plotting_wrapper(df):
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
@@ -769,25 +760,25 @@ def plotting_wrapper(df):
     midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
     _create_pianoroll_single(pitch=midi, time=offset, duration=duration, midi_min=55, midi_max=75)
 
+
 def plotting_wrapper_parts(df):
     offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
     duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
     midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
     measure = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
     partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
-    _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,duration =duration, midi_min=55, midi_max=75)
-
+    _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
+                                   midi_min=55, midi_max=75)
 
 
 if __name__ == "__main__":
-    """
+    """‚
     Stabel Extractor! TO CHECEK duration 
 
     """
 
     correct_list = []
     error_list = []
-
 
     search_keywords = {'Composer': ['josquin'],
                        'Movement Number': None,
@@ -798,38 +789,23 @@ if __name__ == "__main__":
                        'Year Range': None}
 
     paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
-    c= 0
-    e=0
-    paths = paths[3:4]
+    c = 0
+    e = 0
     i = 0
-
-    for path in pbar(paths):
+    #paths = paths[25:26]
+    for path in tqdm(paths):
         try:
-            print("-- ",i , os.path.basename(path))
-
-            xml_tools = XMLToolBox(file_path=path)
-            df_data = xml_tools.strip_xml()
-            # print(df_data)
-            # print("---")
-            if True:
-                df_data_m = xml_tools.compute_measure_offset(df_data)
-                df_data_v = xml_tools.compute_voice_offset(df_data_m)
-                df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
-                df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
-
-                #print(df_data_midi)
-                c+=1#
-                correct_list.append(str(path))
-
-                #print(df_data_midi)
-                #plotting_wrapper_parts(df_data_midi)
-
-        except Exception as error:
-            traceback.print_exc()
+            score = ET.parse(path)
+            root = score.getroot()
+        except:
             error_list.append(str(path))
-            e+=1
-            print(f"{i}  Error {e} corr {c}, {os.path.basename(path)}")
-        i +=1
+            e += 1
+            print(f"-- -- {i}  Error {e} corr {c}, {os.path.basename(path)}")
+            continue
 
-    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_02.csv"
-    np.savetxt(save_at, error_list, delimiter=',', fmt ='% s')
+
+        i += 1
+
+    save_at = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed_updated_05_xmlerror.csv"
+    np.savetxt(save_at, error_list, delimiter=',', fmt='% s')
+
