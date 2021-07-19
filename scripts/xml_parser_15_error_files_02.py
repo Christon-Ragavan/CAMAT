@@ -693,10 +693,8 @@ def _scrape_database(search_keywords,extract_extire_database):
     return df_s
 
 
-def _download_xml_file(xml_link, save_dir=None):
-    if save_dir == None:
-        save_at = os.path.join(str(os.getcwd()), 'web_xml')
-        os.mkdir(save_at)
+def _download_xml_file(xml_link):
+    save_at = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/web_xml/'
 
     saved_links = []
     t =len(xml_link)
@@ -744,18 +742,9 @@ def _get_file(search_keywords, testing, extract_extire_database):
         path = [path]
 
     else:
-
-        if extract_extire_database:
-            df_s = _scrape_database(search_keywords, extract_extire_database)
-            print(f"database shape {np.shape(df_s)}")
-            urls = df_s['url'].to_list()
-            save_at = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/web_xml/'
-            path = _download_xml_file(urls, save_dir=save_at)
-
-        else:
-            p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
-            data = pd.read_csv(p)
-            path =  list(np.squeeze(data.values.tolist()))
+        p = "/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/error_parsed.csv"
+        data = pd.read_csv(p)
+        path =  list(np.squeeze(data.values.tolist()))
 
 
     #assert os.path.isfile(path), "File not found {}".format(path)
