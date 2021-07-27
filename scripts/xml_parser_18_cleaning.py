@@ -80,7 +80,6 @@ class XMLToolBox:
 
     def _get_num_voices(self):
         n_voice = [v.text for v in self.root.iter('voice')]
-
         return len(list(set(n_voice)))
 
     def _find_ties(self, itt):
@@ -270,8 +269,6 @@ class XMLToolBox:
                     self.gracenote_tags.append('none')
                     self.step.append('rest')
                     self.octave.append('rest')
-
-
         if False:
             print(f"self.step               :{len(self.step)}")
             print(f"self.octave             :{len(self.octave)}")
@@ -296,13 +293,10 @@ class XMLToolBox:
         assert len(self.step) == len(self.tie)
         assert len(self.duration) == len(self.tie)
         assert len(self.duration) == len(self.chord_tags)
-        # assert len(self.duration) == len(self.voice_num)
         assert len(self.duration) == len(self.glb_part_id_list)
 
         if len(self.voice_num)==0:
             self.voice_num = [1] * len(self.duration)
-
-
         try:
             df_data = pd.DataFrame(np.array(
                 [self.note_counter_list, self.duration, self.step, self.octave,
@@ -733,6 +727,7 @@ def plotting_wrapper_parts(df):
     partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
     _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,duration =duration, midi_min=55, midi_max=75)
 
+
 if __name__ == "__main__":
     """
     Stabel Extractor! TO CHECEK duration 
@@ -747,7 +742,7 @@ if __name__ == "__main__":
                        'Life Time Range': None,
                        'Year Range': None}
 
-    paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
+    paths = _get_file(search_keywords, testing=True, extract_extire_database=True)
     c= 0
     e=0
     i = 0

@@ -10,53 +10,21 @@ import os
 import re
 import tempfile
 import xml.etree.ElementTree as ET
-import music21 as m21
 import numpy as np
 import pandas as pd
 import requests
-from music21 import *
 from utils import _create_pianoroll_single_parts, _create_pianoroll_single
 
 
 import traceback
 from tqdm import tqdm
-import progressbar
 
-pbar = progressbar.ProgressBar()
-print("Pandas Version", pd.__version__)
-print("MUSIC21 Version", m21.__version__)
 
 pd.set_option('display.max_rows', 1000000)
 pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
 
-us = m21.environment.UserSettings()
-us_path = us.getSettingsPath()
 
-if not os.path.exists(us_path):
-    us.create()
-
-mapping_step_midi = {
-    'C': 0,
-    'D': 2,
-    'E': 4,
-    'F': 5,
-    'G': 7,
-    'A': 9,
-    'B': 11
-}
-
-mapping_dyn_number = {
-    # Value drawn from http://www.wikiwand.com/en/Dynamics_%28music%29
-    'ppp': 0.125,
-    'pp': 0.258,
-    'p': 0.383,
-    'mp': 0.5,
-    'mf': 0.625,
-    'f': 0.75,
-    'ff': 0.875,
-    'fff': 0.984
-}
 
 
 class XMLToolBox:
