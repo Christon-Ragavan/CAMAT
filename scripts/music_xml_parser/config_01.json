@@ -1,0 +1,20 @@
+{
+  "Composer": ["josquin"],
+  "Composer Discription": "Please give the names of the composer in list format",
+
+  "Movement Number": false,
+  "Movement Number Discription": "Please define",
+  
+  "Title": [ "missa"],
+  "Title Dscription": "",
+  "Key": false,
+  "Key Discription": "Please define",
+  "Life Time Year": false,
+  "Life Time Year Discription": "Please define",
+
+  "Life Time Range": false,
+  "Life Time Range Discription": "Please define",
+
+  "Year Range": false,
+  "Year Range Discription": "Please define"
+}

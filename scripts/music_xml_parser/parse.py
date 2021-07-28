@@ -18,6 +18,12 @@ stream_handler.setFormatter(stream_formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
-logger.info("Music xml Parser - score to pandas")
 
-logger.debug(np.random.rand(2))
+
+logger.info("Music xml Parser - score to pandas")
+logger.debug(np.random.rand(20))
+
+try:
+    prsk
+except:
+    logger.error("THERE IS SOME ERROR")
