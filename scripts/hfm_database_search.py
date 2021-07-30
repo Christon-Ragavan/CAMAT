@@ -456,6 +456,8 @@ def run_search(search_keywords,
         print("saved at ", save_extracted_database_path)
 
     else:
+
+
         df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
     df_entrie_database = df_entrie_database.replace(np.nan, '', regex=True)
 
