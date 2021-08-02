@@ -37,7 +37,8 @@ logger.info("Music xml Parser - score to pandas")
 
 @pianoroll_parts
 def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
-                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list]:
+                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[
+    pd.DataFrame, bool, list]:
     if '\\' in file:
         file = file.replace('\\', '')
     if '.xml' not in basename(file):
@@ -73,7 +74,7 @@ def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
 
 if __name__ == "__main__":
     xml_file = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/ultimate_tie_test.xml'
-    #xml_file = 'C:/Users/egor_/Desktop/weimar/ultimate_tie_test.xml'
+    # xml_file = 'C:/Users/egor_/Desktop/weimar/ultimate_tie_test.xml'
 
     d = with_xml_file(file=xml_file, plot_pianoroll=True, save_at=None, save_file_name=None, do_save=False)
     print("------")

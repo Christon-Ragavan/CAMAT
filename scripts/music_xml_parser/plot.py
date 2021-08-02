@@ -61,7 +61,9 @@ def pianoroll_parts(func, *args, **kwargs):
         if do_plot:
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
             duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
-            midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
+            midi = df['MIDI'].replace({np.nan: 'none'}).to_list()
+            midi = [0 if i == 'none' else i for i in midi]
+
             partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
                                            midi_min=55, midi_max=75)
@@ -72,7 +74,10 @@ def pianoroll_parts(func, *args, **kwargs):
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
                                    midi_min, midi_max, *args, **kwargs):
-    pitch = [0 if i == np.nan else i for i in pitch]
+
+    for i in pitch:
+        print(type(i), i)
+
     cm = plt.get_cmap('gist_rainbow')
 
     NUM_COLORS = 4
@@ -103,8 +108,9 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     for i in pitch:
         if i != 0:
             p.append(i)
-    #ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
-    ax.set_ylim([0, 128])
+    ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+
+    #ax.set_ylim([0, 128])
 
     ax.set_xlim([0, 20])
     ax.set_xlabel("Offset")
