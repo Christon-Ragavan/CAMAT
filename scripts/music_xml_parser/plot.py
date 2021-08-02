@@ -84,11 +84,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     time_axis = np.arange(0, time[-1], step=0.10)
     fig = plt.figure(figsize=(12, 8))
     ax = plt.subplot(1, 1, 1)
-
-
     for i in range(np.shape(time)[0]):
         t = time[i]
-
         color_prt = colors[partid[i] - 1]
         c_d = duration[i]
         if pitch[i] == 0:
@@ -113,8 +110,6 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     ax.set_xlim([0, 20])
     ax.set_xlabel("Offset")
     ax.set_ylabel("Pitch")
-
-    # print(t_mea)
     zp = ZoomPan()
     figZoom = zp.zoom_factory(ax, base_scale=1.1)
     figPan = zp.pan_factory(ax)
