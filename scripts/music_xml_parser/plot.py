@@ -89,6 +89,7 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
             continue
         else:
             p = int(pitch[i])
+            print(p)
             a = 0.6
 
         ax.add_patch(
@@ -102,7 +103,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     for i in pitch:
         if i != 0:
             p.append(i)
-    ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+    #ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+    ax.set_ylim([0, 128])
 
     ax.set_xlim([0, 20])
     ax.set_xlabel("Offset")

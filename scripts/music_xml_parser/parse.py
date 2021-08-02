@@ -38,6 +38,8 @@ logger.info("Music xml Parser - score to pandas")
 @pianoroll_parts
 def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
                   save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list]:
+    if '\\' in file:
+        file = file.replace('\\', '')
     if '.xml' not in basename(file):
         e = "Not a .XML file, Only .xml file is supported. Use Musescore or finale to convert to .xml format"
         logger.error(e)
