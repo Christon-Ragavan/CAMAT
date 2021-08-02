@@ -77,12 +77,9 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
 
     NUM_COLORS = 4
     colors = [cm(1. * i / NUM_COLORS) for i in range(NUM_COLORS)]
-
-    #measure_s = _create_sparse_rep(list(measure))
     labels_128 = _get_midi_labels_128()
     assert np.shape(pitch)[0] == np.shape(time)[0]
     time_axis = np.arange(0, time[-1], step=0.10)
-    fig = plt.figure(figsize=(12, 8))
     ax = plt.subplot(1, 1, 1)
     for i in range(np.shape(time)[0]):
         t = time[i]
