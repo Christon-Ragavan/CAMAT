@@ -58,34 +58,32 @@ def pianoroll_parts(func, *args, **kwargs):
     def plotting_wrapper_parts(*args, **kwargs):
         df, do_plot, measure_duration_list = func(*args, **kwargs)
         measure = m_dur_off(measure_duration_list)
+        for i, m in enumerate (measure):
+            print(f"measure {i+1} Offset {m}")
+
         if do_plot:
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
             duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
-            midi = df['MIDI'].replace({np.nan: 'none'}).to_list()
-            midi = [0 if i == 'none' else i for i in midi]
+            midi = df['MIDI'].replace({np.nan: 0}).to_list()
 
             partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
                                            midi_min=55, midi_max=75)
         return df
-
     return plotting_wrapper_parts
 
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
                                    midi_min, midi_max, *args, **kwargs):
-
-    for i in pitch:
-        print(type(i), i)
-
     cm = plt.get_cmap('gist_rainbow')
 
-    NUM_COLORS = 4
+    NUM_COLORS = len(list(set(partid)))
     colors = [cm(1. * i / NUM_COLORS) for i in range(NUM_COLORS)]
     labels_128 = _get_midi_labels_128()
     assert np.shape(pitch)[0] == np.shape(time)[0]
     time_axis = np.arange(0, time[-1], step=0.10)
     ax = plt.subplot(1, 1, 1)
+
     for i in range(np.shape(time)[0]):
         t = time[i]
         color_prt = colors[partid[i] - 1]
@@ -94,23 +92,25 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
             continue
         else:
             p = int(pitch[i])
-            print(p)
             a = 0.6
 
         ax.add_patch(
-            Rectangle((t, p - 0.3), width=c_d, height=0.6, edgecolor='k', facecolor=color_prt, fill=True, alpha=a))
+            Rectangle((t, p - 0.5), width=c_d, height=1, edgecolor='k', facecolor=color_prt, fill=True, alpha=a))
     for tt in measure:
         ax.vlines(tt, ymax=500, ymin=0, colors='grey', linestyles=(0, (2, 15)))
+    # x_axis = np.arange(max(time) + 1)
+    # x_axis = np.linspace(0, int(max(time)), int(max(time)*20))
+    # ax.set_xticks(x_axis)
+
 
     ax.set_yticks(np.arange(128))
     ax.set_yticklabels(labels_128)
+
     p = []
     for i in pitch:
         if i != 0:
             p.append(i)
     ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
-
-    #ax.set_ylim([0, 128])
 
     ax.set_xlim([0, 20])
     ax.set_xlabel("Offset")
