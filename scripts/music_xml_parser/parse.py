@@ -73,6 +73,8 @@ def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
 
 if __name__ == "__main__":
     xml_file = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/ultimate_tie_test.xml'
+    #xml_file = 'C:/Users/egor_/Desktop/weimar/ultimate_tie_test.xml'
+
     d = with_xml_file(file=xml_file, plot_pianoroll=True, save_at=None, save_file_name=None, do_save=False)
     print("------")
     print(d)
