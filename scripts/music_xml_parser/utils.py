@@ -15,6 +15,11 @@ def set_up_logger(name):
     logger.addHandler(stream_handler)
     return logger
 
+
+def file_path_handler(file_path):
+
+    pass
+
 def save_df_xml(save_at):
 
     pass

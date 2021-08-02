@@ -6,7 +6,7 @@ import logging
 import numpy as np
 import pandas as pd
 from utils import *
-from plot import plotting_wrapper_parts
+from plot import plotting_wrapper_parts, pianoroll_parts
 from xml_parser import xml_parse
 import os
 from os.path import isdir, isfile, basename, join
@@ -26,7 +26,6 @@ stream_handler.setFormatter(stream_formatter)
 
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
-
 logger.info("Music xml Parser - score to pandas")
 
 """
@@ -35,41 +34,45 @@ logger.info("Music xml Parser - score to pandas")
 # Decorator search
 # Decorator scrape_database
 
-def with_xml_files(file: str, plot_pianoroll: bool, save_at: str = None, save_file_name: str = None, *args,
-                   **kwargs) -> pd.DataFrame:
+
+@pianoroll_parts
+def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
+                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[pd.DataFrame, bool]:
     if '.xml' not in basename(file):
         e = "Not a .XML file, Only .xml file is supported. Use Musescore or finale to convert to .xml format"
         logger.error(e)
         raise Exception(e)
-    if save_file_name is not None:
-        if '.csv' not in basename(save_file_name):
-            e = f"{save_file_name} format not supported. File name must end with '.csv'. E.g. file_name.csv"
-            logger.error(e)
-            raise Exception(e)
-
-    if save_at is None:
-        save_at = join(os.getcwd().replace(basename(os.getcwd()), 'data'), 'exports')
-        if isdir(save_at) == False: os.makedirs(save_at)
-        if save_file_name is None:
-            save_file_name = basename(file).replace('.xml', '.csv')
-        save_at_fn = join(save_at, save_file_name)
-
-    else:
-        if save_file_name is None:
-            save_file_name = basename(file).replace('.xml', '.csv')
-        save_at_fn = join(save_at, save_file_name)
+    save_at_fn = ''
+    if do_save:
+        if save_file_name is not None:
+            if '.csv' not in basename(save_file_name):
+                e = f"{save_file_name} format not supported. File name must end with '.csv'. E.g. file_name.csv"
+                logger.error(e)
+                raise Exception(e)
+        if save_at is None:
+            save_at = join(os.getcwd().replace(basename(os.getcwd()), 'data'), 'exports')
+            if isdir(save_at) == False: os.makedirs(save_at)
+            if save_file_name is None:
+                save_file_name = basename(file).replace('.xml', '.csv')
+            save_at_fn = join(save_at, save_file_name)
+        else:
+            if save_file_name is None:
+                save_file_name = basename(file).replace('.xml', '.csv')
+            save_at_fn = join(save_at, save_file_name)
 
     logger.info("Extracting")
     df_xml = xml_parse(path=file, logger=logger)
-    df_xml.to_csv(save_at_fn, sep=';')
+    if do_save:
+        df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-
-    return df_xml
+    return df_xml, plot_pianoroll
 
 
 if __name__ == "__main__":
     xml_file = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/ultimate_tie_test.xml'
-    with_xml_files(file=xml_file, plot_pianoroll=True, save_at=None, save_file_name=None)
+    d = with_xml_file(file=xml_file, plot_pianoroll=True, save_at=None, save_file_name=None, do_save=False)
+    print("------")
+    print(d)
 
 """
 search_config/file_link -> scrape_database from web -> download in local folder -> read from local folder -> xml to pandas -> save and return pandas df -> pianoroll

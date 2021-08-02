@@ -190,26 +190,20 @@ class XMLToolBox:
         for part in self.root.iter('part'):
             self.part_id_counter += 1
             self.measure_id_counter = 0
-            # print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
+            self.logger.debug(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
             self.part_id_list.append(part.attrib['id'])
             self.curr_part_id = self.part_id_counter
             # self.curr_part_id = part.attrib['id']
 
             for m in part:
                 self.measure_id_counter += 1
-                # print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
-
+                self.logger.debug(f"measure {self.measure_id_counter}")
                 self.curr_measure_num = self.measure_id_counter
-                # self.curr_measure_num = int(m.attrib['number'])
-
                 self.measure_number_list.append(self.curr_measure_num)
                 if self.curr_measure_num == 1:
-                    # if int(m.attrib['number']) == 1:
                     self.measure_offset_list.append(0.0)
                 else:
                     self.measure_offset_list.append(self.curr_measure_offset)
-                # print(len(self.measure_offset_list), self.measure_offset_list)
-
                 note_i = m.find('note')
                 if note_i != None:
                     note_tag = True
@@ -224,12 +218,11 @@ class XMLToolBox:
                                 self.curr_measure_divisions = float(division_i.text)
 
                         if m_itt.tag == 'note':
-                            # if note_tag:
                             self.note_counter += 1
                             self.glb_part_id_list.append(self.curr_part_id)
                             self.note_counter_list.append(self.note_counter)
                             self.measure_num_per_note_list.append(self.curr_measure_num)
-                            # print(f" # Note num {self.note_counter} -- {self.curr_measure_offset}")
+                            # self.logger.debug(f" # Note num {self.note_counter} -- {self.curr_measure_offset}")
                             self._find_ties(itt=m_itt)
                             self._find_chords(itt=m_itt)
                             self._find_voice(itt=m_itt)
@@ -263,7 +256,7 @@ class XMLToolBox:
                     self.glb_part_id_list.append(self.curr_part_id)
                     self.note_counter_list.append(self.note_counter)
                     self.measure_num_per_note_list.append(self.curr_measure_num)
-                    self._find_ties(itt=m_itt)
+                    self._find_ties(itt=m_itt) # TODO: TESTTHIS
                     self._find_chords(itt=m_itt)
                     self._find_voice(itt=m_itt)
                     self.duration.append(self.curr_measure_offset)
@@ -271,31 +264,30 @@ class XMLToolBox:
                     self.step.append('rest')
                     self.octave.append('rest')
 
-        if False:
-            print(f"self.step               :{len(self.step)}")
-            print(f"self.octave             :{len(self.octave)}")
-            print(f"self.tie                :{len(self.tie)}")
-            print(f"self.duration           :{len(self.duration)}")
-            print(f"self.chord_tags         :{len(self.chord_tags)}")
-            print(f"self.voice_num          :{len(self.voice_num)}")
-            print("curr_measure_num         :", self.curr_measure_num)
-            print("measure_offset_list      :", len(self.measure_offset_list))
-            print(f"self.GraceNote              :{len(self.gracenote_tags)}")
-            print(f"self.note_counter_list      :{len(self.note_counter_list)}")
-            print(f"self.duration               :{len(self.duration)}")
-            print(f"self.step                   :{len(self.step)}")
-            print(f"self.octave                 :{len(self.octave)}")
-            print(f"self.measure_num_per_note_li:{len(self.measure_num_per_note_list)}")
-            print(f"self.voice_num              :{len(self.voice_num)}")
-            print(f"self.glb_part_id_list       :{len(self.glb_part_id_list)}")
-            print(f"self.chord_tags             :{len(self.chord_tags)}")
-            print(f"self.tie                    :{len(self.tie)}")
+        if True:
+            self.logger.debug(f"self.step                   :{len(self.step)}")
+            self.logger.debug(f"self.octave                 :{len(self.octave)}")
+            self.logger.debug(f"self.tie                    :{len(self.tie)}")
+            self.logger.debug(f"self.duration               :{len(self.duration)}")
+            self.logger.debug(f"self.chord_tags             :{len(self.chord_tags)}")
+            self.logger.debug(f"self.voice_num              :{len(self.voice_num)}")
+            self.logger.debug(f"curr_measure_num            :{self.curr_measure_num}")
+            self.logger.debug(f"measure_offset_list         :{len(self.measure_offset_list)}")
+            self.logger.debug(f"self.GraceNote              :{len(self.gracenote_tags)}")
+            self.logger.debug(f"self.note_counter_list      :{len(self.note_counter_list)}")
+            self.logger.debug(f"self.duration               :{len(self.duration)}")
+            self.logger.debug(f"self.step                   :{len(self.step)}")
+            self.logger.debug(f"self.octave                 :{len(self.octave)}")
+            self.logger.debug(f"self.measure_num_per_note   :{len(self.measure_num_per_note_list)}")
+            self.logger.debug(f"self.voice_num              :{len(self.voice_num)}")
+            self.logger.debug(f"self.glb_part_id_list       :{len(self.glb_part_id_list)}")
+            self.logger.debug(f"self.chord_tags             :{len(self.chord_tags)}")
+            self.logger.debug(f"self.tie                    :{len(self.tie)}")
 
         assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration) == len(self.gracenote_tags)
         assert len(self.step) == len(self.tie)
         assert len(self.duration) == len(self.tie)
         assert len(self.duration) == len(self.chord_tags)
-        # assert len(self.duration) == len(self.voice_num)
         assert len(self.duration) == len(self.glb_part_id_list)
 
         if len(self.voice_num) == 0:
@@ -340,8 +332,8 @@ class XMLToolBox:
             try:
                 pitch_class = self.dict_12_pc[pitch]
             except:
-                print("error in _pitch_to_midi()", pitch)
-                self.logger.error(f"error in _pitch_to_midi {pitch}")
+                self.logger.debug("error in _pitch_to_midi()", pitch)
+                self.logger.debug(f"error in _pitch_to_midi {pitch}")
 
             o = (octave + 1) * 12
             m = int(pitch_class + o)
@@ -425,9 +417,7 @@ class XMLToolBox:
 
                     if curr_cont == ck_curr_cont and ck_type == 'stop':
                         l_duration += float(df['Duration'][ii])
-                        # l_df_start[0,'Duration'] = l_duration
                         l_df_start.iloc[0, l_df_start.columns.get_loc('Duration')] = l_duration
-                        # l_df_start.loc[0, 'Duration'] = l_duration
                         self._tie_append_wrapper(df, ii, l_df_start)
                         df.iloc[ii, df.columns.get_loc('Tie Type')] = 'SKIPPED_stop'
                         break
@@ -435,9 +425,8 @@ class XMLToolBox:
         return self.df_data_tie
 
     def _measure_offset_sparse(self, measure_num_list, partid_num_list, measure_offset, idx_new_measure_offsets):
-
         if len(idx_new_measure_offsets) != len(measure_offset):
-            self.logger.error(f"Shape not equal idx_new_measure_offsets: {len(idx_new_measure_offsets)} and measure_offset: {measure_offset}")
+            self.logger.debug(f"Shape not equal idx_new_measure_offsets: {len(idx_new_measure_offsets)} and measure_offset: {measure_offset}")
 
         assert len(idx_new_measure_offsets) == len(measure_offset)
         measure_offset_sum = []
@@ -495,7 +484,6 @@ class XMLToolBox:
         assert len(idx_new_measure_offsets) == len(
             self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
             len(idx_new_measure_offsets), len(self.measure_offset_list))
-
         self.measure_off_sparse, self.n_measure_change_idx, measure_offset_sum = self._measure_offset_sparse(
             measure_num_list, partid_num_list,
             self.measure_offset_list,
@@ -512,8 +500,6 @@ class XMLToolBox:
         part_id_list = list(np.squeeze(df['PartID'].to_numpy()))
         n_num_voice = max(max(list(set(voices_list))), 1)
         nn_offset_list = []
-        nn_voice_list = []
-        nn_measure_list = []
         voice_track_container = [[] for i in range(n_num_voice)]
 
         c_off = 0.0
@@ -521,19 +507,15 @@ class XMLToolBox:
         measure_C = 0
 
         for i, v in enumerate(voices_list):
-            v_trk = voices_list[i]
             c_ch = chord_info_list[i]
             m_trk = measure_num_list[i]
             pid_trk = part_id_list[i]
             c_dur = duration_list[i]
-
-            # print(f" i {i} v {v} c_ch {c_ch} m_trk {m_trk} pid_trk {pid_trk} c_dur {c_dur} ")
             if i in self.n_measure_change_idx:  # resetting the container at every change in measure
                 measure_C += 1
                 curr_measure_offset = self.measure_off_sparse[i]
                 del voice_track_container
                 voice_track_container = [[] for i in range(n_num_voice)]
-                # print("########### Curr Measure ",measure_C," ###############", curr_measure_offset, np.shape(voice_track_container))
 
             if part_id_list[i - 1] != pid_trk:  # resetting the container at every change in measure
                 c_off = 0.0
@@ -564,22 +546,9 @@ class XMLToolBox:
         return df
 
     def compute_chord_offset(self, df):
-        nn_offset_list = []
-        measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
-        voices_list = list(np.squeeze(df['Voice'].to_numpy(dtype=int)))
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
         chord_info_list = list(np.squeeze(df['Chord Tags'].to_numpy()))
-        n_num_voice = len(list(set(voices_list)))
-        n_set_voice = list(set(voices_list))
-        offset_list = np.zeros(len(measure_num_list))
-        offset_list = list(offset_list)
-        num_m = np.max(measure_num_list)
-
-        idx_new_measure_offsets = self._compute_idx_new_measure_for_multi_parts(
-            measure_num_list)  # computing number of measure needed in list
-
         nn_offset_list = []
-
         for i, c in enumerate(chord_info_list):
             if i == 0:
                 c_off = 0
@@ -588,9 +557,7 @@ class XMLToolBox:
                     c_off = nn_offset_list[i - 1]
                 else:
                     c_off = nn_offset_list[i - 1] + duration_list[i - 1]
-
             nn_offset_list.append(c_off)
-
         df.insert(loc=3, column='Offset_cl', value=nn_offset_list)
         return df
 
