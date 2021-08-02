@@ -47,31 +47,27 @@ def _create_sparse_rep(dlist):
 
 
 def pianoroll_parts(func, *args, **kwargs):
+    def m_dur_off(m_d):
+        s = 0.0
+        m_o = []
+        for i in m_d:
+            s += float(i)
+            m_o.append(s)
+        return m_o
+
     def plotting_wrapper_parts(*args, **kwargs):
-        print("Something is happening before the function is called.")
-        df, do_plot = func(*args, **kwargs)
+        df, do_plot, measure_duration_list = func(*args, **kwargs)
+        measure = m_dur_off(measure_duration_list)
         if do_plot:
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
             duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
             midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
-            measure = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
             partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
                                            midi_min=55, midi_max=75)
-            print("Something is happening after the function is called.")
         return df
 
     return plotting_wrapper_parts
-
-
-def plotting_wrapper_parts(df):
-    offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
-    duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
-    midi = list(np.squeeze(df['MIDI'].to_numpy(dtype=int)))
-    measure = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
-    partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
-    _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
-                                   midi_min=55, midi_max=75)
 
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
@@ -82,18 +78,17 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     NUM_COLORS = 4
     colors = [cm(1. * i / NUM_COLORS) for i in range(NUM_COLORS)]
 
-    measure_s = _create_sparse_rep(list(measure))
+    #measure_s = _create_sparse_rep(list(measure))
     labels_128 = _get_midi_labels_128()
     assert np.shape(pitch)[0] == np.shape(time)[0]
     time_axis = np.arange(0, time[-1], step=0.10)
     fig = plt.figure(figsize=(12, 8))
     ax = plt.subplot(1, 1, 1)
-    t_mea = []
+
+
     for i in range(np.shape(time)[0]):
         t = time[i]
-        if measure_s[i] == 1:
-            ax.vlines(t, ymax=500, ymin=0, colors='grey', linestyles=(0, (2, 15)))
-            t_mea.append(t)
+
         color_prt = colors[partid[i] - 1]
         c_d = duration[i]
         if pitch[i] == 0:
@@ -104,23 +99,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
 
         ax.add_patch(
             Rectangle((t, p - 0.3), width=c_d, height=0.6, edgecolor='k', facecolor=color_prt, fill=True, alpha=a))
-
-    # xticks_minor = t_mea
-    # xticks_labels = [str(i) for i in range(len(t_mea))]
-    # ax.set_xticks(xticks_minor, minor=True)
-    # ax.set_xticklabels(xticks_labels)
-    # va = [-.05]*len(t_mea)
-    # for t, y in zip(ax.get_xticklabels(), va):
-    #     t.set_y(y)
-    # ax.tick_params(axis='x', which='minor', direction='out', length=30)
-    #
-
-    #ax.set_xticks(range())
-    # ticks = time
-    #
-    # dic = {1.0: "some custom text"}
-    # labels = [ticks[i] if t not in dic.keys() else dic[t] for i, t in enumerate(ticks)]
-    # ax.set_yticklabels(labels)
+    for tt in measure:
+        ax.vlines(tt, ymax=500, ymin=0, colors='grey', linestyles=(0, (2, 15)))
 
     ax.set_yticks(np.arange(128))
     ax.set_yticklabels(labels_128)

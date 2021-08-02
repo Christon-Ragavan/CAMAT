@@ -189,17 +189,17 @@ class XMLToolBox:
         for part in self.root.iter('part'):
             self.part_id_counter +=1
             self.measure_id_counter = 0
-            #print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
+            print(f" ------------- part {part.tag} {part.attrib['id']} {self.part_id_counter}-------------")
             self.part_id_list.append(part.attrib['id'])
             self.curr_part_id = self.part_id_counter
             # self.curr_part_id = part.attrib['id']
 
             for m in part:
                 self.measure_id_counter += 1
-                #print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
+                print(f"measure {m.tag} {m.attrib['number']} {self.measure_id_counter}")
 
                 self.curr_measure_num = self.measure_id_counter
-                #self.curr_measure_num = int(m.attrib['number'])
+                self.curr_measure_num = int(m.attrib['number'])
 
                 self.measure_number_list.append(self.curr_measure_num)
                 if self.curr_measure_num== 1:
@@ -673,7 +673,7 @@ def _get_file(search_keywords, testing, extract_extire_database):
          #/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/xml_files/BaJoSe_BWV8_COM_6-6_ChoraleHer_TobisNo_00097.xml
         # path = base_dir + "/test_case_xml_parser_example.xml"
         # path = base_dir + "/test_case_tied_note.xml"
-        # path = base_dir + "/ultimate_tie_test.xml"
+        path = base_dir + "/ultimate_tie_test.xml"
         # path = base_dir + "/ultimate_tie_test2.xml"
         # path = base_dir + "/sacred_xml.xml"
         # path = base_dir + "/test_case_ives1.xml"
@@ -688,9 +688,9 @@ def _get_file(search_keywords, testing, extract_extire_database):
         # path = base_dir + "/stupid2.xml"
         # path = base_dir + "/BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml"
         # path = base_dir + "/test_case_Castuski_1_time_sig_measure.xml"
-        path = base_dir + "/MoWo_K80_COM_1-4_StringQuar_003_00838.xml"
-        path = base_dir + "/rest_voice.xml"
-        path = [path]
+        # path = base_dir + "/MoWo_K80_COM_1-4_StringQuar_003_00838.xml"
+        # path = base_dir + "/rest_voice.xml"
+        # path = [path]
 
     else:
         if extract_extire_database:
@@ -747,7 +747,8 @@ if __name__ == "__main__":
                        'Life Time Range': None,
                        'Year Range': None}
 
-    paths = _get_file(search_keywords, testing=False, extract_extire_database=True)
+    paths = _get_file(search_keywords, testing=True, extract_extire_database=False)
+    paths = [paths]
     c= 0
     e=0
     i = 0

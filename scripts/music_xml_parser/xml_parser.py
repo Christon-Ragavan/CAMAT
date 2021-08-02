@@ -11,22 +11,6 @@ pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
 
 
-def xml_parse(path,*args,**kwargs):
-    logger = kwargs['logger']
-
-    if isfile(path) == False:
-        logger.info(f"File Not Found - {path}")
-        raise FileExistsError ("File Does Note Exist".format(path))
-    else:
-        logger.info(f"File Found - {path}")
-    xml_tools = XMLToolBox(file_path=path, logger=logger)
-    df_data = xml_tools.strip_xml()
-    df_data_m = xml_tools.compute_measure_offset(df_data)
-    df_data_v = xml_tools.compute_voice_offset(df_data_m)
-    df_data_chord_tied = xml_tools.compute_tie_duration(df_data_v)
-    df_data_midi = xml_tools.convert_pitch_midi(df_data_chord_tied)
-    df_data_f = xml_tools.remove_df_cols(df_data_midi)
-    return df_data_f
 
 
 class XMLToolBox:
@@ -565,3 +549,23 @@ class XMLToolBox:
         if drop_colms_labels is None:
             drop_colms_labels = ['#Note_Debug', 'Offset_ml']
         return df.drop(drop_colms_labels, axis=1)
+
+class XMLParser(XMLToolBox):
+    def __init__(self, path, *args, **kwargs):
+        super().__init__(path, *args, **kwargs)
+        self.path = path
+        self.logger = kwargs['logger']
+
+    def xml_parse(self,  *args, **kwargs):
+        if isfile(self.path) == False:
+            self.logger.info(f"File Not Found - {self.path}")
+            raise FileExistsError ("File Does Note Exist".format(self.path))
+        else:
+            self.logger.info(f"File Found - {self.path}")
+        df_data = self.strip_xml()
+        df_data_m = self.compute_measure_offset(df_data)
+        df_data_v = self.compute_voice_offset(df_data_m)
+        df_data_chord_tied = self.compute_tie_duration(df_data_v)
+        df_data_midi = self.convert_pitch_midi(df_data_chord_tied)
+        df_data_f = self.remove_df_cols(df_data_midi)
+        return df_data_f

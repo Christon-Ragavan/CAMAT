@@ -6,8 +6,8 @@ import logging
 import numpy as np
 import pandas as pd
 from utils import *
-from plot import plotting_wrapper_parts, pianoroll_parts
-from xml_parser import xml_parse
+from plot import pianoroll_parts
+from xml_parser import XMLParser
 import os
 from os.path import isdir, isfile, basename, join
 
@@ -37,7 +37,7 @@ logger.info("Music xml Parser - score to pandas")
 
 @pianoroll_parts
 def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
-                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[pd.DataFrame, bool]:
+                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list]:
     if '.xml' not in basename(file):
         e = "Not a .XML file, Only .xml file is supported. Use Musescore or finale to convert to .xml format"
         logger.error(e)
@@ -61,11 +61,12 @@ def with_xml_file(file: str, plot_pianoroll: bool = False, save_at: str = None,
             save_at_fn = join(save_at, save_file_name)
 
     logger.info("Extracting")
-    df_xml = xml_parse(path=file, logger=logger)
+    parser_o = XMLParser(path=file, logger=logger)
+    df_xml = parser_o.xml_parse()
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    return df_xml, plot_pianoroll
+    return df_xml, plot_pianoroll, parser_o.measure_offset_list
 
 
 if __name__ == "__main__":
