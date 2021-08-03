@@ -61,6 +61,7 @@ def pianoroll_parts(func, *args, **kwargs):
     def plotting_wrapper_parts(*args, **kwargs):
         df, do_plot, measure_duration_list = func(*args, **kwargs)
         measure = m_dur_off(measure_duration_list)
+
         for i, m in enumerate (measure):
             print(f"measure {i+1} Offset {m}")
 
@@ -68,7 +69,6 @@ def pianoroll_parts(func, *args, **kwargs):
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
             duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
             midi = df['MIDI'].replace({np.nan: 0}).to_list()
-
             partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid, duration=duration,
                                            midi_min=55, midi_max=75)

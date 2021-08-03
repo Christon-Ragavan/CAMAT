@@ -146,6 +146,11 @@ class XMLToolBox:
         self.duration.append(cd)
 
     def _set_curr_measure_duration(self, itt):
+        """
+        4 * (4/4) = 4
+        4 * (2/4) = 2
+        4 * (2/1) = 8
+        """
         time_i = itt.find('time')
         if time_i != None:
             b = [None, None]
@@ -162,6 +167,7 @@ class XMLToolBox:
             self.curr_measure_offset = float(4 * d)
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
+        self.logger.debug(f" -- m  {self.curr_measure_num}, m ofd {self.curr_measure_offset}")
 
     def _strip_part_information(self):
         pass
@@ -183,13 +189,16 @@ class XMLToolBox:
 
             for m in part:
                 self.measure_id_counter += 1
-                self.logger.debug(f"measure {self.measure_id_counter} curr_offset {self.curr_measure_offset}")
+                self.logger.debug(f"measure {self.measure_id_counter} measure idtag {int(m.attrib['number'])}  curr_offset {self.curr_measure_offset}")
                 self.curr_measure_num = self.measure_id_counter
                 self.measure_number_list.append(self.curr_measure_num)
-                if self.curr_measure_num == 1:
+                if self.measure_id_counter == 1:
                     self.measure_offset_list.append(0.0)
+                    print(f" if 1 m {self.measure_id_counter} -- {self.curr_measure_num}, {self.curr_measure_offset}")
                 else:
                     self.measure_offset_list.append(self.curr_measure_offset)
+                    print(f" else m {self.measure_id_counter} -- {self.curr_measure_num}, {self.curr_measure_offset}")
+
                 note_i = m.find('note')
                 if note_i != None:
                     note_tag = True
