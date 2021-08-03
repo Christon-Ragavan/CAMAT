@@ -1,19 +1,20 @@
-import os
-import sys
-
-sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
-sys.path.append(os.getcwd().replace('music_xml_parser', ''))
-
-
 from os.path import isdir, isfile, basename, join
 import pathlib
 import traceback
 import logging
 import numpy as np
 import pandas as pd
-from utils import *
-from plot import pianoroll_parts
-from xml_parser import XMLParser
+try:
+    from .parser_utils import *
+    from .parser_utils import _get_file_path
+    from .plot import pianoroll_parts
+    from .xml_parser import XMLParser
+except:
+    from parser_utils import *
+    from parser_utils import _get_file_path
+    from plot import pianoroll_parts
+    from xml_parser import XMLParser
+
 import os
 from os.path import isdir, isfile, basename, join
 import sys
@@ -57,6 +58,7 @@ def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = N
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
     print(df_xml)
+    print(parser_o.measure_offset_list)
     return df_xml, plot_pianoroll, parser_o.measure_offset_list
 
 

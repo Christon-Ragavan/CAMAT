@@ -15,10 +15,10 @@ def set_up_logger(name):
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
-    stream_formatter = logging.Formatter('%(levelname)s:%(name)s:%(lineno)d:%(message)s')
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(stream_formatter)
-    logger.addHandler(stream_handler)
+    # stream_formatter = logging.Formatter('%(levelname)s:%(name)s:%(lineno)d:%(message)s')
+    # stream_handler = logging.StreamHandler()
+    # stream_handler.setFormatter(stream_formatter)
+    # logger.addHandler(stream_handler)
     return logger
 
 

@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from utils import ZoomPan
+try:
+    from .parser_utils import ZoomPan
+except:
+    from parser_utils import ZoomPan
 
 from matplotlib import colors
 from matplotlib.patches import Rectangle
@@ -72,6 +75,20 @@ def pianoroll_parts(func, *args, **kwargs):
         return df
     return plotting_wrapper_parts
 
+def _get_xtickslabels_with_measure(x_axis, measure):
+    x_lab = []
+
+    for i in range(len(x_axis)):
+        s = x_axis[i]
+        idx = np.argmin(np.abs(s-measure))
+
+        if s == measure[idx]:
+            l = '\n\n'+str(measure.index(measure[idx]))
+        else:
+            l =''
+        x_lab.append(str(s)+l)
+    print(x_lab)
+    return x_lab
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
                                    midi_min, midi_max, *args, **kwargs):
@@ -98,10 +115,17 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
             Rectangle((t, p - 0.5), width=c_d, height=1, edgecolor='k', facecolor=color_prt, fill=True, alpha=a))
     for tt in measure:
         ax.vlines(tt, ymax=500, ymin=0, colors='grey', linestyles=(0, (2, 15)))
-    # x_axis = np.arange(max(time) + 1)
-    # x_axis = np.linspace(0, int(max(time)), int(max(time)*20))
-    # ax.set_xticks(x_axis)
 
+    #x_axis = np.arange(max(time) + 1)
+    #x_axis = np.linspace(0, int(max(time)), int(max(time)*2))
+
+    fac = 2
+    x_axis = np.arange(0, max(time) * fac + 1) / fac
+    xlab = _get_xtickslabels_with_measure(x_axis, measure)
+    ax.set_xticks(x_axis)
+
+    ax.set_xticklabels(xlab)
+    ax.tick_params(axis="x")
 
     ax.set_yticks(np.arange(128))
     ax.set_yticklabels(labels_128)
@@ -115,7 +139,10 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, duration,
     ax.set_xlim([0, 20])
     ax.set_xlabel("Offset")
     ax.set_ylabel("Pitch")
+
+    #ax legend()
     zp = ZoomPan()
     figZoom = zp.zoom_factory(ax, base_scale=1.1)
     figPan = zp.pan_factory(ax)
+
     plt.show()

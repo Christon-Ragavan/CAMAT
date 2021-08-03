@@ -5,7 +5,10 @@ import xml.etree.ElementTree as ET
 from os.path import isfile
 import numpy as np
 import pandas as pd
-from utils import set_up_logger
+try:
+    from .parser_utils import set_up_logger
+except:
+    from parser_utils import set_up_logger
 pd.set_option('display.max_rows', 1000000)
 pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
@@ -31,7 +34,6 @@ class XMLToolBox:
         self.part_id_list = []
         self.glb_part_id_list = []
         self.curr_part_id = None
-        self.curr_measure_offset = None
         self.note_counter = 0
         self.note_counter_list = []
         self.df_data_tie = pd.DataFrame()
@@ -181,7 +183,7 @@ class XMLToolBox:
 
             for m in part:
                 self.measure_id_counter += 1
-                self.logger.debug(f"measure {self.measure_id_counter}")
+                self.logger.debug(f"measure {self.measure_id_counter} curr_offset {self.curr_measure_offset}")
                 self.curr_measure_num = self.measure_id_counter
                 self.measure_number_list.append(self.curr_measure_num)
                 if self.curr_measure_num == 1:
