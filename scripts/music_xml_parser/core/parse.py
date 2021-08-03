@@ -1,9 +1,8 @@
-from os.path import isdir, isfile, basename, join
-import pathlib
-import traceback
-import logging
-import numpy as np
-import pandas as pd
+"""
+Author: Christon Nadar
+License: The MIT license, https://opensource.org/licenses/MIT
+"""
+
 try:
     from .parser_utils import *
     from .parser_utils import _get_file_path
@@ -16,16 +15,16 @@ except:
     from xml_parser import XMLParser
 
 import os
-from os.path import isdir, isfile, basename, join
-import sys
+from os.path import basename, isdir, join
+
+import pandas as pd
 
 logger = set_up_logger(__name__)
 
 
 @pianoroll_parts
 def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = None,
-                  save_file_name: str = None, do_save: bool = False, *args, **kwargs) -> tuple[
-    pd.DataFrame, bool, list]:
+                  save_file_name: str = None, do_save: bool = False, x_axis_res=2, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int]:
     file = _get_file_path(file_name=file_name)
 
     if '.xml' not in basename(file):
@@ -57,15 +56,20 @@ def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = N
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    print(df_xml)
-    print(parser_o.measure_offset_list)
-    return df_xml, plot_pianoroll, parser_o.measure_offset_list
+    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res
+
+def testing():
+    xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
+
+    d = with_xml_file(file_name=xml_file,
+                      plot_pianoroll=True,
+                      save_at=None,
+                      save_file_name=None,
+                      do_save=False,
+                      x_axis_res=1)
+
 
 
 if __name__ == "__main__":
-    xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
+    testing()
 
-    d = with_xml_file(file_name=xml_file, plot_pianoroll=True,
-                      save_at=None, save_file_name=None,
-                      do_save=False)
-    print("------")

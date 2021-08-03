@@ -167,7 +167,6 @@ class XMLToolBox:
             self.curr_measure_offset = float(4 * d)
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
-        self.logger.debug(f" -- m  {self.curr_measure_num}, m ofd {self.curr_measure_offset}")
 
     def _strip_part_information(self):
         pass
@@ -194,10 +193,8 @@ class XMLToolBox:
                 self.measure_number_list.append(self.curr_measure_num)
                 if self.measure_id_counter == 1:
                     self.measure_offset_list.append(0.0)
-                    print(f" if 1 m {self.measure_id_counter} -- {self.curr_measure_num}, {self.curr_measure_offset}")
                 else:
                     self.measure_offset_list.append(self.curr_measure_offset)
-                    print(f" else m {self.measure_id_counter} -- {self.curr_measure_num}, {self.curr_measure_offset}")
 
                 note_i = m.find('note')
                 if note_i != None:
@@ -419,7 +416,8 @@ class XMLToolBox:
                 pass
         return self.df_data_tie
 
-    def _measure_offset_sparse(self, measure_num_list, partid_num_list, measure_offset, idx_new_measure_offsets):
+    def _measure_offset_sparse(self, measure_num_list, partid_num_list, measure_offset_g, idx_new_measure_offsets):
+        measure_offset = measure_offset_g.copy()
         if len(idx_new_measure_offsets) != len(measure_offset):
             self.logger.debug(f"Shape not equal idx_new_measure_offsets: {len(idx_new_measure_offsets)} and measure_offset: {measure_offset}")
 
@@ -428,6 +426,7 @@ class XMLToolBox:
         n_sparce_m = []
         n_measure_change_idx = []
         c = 0
+
         for i in range(1, len(measure_offset) + 1):
             if i < len(measure_offset):
                 measure_offset_sum.append(np.sum(measure_offset[:i]))
@@ -436,9 +435,10 @@ class XMLToolBox:
                     measure_offset[:i] = [0] * i
             else:
                 measure_offset_sum.append(np.sum(measure_offset))
-
         assert len(measure_offset_sum) == len(
             measure_offset), f"Error in generating measure offset sum, measure_offset_sum:  {len(measure_offset_sum)}, measure_offset: {len(measure_offset)}"
+
+
         for i, m in enumerate(measure_num_list):
             try:
                 if m == idx_new_measure_offsets[c]:
@@ -452,6 +452,7 @@ class XMLToolBox:
                 n_sparce_m.append(curr_measure)
 
                 continue
+
 
         return n_sparce_m, n_measure_change_idx, measure_offset_sum
 
@@ -470,19 +471,21 @@ class XMLToolBox:
         return idx_new_measure_offsets
 
     def compute_measure_offset(self, df):
+
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
         partid_num_list = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
 
         idx_new_measure_offsets = self._compute_idx_new_measure_for_multi_parts(
             measure_num_list)  # computing number of measure needed in list
 
-        assert len(idx_new_measure_offsets) == len(
-            self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
+        assert len(idx_new_measure_offsets) == len(self.measure_offset_list), "Check the lengths len(idx_new_measure_offsets){} !=len(measure_offset) {}".format(
             len(idx_new_measure_offsets), len(self.measure_offset_list))
-        self.measure_off_sparse, self.n_measure_change_idx, measure_offset_sum = self._measure_offset_sparse(
-            measure_num_list, partid_num_list,
-            self.measure_offset_list,
-            idx_new_measure_offsets)
+
+        self.measure_off_sparse, self.n_measure_change_idx, measure_offset_sum = self._measure_offset_sparse(measure_num_list,
+                                                                                                             partid_num_list,
+                                                                                                             self.measure_offset_list,
+                                                                                                             idx_new_measure_offsets)
+
         df.insert(loc=1, column='Offset_ml', value=self.measure_off_sparse)
         return df
 
@@ -574,6 +577,7 @@ class XMLParser(XMLToolBox):
         else:
             self.logger.info(f"File Found - {self.path}")
         df_data = self.strip_xml()
+
         df_data_m = self.compute_measure_offset(df_data)
         df_data_v = self.compute_voice_offset(df_data_m)
         df_data_chord_tied = self.compute_tie_duration(df_data_v)

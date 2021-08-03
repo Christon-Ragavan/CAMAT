@@ -1,3 +1,8 @@
+"""
+Author: Christon Nadar
+License: The MIT license, https://opensource.org/licenses/MIT
+"""
+
 import logging
 from os.path import join, basename, isfile
 import os
