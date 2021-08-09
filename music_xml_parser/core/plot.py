@@ -13,7 +13,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib.patches import Rectangle
-from matplotlib.colors import ListedColormap
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)

@@ -69,7 +69,6 @@ def testing():
                       save_file_name=None,
                       do_save=False,
                       x_axis_res=1)
-    print(d)
 
 
 
