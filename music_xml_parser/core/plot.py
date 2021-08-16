@@ -60,7 +60,7 @@ def pianoroll_parts(func, *args, **kwargs):
         return m_o
 
     def plotting_wrapper_parts(*args, **kwargs):
-        df, do_plot, measure_duration_list, x_axis_res = func(*args, **kwargs)
+        df, do_plot, measure_duration_list, x_axis_res, get_measure_onset = func(*args, **kwargs)
         measure = m_dur_off(measure_duration_list)
         if do_plot:
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
@@ -72,7 +72,10 @@ def pianoroll_parts(func, *args, **kwargs):
             part_name = list(np.squeeze(df['Part Name'].to_numpy(dtype=str)))
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,part_name=part_name, duration=duration,
                                            midi_min=55, midi_max=75, x_axis_res=x_axis_res)
-        return df
+        if get_measure_onset:
+            return df, measure_duration_list
+        else:
+            return df
     return plotting_wrapper_parts
 
 def _get_xtickslabels_with_measure(x_axis, measure):
@@ -146,4 +149,57 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     zp = ZoomPan()
     _ = zp.zoom_factory(ax, base_scale=1.1)
     _ =zp.pan_factory(ax)
+    plt.show()
+
+
+def barplot_pitch_histogram(labels, counts, visulize_midi_range=None):
+
+    if visulize_midi_range is None:
+        visulize_midi_range = [min(labels)-0.5, max(labels)+0.5]
+
+    midi_labels = _get_midi_labels_128()
+    f = plt.figure(figsize=(12, 4))
+
+    ax = f.add_subplot(111)
+
+    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel('Pitch')
+    ax.set_ylabel('Occurrences')
+    ax.set_xticks(np.arange(128))
+    ax.set_xticklabels(midi_labels)
+    ax.set_xlim(visulize_midi_range)
+    plt.grid()
+    plt.show()
+
+def barplot_pitch_class_histogram(labels, counts):
+
+    f = plt.figure(figsize=(12, 4))
+    ax = f.add_subplot(111)
+    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel('Pitch')
+    ax.set_ylabel('Occurrences')
+    plt.grid()
+    plt.show()
+def barplot_quaterlength_duration_histogram(labels, counts):
+
+    f = plt.figure(figsize=(12, 4))
+    ax = f.add_subplot(111)
+    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel('Quater Length')
+    ax.set_ylabel('Occurrences')
+    ax.set_xticks(np.arange(np.max(labels)+1))
+
+    plt.grid()
+    plt.show()
+
+def barplot_intervals(labels, counts):
+
+    f = plt.figure(figsize=(12, 4))
+    ax = f.add_subplot(111)
+    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel('Intervals')
+    ax.set_ylabel('Occurrences')
+    ax.set_xticks(np.arange(np.min(labels), np.max(labels)+1))
+
+    plt.grid()
     plt.show()

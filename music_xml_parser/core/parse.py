@@ -24,7 +24,7 @@ logger = set_up_logger(__name__)
 
 @pianoroll_parts
 def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = None,
-                  save_file_name: str = None, do_save: bool = False, x_axis_res=2, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int]:
+                  save_file_name: str = None, do_save: bool = False, x_axis_res=2,get_measure_onset:bool=False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool]:
     file = _get_file_path(file_name=file_name)
 
     if '.xml' not in basename(file):
@@ -56,20 +56,22 @@ def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = N
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res
+    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset
 
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
-    xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
+    # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
+    xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
 
     d = with_xml_file(file_name=xml_file,
-                      plot_pianoroll=True,
+                      plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,
                       do_save=False,
                       x_axis_res=1)
-
+    import analyse
+    analyse.ambitus(d)
 
 
 if __name__ == "__main__":
