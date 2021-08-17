@@ -251,30 +251,18 @@ def barplot(labels, counts, x_label='x_label', y_label='y_label'):
     plt.show()
 
 def beat_stength_3d(np_bs_data):
-    # --------- plotting -------
-    # print("Dict",n_uni_int_dict)
-    # print("Dict",bs_uni_int_dict)
-
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
     bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
-    print(n_uni)
-    print(bs_uni)
     plt_bs_data = np.zeros(np.shape(np_bs_data))
-    print(np.shape(plt_bs_data))
     for i in range(np.shape(np_bs_data)[0]):
         plt_bs_data[i][0] = n_uni_int_dict[np_bs_data[i][0]]
         plt_bs_data[i][1] = bs_uni_int_dict[np_bs_data[i][1]]
         plt_bs_data[i][2] = np_bs_data[i][2]
-
-
-
     fig = plt.figure(figsize=(16,8))
     ax1 = fig.add_subplot(111, projection='3d')
-
     numele = np.shape(np_bs_data)[0]
-
     x = plt_bs_data[:, 0]
     y = plt_bs_data[:, 1]
     z = np.zeros(numele)
@@ -297,9 +285,5 @@ def beat_stength_3d(np_bs_data):
     ax1.set_xlabel('Notes')
     ax1.set_ylabel('Beat Strength')
     ax1.set_zlabel('Occurrence')
-    # plt.savefig("Your_title_goes_here")
-    # ax1.xaxis.set_major_locator(ticker.MultipleLocator(2))
-    # ax1.xaxis.set_minor_locator(ticker.MultipleLocator(1))
-
     plt.grid()
     plt.show()
