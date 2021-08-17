@@ -8,9 +8,11 @@ try:
 except:
     from parser_utils import ZoomPan
 
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib.patches import Rectangle
 
@@ -22,6 +24,22 @@ pd.set_option('display.width', 1000)
 def _get_midi_labels_128() -> list:
     s_21 = ['-' for i in range(21)]
     s_19 = ['-' for i in range(19)]
+    chroma_label = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+    s_m = ['A0', 'A#0', 'B0']
+    midi_labels_128 = []
+    midi_labels_128.extend(s_21)
+    midi_labels_128.extend(s_m)
+    for o in range(1, 8):
+        for p in chroma_label:
+            midi_labels_128.append(p + str(o))
+    midi_labels_128.append('C8')
+    midi_labels_128.extend(s_19)
+    assert len(midi_labels_128) == 128
+    return midi_labels_128
+
+def _get_midi_mapping_dict():
+    s_21 = ['na' for i in range(21)]
+    s_19 = ['na' for i in range(19)]
     chroma_label = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
     s_m = ['A0', 'A#0', 'B0']
     midi_labels_128 = []
@@ -60,8 +78,10 @@ def pianoroll_parts(func, *args, **kwargs):
         return m_o
 
     def plotting_wrapper_parts(*args, **kwargs):
-        df, do_plot, measure_duration_list, x_axis_res, get_measure_onset = func(*args, **kwargs)
+        df, do_plot, measure_duration_list, x_axis_res, get_measure_onset, measure_offset_data = func(*args, **kwargs)
+
         measure = m_dur_off(measure_duration_list)
+
         if do_plot:
             offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
             duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
@@ -73,7 +93,7 @@ def pianoroll_parts(func, *args, **kwargs):
             _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,part_name=part_name, duration=duration,
                                            midi_min=55, midi_max=75, x_axis_res=x_axis_res)
         if get_measure_onset:
-            return df, measure_duration_list
+            return df, measure_offset_data
         else:
             return df
     return plotting_wrapper_parts
@@ -153,11 +173,16 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
 
 def barplot_pitch_histogram(labels, counts, visulize_midi_range=None):
+    try:
+        from utils import midi2str
+    except:
+        from .utils import midi2str
+
 
     if visulize_midi_range is None:
         visulize_midi_range = [min(labels)-0.5, max(labels)+0.5]
 
-    midi_labels = _get_midi_labels_128()
+    midi_labels = [midi2str(i) for i in range(128)]
     f = plt.figure(figsize=(12, 4))
 
     ax = f.add_subplot(111)
@@ -166,18 +191,27 @@ def barplot_pitch_histogram(labels, counts, visulize_midi_range=None):
     ax.set_xlabel('Pitch')
     ax.set_ylabel('Occurrences')
     ax.set_xticks(np.arange(128))
+
+
     ax.set_xticklabels(midi_labels)
     ax.set_xlim(visulize_midi_range)
     plt.grid()
     plt.show()
 
-def barplot_pitch_class_histogram(labels, counts):
+def barplot_pitch_class_histogram(labels, counts, label_str, x_axis_12pc =False):
 
     f = plt.figure(figsize=(12, 4))
     ax = f.add_subplot(111)
     ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
     ax.set_xlabel('Pitch')
     ax.set_ylabel('Occurrences')
+    if x_axis_12pc:
+        ax.set_xticks(np.arange(12))
+        names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        ax.set_xticklabels(names)
+    else:
+        ax.set_xticklabels(label_str)
+
     plt.grid()
     plt.show()
 def barplot_quaterlength_duration_histogram(labels, counts):
@@ -200,6 +234,72 @@ def barplot_intervals(labels, counts):
     ax.set_xlabel('Intervals')
     ax.set_ylabel('Occurrences')
     ax.set_xticks(np.arange(np.min(labels), np.max(labels)+1))
+
+    plt.grid()
+    plt.show()
+
+def barplot(labels, counts, x_label='x_label', y_label='y_label'):
+
+    f = plt.figure(figsize=(12, 4))
+    ax = f.add_subplot(111)
+    ax.bar(labels, counts, width=0.2, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    # ax.set_xticks(np.arange(np.min(labels), np.max(labels)+1))
+
+    plt.grid()
+    plt.show()
+
+def beat_stength_3d(np_bs_data):
+    # --------- plotting -------
+    # print("Dict",n_uni_int_dict)
+    # print("Dict",bs_uni_int_dict)
+
+    n_uni = np.unique(np_bs_data[:, 0])
+    bs_uni = np.unique(np_bs_data[:, 1])
+    n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
+    bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
+    print(n_uni)
+    print(bs_uni)
+    plt_bs_data = np.zeros(np.shape(np_bs_data))
+    print(np.shape(plt_bs_data))
+    for i in range(np.shape(np_bs_data)[0]):
+        plt_bs_data[i][0] = n_uni_int_dict[np_bs_data[i][0]]
+        plt_bs_data[i][1] = bs_uni_int_dict[np_bs_data[i][1]]
+        plt_bs_data[i][2] = np_bs_data[i][2]
+
+
+
+    fig = plt.figure(figsize=(16,8))
+    ax1 = fig.add_subplot(111, projection='3d')
+
+    numele = np.shape(np_bs_data)[0]
+
+    x = plt_bs_data[:, 0]
+    y = plt_bs_data[:, 1]
+    z = np.zeros(numele)
+
+    dx = 0.5 * np.ones(numele)
+    dy = 0.3 * np.ones(numele)
+    dz = plt_bs_data[:, 2]
+
+    cmap = cm.get_cmap('jet')  # Get desired colormap
+    max_height = np.max(dz)  # get range of colorbars
+    min_height = np.min(dz)
+    rgba = [cmap((k - min_height) / max_height) for k in dz]
+    ax1.set_xticks(np.arange(len(n_uni)))
+    ax1.set_yticks(np.arange(len(bs_uni)))
+
+    ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
+
+    ax1.set_xticklabels(list(n_uni))
+    ax1.set_yticklabels([str(i) for i in bs_uni])
+    ax1.set_xlabel('Notes')
+    ax1.set_ylabel('Beat Strength')
+    ax1.set_zlabel('Occurrence')
+    # plt.savefig("Your_title_goes_here")
+    # ax1.xaxis.set_major_locator(ticker.MultipleLocator(2))
+    # ax1.xaxis.set_minor_locator(ticker.MultipleLocator(1))
 
     plt.grid()
     plt.show()

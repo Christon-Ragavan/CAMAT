@@ -3,6 +3,7 @@ import numpy as np
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import itertools as it
 
 from IPython.display import HTML, display
 import os
@@ -34,3 +35,64 @@ def display_table(data, columns, do_return_pd=False, sep=',', index=False, heade
     if do_return_pd:
         return pd_data
 
+def str2midi(note_string):
+  """
+  This fuction (str2midi) is taken from: lazy_midi
+  https://github.com/danilobellini/audiolazy/blob/master/audiolazy/lazy_midi.py
+  Given a note string name (e.g. "Bb4"), returns its MIDI pitch number.
+  """
+  MIDI_A4 = 69
+
+  if note_string == "?":
+    return np.nan
+  data = note_string.strip().lower()
+  name2delta = {"c": -9, "d": -7, "e": -5, "f": -4, "g": -2, "a": 0, "b": 2}
+  accident2delta = {"b": -1, "#": 1, "x": 2}
+  accidents = list(it.takewhile(lambda el: el in accident2delta, data[1:]))
+  octave_delta = int(data[len(accidents) + 1:]) - 4
+  return (MIDI_A4 +
+          name2delta[data[0]] + # Name
+          sum(accident2delta[ac] for ac in accidents) + # Accident
+          12 * octave_delta # Octave
+         )
+
+
+def midi2str(midi_number, sharp=True):
+  """
+  This fuction (midi2str) is taken from: lazy_midi
+  https://github.com/danilobellini/audiolazy/blob/master/audiolazy/lazy_midi.py
+  Given a MIDI pitch number, returns its note string name (e.g. "C3").
+  """
+  MIDI_A4 = 69
+  if np.isinf(midi_number) or np.isnan(midi_number):
+    return "?"
+  num = midi_number - (MIDI_A4 - 4 * 12 - 9)
+  note = (num + .5) % 12 - .5
+  rnote = int(round(note))
+  error = note - rnote
+  octave = str(int(round((num - note) / 12.)))
+  if sharp:
+    names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+  else:
+    names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+  names = names[rnote] + octave
+  if abs(error) < 1e-4:
+    return names
+  else:
+    err_sig = "+" if error > 0 else "-"
+    err_str = err_sig + str(round(100 * abs(error), 2)) + "%"
+    return names + err_str
+
+
+def midi2pitchclass(midi_number, sharp=True):
+    MIDI_A4 = 69
+    if np.isinf(midi_number) or np.isnan(midi_number):
+        return "?"
+    num = midi_number - (MIDI_A4 - 4 * 12 - 9)
+    note = (num + .5) % 12 - .5
+    rnote = int(round(note))
+    if sharp:
+        names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    else:
+        names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+    return names[rnote], rnote

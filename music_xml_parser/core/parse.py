@@ -23,8 +23,13 @@ logger = set_up_logger(__name__)
 
 
 @pianoroll_parts
-def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = None,
-                  save_file_name: str = None, do_save: bool = False, x_axis_res=2,get_measure_onset:bool=False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool]:
+def with_xml_file(file_name: str,
+                  plot_pianoroll: bool = False,
+                  save_at: str = None,
+                  save_file_name: str = None,
+                  do_save: bool = False,
+                  x_axis_res=2,
+                  get_measure_onset:bool=False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool,tuple[pd.DataFrame]]:
     file = _get_file_path(file_name=file_name)
 
     if '.xml' not in basename(file):
@@ -53,10 +58,11 @@ def with_xml_file(file_name: str, plot_pianoroll: bool = False, save_at: str = N
     logger.info("Extracting")
     parser_o = XMLParser(path=file, logger=logger)
     df_xml = parser_o.xml_parse()
+    measure_offset_data = parser_o._compute_measure_n_offset()
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset
+    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset,measure_offset_data
 
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
