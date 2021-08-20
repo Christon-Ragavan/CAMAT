@@ -171,10 +171,10 @@ if __name__=='__main__':
 
 
     m_df = mp.parse.with_xml_file(file_name=xml_file,
-                                  plot_pianoroll=False,
+                                  plot_pianoroll=True,
                                   save_at=None,
                                   save_file_name=None,
                                   do_save=False,
                                   x_axis_res=2, get_measure_onset=False)
     # print(m_df)
-    data = beat_strength(df_data=m_df,do_plot=True)
+    # data = beat_strength(df_data=m_df,do_plot=True)
