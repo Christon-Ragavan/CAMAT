@@ -29,6 +29,11 @@ class XMLToolBox:
             raise Exception("Unable to read .xml file")
         self.num_voices = self._get_num_voices()
         self.curr_measure_divisions = 0
+        
+        self.curr_time_signature=''
+        self.curr_time_signature_adj=''
+        self.time_signature_list = []
+        self.time_signature_list_adj = []
         self.time_offset = []
         self.part_id_list = []
         self.part_name_list = []
@@ -49,7 +54,8 @@ class XMLToolBox:
         self.gracenote_tags = []
         self.measure_offset_df = []
         self.measure_number_list_corr_part = []
-
+        
+    
         self.set_chord = False
         self.measure_number_list = []
         self.measure_num_per_note_list = []
@@ -167,6 +173,11 @@ class XMLToolBox:
                 else:
                     raise Exception("Not implemented -> tag found:{}".format(t.tag))
             d = float(b[0] / b[1])
+
+            self.curr_time_signature = str(int(float(b[0])))+'/'+ str(int(float(b[1])))
+            self.curr_time_signature_adj = str(4*int(float(b[0])))+'/'+ str(4*int(float(b[1])))
+
+
             self.curr_measure_offset = float(4 * d)
             self.measure_duration_dict.update(
                 {str(self.curr_measure_num) + '_' + str(self.curr_part_id): self.curr_measure_offset})
@@ -192,7 +203,7 @@ class XMLToolBox:
         c = 0
         self.part_id_counter = 0
         self.measure_id_counter = 0
-        self.curr_measure_offset_df= 0.0
+        self.curr_measure_offset_df = 0.0
         for part in self.root.iter('part'):
             self.part_id_counter += 1
             self.measure_id_counter = 0
@@ -232,6 +243,8 @@ class XMLToolBox:
 
                         if m_itt.tag == 'note':
                             self.note_counter += 1
+                            self.time_signature_list.append(self.curr_time_signature)
+                            self.time_signature_list_adj.append(self.curr_time_signature_adj)
                             self.glb_part_id_list.append(self.curr_part_id)
                             self.part_name_list.append(curr_part_name)
                             self.measure_offset_df.append(self.curr_measure_offset_df)
@@ -269,6 +282,8 @@ class XMLToolBox:
                                 self.curr_measure_divisions = float(division_i.text)
 
                     self.note_counter += 1
+                    self.time_signature_list.append(self.curr_time_signature)
+                    self.time_signature_list_adj.append(self.curr_time_signature_adj)
                     self.measure_offset_df.append(self.curr_measure_offset_df)
                     self.glb_part_id_list.append(self.curr_part_id)
                     self.part_name_list.append(curr_part_name)
@@ -296,6 +311,7 @@ class XMLToolBox:
             self.logger.debug(f"measure_offset_list         :{len(self.measure_offset_list)}")
             self.logger.debug(f"self.note_counter_list      :{len(self.note_counter_list)}")
             self.logger.debug(f"self.measure_offset_df      :{len(self.measure_offset_df)}")
+            self.logger.debug(f"self.time_signature_list     :{len(self.time_signature_list)}")
             self.logger.debug(f"curr_measure_num            :{self.curr_measure_num}")
 
         assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration) == len(self.gracenote_tags), \
@@ -311,14 +327,34 @@ class XMLToolBox:
 
         try:
             df_data = pd.DataFrame(np.array(
-                [self.note_counter_list, self.duration, self.step, self.octave,
-                 self.measure_num_per_note_list, self.voice_num, self.glb_part_id_list, self.part_name_list,
+                [self.note_counter_list,
+                 self.duration,
+                 self.step,
+                 self.octave,
+                 self.measure_num_per_note_list,
+                 self.voice_num,
+                 self.glb_part_id_list,
+                 self.part_name_list,
                  self.chord_tags,
-                 self.tie, self.gracenote_tags, self.measure_offset_df]).T,
-                                   columns=["#Note_Debug", "Duration", 'Pitch', 'Octave', 'Measure', 'Voice', 'PartID',
+                 self.tie,
+                 self.gracenote_tags,
+                 self.measure_offset_df,
+                 self.time_signature_list,
+                 self.time_signature_list_adj]).T,
+                                   columns=["#Note_Debug",
+                                            "Duration",
+                                            'Pitch',
+                                            'Octave',
+                                            'Measure',
+                                            'Voice',
+                                            'PartID',
                                             'Part Name',
                                             'Chord Tags',
-                                            'Tie Type', 'Grace Tag', 'Measure Offset'])
+                                            'Tie Type',
+                                            'Grace Tag',
+                                            'Measure Offset',
+                                            'Time Signature',
+                                            'Time Signature Adjusted'])
         except:
 
             df_data = pd.DataFrame(np.array(

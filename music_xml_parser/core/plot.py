@@ -175,7 +175,12 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     plt.show()
 
 
-def barplot_pitch_histogram(labels, counts, visulize_midi_range=None):
+def barplot_pitch_histogram(labels,
+                            counts,
+                            do_plot_full_axis,
+                            visulize_midi_range=None):
+    if do_plot_full_axis==False:
+        visulize_midi_range = None
     try:
         from utils import midi2str
     except:
@@ -185,19 +190,22 @@ def barplot_pitch_histogram(labels, counts, visulize_midi_range=None):
     if visulize_midi_range is None:
         visulize_midi_range = [min(labels)-0.5, max(labels)+0.5]
 
-    midi_labels = [midi2str(i) for i in range(128)]
     f = plt.figure(figsize=(12, 4))
 
     ax = f.add_subplot(111)
-
-    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
     ax.set_xlabel('Pitch')
     ax.set_ylabel('Occurrences')
-    ax.set_xticks(np.arange(128))
 
+    if do_plot_full_axis:
+        ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+        midi_labels = [midi2str(i) for i in range(128)]
+        ax.set_xticks(np.arange(128))
+        ax.set_xticklabels(midi_labels)
+        ax.set_xlim(visulize_midi_range[0]-0.5, visulize_midi_range[1]-0.5)
+    else:
+        midi_labels = [midi2str(i) for i in labels]
+        ax.bar(midi_labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
 
-    ax.set_xticklabels(midi_labels)
-    ax.set_xlim(visulize_midi_range)
     plt.grid()
     plt.show()
 
@@ -213,7 +221,10 @@ def barplot_pitch_class_histogram(labels, counts, label_str, x_axis_12pc =False)
         names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
         ax.set_xticklabels(names)
     else:
-        ax.set_xticklabels(label_str)
+        print("x_axis_12pc=False not implemented")
+        ax.set_xticks(np.arange(12))
+        names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        ax.set_xticklabels(names)
 
     plt.grid()
     plt.show()
@@ -241,9 +252,11 @@ def barplot_intervals(labels, counts):
     plt.grid()
     plt.show()
 
-def barplot(labels, counts, x_label='x_label', y_label='y_label'):
+def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label'):
+    if figsize == 'fit':
+        figsize = None
 
-    f = plt.figure(figsize=(12, 4))
+    f = plt.figure(figsize=figsize)
     ax = f.add_subplot(111)
     ax.bar(labels, counts, width=0.2, color='darkslateblue', alpha=0.8)
     ax.set_xlabel(x_label)
@@ -253,7 +266,7 @@ def barplot(labels, counts, x_label='x_label', y_label='y_label'):
     plt.grid()
     plt.show()
 
-def beat_stength_3d(np_bs_data):
+def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
@@ -285,8 +298,51 @@ def beat_stength_3d(np_bs_data):
 
     ax1.set_xticklabels(list(n_uni))
     ax1.set_yticklabels([str(i) for i in bs_uni])
-    ax1.set_xlabel('Notes')
-    ax1.set_ylabel('Beat Strength')
+    ax1.set_xlabel(xlabel)
+    ax1.set_ylabel(ylabel)
+    ax1.set_zlabel('Occurrence')
+    plt.grid()
+    plt.show()
+
+
+def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
+    n_uni = np.unique(np_bs_data[:, 0])
+    bs_uni = np.unique(np_bs_data[:, 1])
+    
+    print(bs_uni)
+
+    n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
+    bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
+    plt_bs_data = np.zeros(np.shape(np_bs_data))
+
+    for i in range(np.shape(np_bs_data)[0]):
+        plt_bs_data[i][0] = n_uni_int_dict[np_bs_data[i][0]]
+        plt_bs_data[i][1] = bs_uni_int_dict[np_bs_data[i][1]]
+        plt_bs_data[i][2] = np_bs_data[i][2]
+    fig = plt.figure(figsize=(16,8))
+    ax1 = fig.add_subplot(111, projection='3d')
+    numele = np.shape(np_bs_data)[0]
+    x = plt_bs_data[:, 0]
+    y = plt_bs_data[:, 1]
+    z = np.zeros(numele)
+
+    dx = 0.5 * np.ones(numele)
+    dy = 0.3 * np.ones(numele)
+    dz = plt_bs_data[:, 2]
+
+    cmap = cm.get_cmap('jet')  # Get desired colormap
+    max_height = np.max(dz)  # get range of colorbars
+    min_height = np.min(dz)
+    rgba = [cmap((k - min_height) / max_height) for k in dz]
+    ax1.set_xticks(np.arange(len(n_uni)))
+    ax1.set_yticks(np.arange(len(bs_uni)))
+
+    ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
+
+    ax1.set_xticklabels(list(n_uni))
+    ax1.set_yticklabels([str(i) for i in bs_uni])
+    ax1.set_xlabel(xlabel)
+    ax1.set_ylabel(ylabel)
     ax1.set_zlabel('Occurrence')
     plt.grid()
     plt.show()

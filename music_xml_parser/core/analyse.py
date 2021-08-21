@@ -12,9 +12,47 @@ except:
     from .plot import *
     from .utils import midi2str, midi2pitchclass
 
+
 def getVoice(df_data: pd.DataFrame):
     v = df_data['Voice']
     return list(set(v))
+
+
+def beat_strength_split_time_signature(df_data: pd.DataFrame,
+                                       with_pitch=False,
+                                       do_plot=True):
+    ts = df_data['Time Signature'].to_numpy()
+    u, c = np.unique(ts, return_counts=True)
+    pd_list = []
+    for ts_c in u:
+        c_d = df_data.loc[df_data['Time Signature'] == ts_c].copy()
+        curr_h = beat_strength(c_d, x_label=f"Beat Strength (Time Signature : {ts_c})",
+                               with_pitch=with_pitch,
+                               do_plot=do_plot)
+        pd_list.append(curr_h)
+    return pd_list
+
+def duration_histogram(df_data: pd.DataFrame,
+                       with_pitch=False,
+                       do_plot=True):
+    pass
+
+def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=False):
+    if not do_adjusted:
+        ts = df_data['Time Signature'].to_numpy()
+        xlab = 'Time Signature'
+
+    else:
+        xlab = 'Time Signature Adjusted'
+        ts = df_data['Time Signature Adjusted'].to_numpy()
+
+    u, c = np.unique(ts, return_counts=True)
+    if do_plot:
+        barplot(u, counts=c, figsize='fit', x_label=xlab, y_label='Occurrences')
+    data = [[i, int(c)] for i, c in zip(u, c)]
+    data.sort(key=lambda x: x[1])
+
+    return data
 
 
 def ambitus(df_data: pd.DataFrame):
@@ -25,30 +63,33 @@ def ambitus(df_data: pd.DataFrame):
         d.dropna(subset=["MIDI"], inplace=True)
         max_r = np.max(d['MIDI'].to_numpy(dtype=float))
         min_r = np.min(d['MIDI'].to_numpy(dtype=float))
-        diff_r = max_r-min_r
+        diff_r = max_r - min_r
         ab.append([int(i), int(min_r), int(max_r), int(diff_r)])
     return ab
 
 
-def pitch_histogram(df_data: pd.DataFrame, do_plot=True, visulize_midi_range=None):
+def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True, visulize_midi_range=None):
     df_data.dropna(subset=["MIDI"], inplace=True)
     midi = df_data[['MIDI']].to_numpy()
-    u,c = np.unique(midi, return_counts=True)
+    u, c = np.unique(midi, return_counts=True)
     if do_plot:
-        barplot_pitch_histogram(u,counts=c, visulize_midi_range=visulize_midi_range)
+        barplot_pitch_histogram(u,
+                                c,
+                                do_plot_full_axis,
+                                visulize_midi_range=visulize_midi_range)
 
     data = [[int(i), int(c)] for i, c in zip(u, c)]
 
     return data
 
-def pitch_class_histogram(df_data: pd.DataFrame, do_plot=True):
+
+def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True):
     d = df_data.copy()
     d.dropna(subset=["Pitch"], inplace=True)
     d.drop(index=d[d['Pitch'] == 'rest'].index, inplace=True)
     d.drop_duplicates(subset='Pitch', keep="first", inplace=True)
     pitch_midi = d[['Pitch', 'MIDI']].to_numpy()
     dict_map = dict(pitch_midi)
-
 
     p_df = df_data.copy()
     d.dropna(subset=["Pitch"], inplace=True)
@@ -57,52 +98,74 @@ def pitch_class_histogram(df_data: pd.DataFrame, do_plot=True):
 
     u, c = np.unique(p_o, return_counts=True)
 
-    label_str =[]
-    r_note =[]
+    label_str = []
+    r_note = []
     for i in u:
         l, rn = midi2pitchclass(dict_map[i])
         label_str.append(l)
         r_note.append(rn)
 
     if do_plot:
-        barplot_pitch_class_histogram(r_note, c, label_str, x_axis_12pc=True)
+        barplot_pitch_class_histogram(r_note, c, label_str, x_axis_12pc=x_axis_12pc)
 
     data = [[int(id), str(i), int(c)] for id, i, c in zip(r_note, label_str, c)]
     data.sort(key=lambda x: x[0])
     data = [[i[1], i[2]] for i in data]
     return data
 
-def quarterlength_duration_histogram(df_data: pd.DataFrame, do_plot=True):
-    dur = df_data['Duration'].to_numpy(dtype=float)
-    u, c = np.unique(dur, return_counts=True)
 
-    #a.sort(key=lambda x: x[1])
-    labels = u
-    if do_plot:
-        barplot_quaterlength_duration_histogram(labels, counts=c)
+def quarterlength_duration_histogram(df_data: pd.DataFrame,
+                                     with_pitch=False,
+                                     with_pitchclass=False,
+                                     do_plot=True):
+    if not with_pitch:
+        dur = df_data['Duration'].to_numpy(dtype=float)
+        u, c = np.unique(dur, return_counts=True)
+        # a.sort(key=lambda x: x[1])
+        labels = u
+        if do_plot:
+            barplot_quaterlength_duration_histogram(labels, counts=c)
 
-    data = [[round(float(i),2), int(c)] for i, c in zip(u, c)]
+        data = [[round(float(i), 2), int(c)] for i, c in zip(u, c)]
+    else:
+        df_data.dropna(subset=["MIDI"], inplace=True)
+
+        n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
+        u, c = np.unique(n_df, axis=0, return_counts=True)
+
+        p = [midi2str(i) for i in u[:, 0]]
+        d = [float(i) for i in u[:, 1]]
+
+        pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
+        print(pd_data_s.dtypes)
+        pd.to_numeric(pd_data_s["Duration"])
+        print(pd_data_s)
+        # pd_data_s = pd.to_numeric(pd_data_s["Count"])
+        # print(pd_data_s.dtypes)
+        data = pd_data_s.to_numpy()
+
+        if do_plot:
+            plot_3d(data)
     return data
 
-def beatstrength(df_data: pd.DataFrame, do_plot_2D=True, do_plot_3D=False):
 
-
-    pass
 def interval(df_data: pd.DataFrame, part=None, do_plot=True):
-
+    # v = df_data[['PartID', 'Part Name']].drop_duplicates().to_numpy()
     if part is None:
         part = 'all'
-    if type(part) is str and  part != 'all':
+    if type(part) is str and part != 'all':
         part = int(part)
-
 
     p_df1 = df_data.copy()
     p_df1.dropna(subset=["MIDI"], inplace=True)
     u_parts = np.unique(df_data['PartID'].to_numpy())
     u_parts = [int(i) for i in u_parts]
-    if part in u_parts:pass
-    elif part == None:pass
-    elif part == 'all':pass
+    if part in u_parts:
+        pass
+    elif part == None:
+        pass
+    elif part == 'all':
+        pass
     else:
         raise Exception("Parts not found, give Valid Parts")
 
@@ -124,34 +187,34 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True):
     data = [[int(i), int(c)] for i, c in zip(labels, c)]
     return data
 
-def beat_strength(df_data: pd.DataFrame,with_pitch=False ,do_plot=True):
+
+def beat_strength(df_data: pd.DataFrame,
+                  x_label='Beat Strength',
+                  with_pitch=False,
+                  do_plot=True):
     df_data.dropna(subset=["MIDI"], inplace=True)
     df_data['beatstrength'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
-    if with_pitch==False:
+    if with_pitch == False:
         u, c = np.unique(df_data['beatstrength'].to_numpy(dtype=float), axis=0, return_counts=True)
 
         if do_plot:
-            barplot(u, counts=c, x_label='Beat Strength', y_label='Occurrences')
+            barplot(u, counts=c, x_label=x_label, y_label='Occurrences')
         data = [[int(i), int(c)] for i, c in zip(u, c)]
         return data
     else:
         n_df = df_data[['MIDI', 'beatstrength']].to_numpy(dtype=float)
-        u,c  = np.unique(n_df, axis=0, return_counts=True)
+        u, c = np.unique(n_df, axis=0, return_counts=True)
 
-        p = [midi2str(i) for i in u[:,0]]
+        p = [midi2str(i) for i in u[:, 0]]
 
-        data = np.array([p, u[:,1], c]).T
+        data = np.array([p, u[:, 1], c]).T
 
         if do_plot:
-            beat_stength_3d(data)
+            beat_stength_3d(data, ylabel='Beat Strength')
         return data
 
 
-
-
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     import sys
     import os
 
@@ -161,7 +224,6 @@ if __name__=='__main__':
     xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
 
-
     # m_df, meaure_onset = mp.parse.with_xml_file(file_name=xml_file,
     #                               plot_pianoroll=False,
     #                               save_at=None,
@@ -169,12 +231,16 @@ if __name__=='__main__':
     #                               do_save=False,
     #                               x_axis_res=2, get_measure_onset=True)
 
-
     m_df = mp.parse.with_xml_file(file_name=xml_file,
-                                  plot_pianoroll=True,
+                                  plot_pianoroll=False,
                                   save_at=None,
                                   save_file_name=None,
                                   do_save=False,
                                   x_axis_res=2, get_measure_onset=False)
     # print(m_df)
-    # data = beat_strength(df_data=m_df,do_plot=True)
+    dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df, with_pitch=True,
+                                                              with_pitchclass=False,
+                                                              do_plot=True)
+
+    # print(d)
+    # ph = mp.analyse.pitch_histogram(m_df, do_plot=True, do_plot_full_axis=False, visulize_midi_range=[50, 90])
