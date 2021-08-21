@@ -118,6 +118,8 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      with_pitch=False,
                                      with_pitchclass=False,
                                      do_plot=True):
+
+
     if not with_pitch:
         dur = df_data['Duration'].to_numpy(dtype=float)
         u, c = np.unique(dur, return_counts=True)
@@ -137,15 +139,13 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         d = [float(i) for i in u[:, 1]]
 
         pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
-        print(pd_data_s.dtypes)
-        pd.to_numeric(pd_data_s["Duration"])
-        print(pd_data_s)
-        # pd_data_s = pd.to_numeric(pd_data_s["Count"])
-        # print(pd_data_s.dtypes)
+        convert_dict = {'Count': int,
+                        'Duration': float
+                        }
+        pd_data_s = pd_data_s.astype(convert_dict)
         data = pd_data_s.to_numpy()
-
         if do_plot:
-            plot_3d(data)
+            plot_3d(np.array(data))
     return data
 
 
@@ -207,7 +207,15 @@ def beat_strength(df_data: pd.DataFrame,
 
         p = [midi2str(i) for i in u[:, 0]]
 
-        data = np.array([p, u[:, 1], c]).T
+        # data = np.array([p, u[:, 1], c]).T
+
+        pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'beatstrength', 'Count'])
+        convert_dict = {'Count': int,
+                        'beatstrength': float
+                        }
+        pd_data_s = pd_data_s.astype(convert_dict)
+        data = pd_data_s.to_numpy()
+
 
         if do_plot:
             beat_stength_3d(data, ylabel='Beat Strength')
@@ -224,23 +232,24 @@ if __name__ == '__main__':
     xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
 
-    # m_df, meaure_onset = mp.parse.with_xml_file(file_name=xml_file,
-    #                               plot_pianoroll=False,
-    #                               save_at=None,
-    #                               save_file_name=None,
-    #                               do_save=False,
-    #                               x_axis_res=2, get_measure_onset=True)
-
     m_df = mp.parse.with_xml_file(file_name=xml_file,
                                   plot_pianoroll=False,
                                   save_at=None,
                                   save_file_name=None,
                                   do_save=False,
-                                  x_axis_res=2, get_measure_onset=False)
-    # print(m_df)
-    dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df, with_pitch=True,
-                                                              with_pitchclass=False,
-                                                              do_plot=True)
+                                  x_axis_res=2,
+                                  get_measure_onset=False)
 
-    # print(d)
-    # ph = mp.analyse.pitch_histogram(m_df, do_plot=True, do_plot_full_axis=False, visulize_midi_range=[50, 90])
+
+    print(m_df)
+    part_id_o = '1'
+
+    grouped = m_df.groupby(m_df.Measure)    
+    part_df = grouped.get_group(str(part_id_o)).copy()
+
+    print(part_df)
+    # print(m_df)
+    # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df, with_pitch=True,
+    #                                                           with_pitchclass=False,
+    #                                                           do_plot=True)
+

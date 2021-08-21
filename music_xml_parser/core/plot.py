@@ -308,7 +308,7 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
 def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
-    
+
     print(bs_uni)
 
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
