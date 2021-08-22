@@ -39,7 +39,9 @@ def duration_histogram(df_data: pd.DataFrame,
                        do_plot=True):
     pass
 
-def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=False):
+def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=False, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
     if not do_adjusted:
         ts = df_data['Time Signature'].to_numpy()
         xlab = 'Time Signature'
@@ -57,7 +59,10 @@ def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=F
     return data
 
 
-def ambitus(df_data: pd.DataFrame):
+def ambitus(df_data: pd.DataFrame, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
+
     ab = []
     uni_parts = np.unique(df_data['PartID'].values)
     for i in uni_parts:
@@ -70,7 +75,9 @@ def ambitus(df_data: pd.DataFrame):
     return ab
 
 
-def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True, visulize_midi_range=None):
+def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True, visulize_midi_range=None, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
     df_data.dropna(subset=["MIDI"], inplace=True)
     midi = df_data[['MIDI']].to_numpy()
     u, c = np.unique(midi, return_counts=True)
@@ -85,7 +92,9 @@ def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True,
     return data
 
 
-def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True):
+def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
     d = df_data.copy()
     d.dropna(subset=["Pitch"], inplace=True)
     d.drop(index=d[d['Pitch'] == 'rest'].index, inplace=True)
@@ -119,7 +128,9 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True)
 def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      with_pitch=False,
                                      with_pitchclass=False,
-                                     do_plot=True):
+                                     do_plot=True, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
 
 
     if not with_pitch:
@@ -195,7 +206,10 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True,filter_dict=None):
 def beat_strength(df_data: pd.DataFrame,
                   x_label='Beat Strength',
                   with_pitch=False,
-                  do_plot=True):
+                  do_plot=True, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
+
     df_data.dropna(subset=["MIDI"], inplace=True)
     df_data['beatstrength'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
     if with_pitch == False:
@@ -262,12 +276,5 @@ if __name__ == '__main__':
                                   get_measure_onset=False)
 
 
-    print(m_df)
 
-
-
-    # print(m_df)
-    # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df, with_pitch=True,
-    #                                                           with_pitchclass=False,
-    #                                                           do_plot=True)
 
