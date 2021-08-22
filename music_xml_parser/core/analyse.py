@@ -221,6 +221,23 @@ def beat_strength(df_data: pd.DataFrame,
             beat_stength_3d(data, ylabel='Beat Strength')
         return data
 
+def filter(df_data: pd.DataFrame, filter_dict):
+    """
+    Order of the dicture is important
+    :param df_data:
+    :param filter_dict:
+    :return:
+    """
+    f_df = df_data.copy()
+
+    for i in filter_dict:
+        try:
+            grouped = f_df.groupby(by=[i])
+            f_df = grouped.get_group(str(filter_dict[i])).copy()
+        except:
+            continue
+    return f_df
+
 
 if __name__ == '__main__':
     import sys
@@ -242,12 +259,9 @@ if __name__ == '__main__':
 
 
     print(m_df)
-    part_id_o = '1'
 
-    grouped = m_df.groupby(m_df.Measure)    
-    part_df = grouped.get_group(str(part_id_o)).copy()
 
-    print(part_df)
+
     # print(m_df)
     # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df, with_pitch=True,
     #                                                           with_pitchclass=False,
