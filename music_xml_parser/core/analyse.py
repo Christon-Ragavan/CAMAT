@@ -20,7 +20,9 @@ def getVoice(df_data: pd.DataFrame):
 
 def beat_strength_split_time_signature(df_data: pd.DataFrame,
                                        with_pitch=False,
-                                       do_plot=True):
+                                       do_plot=True, filter_dict=None):
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
     ts = df_data['Time Signature'].to_numpy()
     u, c = np.unique(ts, return_counts=True)
     pd_list = []
@@ -149,8 +151,10 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
     return data
 
 
-def interval(df_data: pd.DataFrame, part=None, do_plot=True):
+def interval(df_data: pd.DataFrame, part=None, do_plot=True,filter_dict=None):
     # v = df_data[['PartID', 'Part Name']].drop_duplicates().to_numpy()
+    if filter_dict is not None:
+        df_data = filter(df_data, filter_dict)
     if part is None:
         part = 'all'
     if type(part) is str and part != 'all':
