@@ -150,6 +150,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
 
+
         p = [int(i) for i in u[:, 0]]
         d = [float(i) for i in u[:, 1]]
 
@@ -225,7 +226,7 @@ def beat_strength(df_data: pd.DataFrame,
         n_df = df_data[['MIDI', 'beatstrength']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
 
-        p = [int(i) for i in u[:, 0]]
+        p = [midi2str(i) for i in u[:, 0]]
 
         # data = np.array([p, u[:, 1], c]).T
 

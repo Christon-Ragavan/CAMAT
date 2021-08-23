@@ -8,11 +8,14 @@ try:
     from .parser_utils import _get_file_path
     from .plot import pianoroll_parts
     from .xml_parser import XMLParser
+    from .analyse import filter
 except:
     from parser_utils import *
     from parser_utils import _get_file_path
     from plot import pianoroll_parts
     from xml_parser import XMLParser
+    from analyse import filter
+
 
 import os
 from os.path import basename, isdir, join
@@ -29,7 +32,8 @@ def with_xml_file(file_name: str,
                   save_file_name: str = None,
                   do_save: bool = False,
                   x_axis_res=2,
-                  get_measure_onset:bool=False, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool,tuple[pd.DataFrame]]:
+                  get_measure_onset:bool=False, filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool,tuple[pd.DataFrame]]:
+
     file = _get_file_path(file_name=file_name)
 
     if '.xml' not in basename(file):
@@ -58,6 +62,10 @@ def with_xml_file(file_name: str,
     logger.info("Extracting")
     parser_o = XMLParser(path=file, logger=logger)
     df_xml = parser_o.xml_parse()
+
+    if filter_dict is not None:
+        df_xml = filter(df_xml, filter_dict)
+
     measure_offset_data = parser_o._compute_measure_n_offset()
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
