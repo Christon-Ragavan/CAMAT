@@ -1,3 +1,5 @@
+import re
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -249,11 +251,24 @@ def filter(df_data: pd.DataFrame, filter_dict):
     f_df = df_data.copy()
 
     for i in filter_dict:
-        try:
+        s_d = str(filter_dict[i])
+        if '-' in s_d:
+            s,e = re.split('-',s_d, 2)
+            arr = np.arange(int(s), int(e)+1)
+            df_list = []
+            for ii in arr:
+                grouped = f_df.groupby(by=[i])
+                df_list.append(grouped.get_group(str(ii)).copy())
+            f_df = pd.concat(df_list,
+                                ignore_index=True,
+                                verify_integrity=False,
+                                copy=False)
+        else:
             grouped = f_df.groupby(by=[i])
-            f_df = grouped.get_group(str(filter_dict[i])).copy()
-        except:
-            continue
+            f_df = grouped.get_group(s_d).copy()
+
+
+
     return f_df
 
 
@@ -275,6 +290,9 @@ if __name__ == '__main__':
                                   x_axis_res=2,
                                   get_measure_onset=False)
 
-
+    filter_dict_2 = {'Measure':'1-3', 'PartID':'1-2'}
+    filtered_df_2 = mp.analyse.filter(m_df,filter_dict_2)
+    print(filtered_df_2)
+    # print(m_df)
 
 
