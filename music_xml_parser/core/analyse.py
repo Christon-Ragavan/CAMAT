@@ -150,7 +150,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
 
-        p = [midi2str(i) for i in u[:, 0]]
+        p = [int(i) for i in u[:, 0]]
         d = [float(i) for i in u[:, 1]]
 
         pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
@@ -225,7 +225,7 @@ def beat_strength(df_data: pd.DataFrame,
         n_df = df_data[['MIDI', 'beatstrength']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
 
-        p = [midi2str(i) for i in u[:, 0]]
+        p = [int(i) for i in u[:, 0]]
 
         # data = np.array([p, u[:, 1], c]).T
 
@@ -290,9 +290,10 @@ if __name__ == '__main__':
                                   x_axis_res=2,
                                   get_measure_onset=False)
 
-    filter_dict_2 = {'Measure':'1-3', 'PartID':'1-2'}
-    filtered_df_2 = mp.analyse.filter(m_df,filter_dict_2)
-    print(filtered_df_2)
+    dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
+                                                              with_pitch=True,
+                                                              do_plot=True)
+
     # print(m_df)
 
 

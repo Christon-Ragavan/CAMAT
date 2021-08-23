@@ -5,8 +5,12 @@ License: The MIT license, https://opensource.org/licenses/MIT
 
 try:
     from .parser_utils import ZoomPan
+    from .utils import str2midi, midi2str, midi2pitchclass
+
+
 except:
     from parser_utils import ZoomPan
+    from utils import str2midi, midi2str, midi2pitchclass
 
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -15,6 +19,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import patches
 from matplotlib.patches import Rectangle
+
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -267,6 +272,10 @@ def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label')
     plt.show()
 
 def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
+    p = [int(i) for i in np_bs_data[:, 0]]
+    midi = [midi2str(i) for i in p]
+    midi_dict = dict(zip(p, midi))
+
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
@@ -296,7 +305,7 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
 
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
 
-    ax1.set_xticklabels(list(n_uni))
+    ax1.set_xticklabels([midi_dict[i]for i in n_uni])
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
@@ -306,10 +315,13 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
 
 
 def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
+
+    p = [int(i) for i in np_bs_data[:, 0]]
+    midi = [midi2str(i) for i in p]
+    midi_dict = dict(zip(p, midi))
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
 
-    print(bs_uni)
 
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
     bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
@@ -339,7 +351,7 @@ def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
 
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
 
-    ax1.set_xticklabels(list(n_uni))
+    ax1.set_xticklabels([midi_dict[i]for i in n_uni])
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
