@@ -283,19 +283,18 @@ if __name__ == '__main__':
 
     xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
+    filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
 
     m_df = mp.parse.with_xml_file(file_name=xml_file,
-                                  plot_pianoroll=False,
+                                  plot_pianoroll=True,
                                   save_at=None,
                                   save_file_name=None,
                                   do_save=False,
                                   x_axis_res=2,
-                                  get_measure_onset=False)
-
+                                  get_measure_onset=False, filter_dict=filter_dict_t)
     dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
                                                               with_pitch=True,
                                                               do_plot=True)
 
-    # print(m_df)
 
 

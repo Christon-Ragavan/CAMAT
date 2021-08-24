@@ -118,8 +118,8 @@ def _get_xtickslabels_with_measure(x_axis, measure):
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, duration,
                                    midi_min, midi_max, x_axis_res, *args, **kwargs):
-    cm = plt.get_cmap('gist_rainbow')
 
+    cm = plt.get_cmap('gist_rainbow')
     x_axis = np.arange(0, max(time) * x_axis_res + 1) / x_axis_res
     NUM_PARTS = len(list(set(partid)))
     colors = [cm(1. * i / NUM_PARTS) for i in range(NUM_PARTS)]
@@ -142,7 +142,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
     for i in range(np.shape(time)[0]):
         t = time[i]
-        color_prt = colors[partid[i] - 1]
+        p_id  = partid[i] - int(min(partid))
+        color_prt = colors[p_id - 1]
         c_d = duration[i]
 
         if pitch[i] == 0:
@@ -165,7 +166,6 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
 
     ax.set_xlim([0, int(x_axis[-1]*0.20)])
-    print(int(x_axis[-1]*0.20))
     # ax.set_xlim([0, 5])
 
     ax.set_xlabel("Time \n Measure Number")
