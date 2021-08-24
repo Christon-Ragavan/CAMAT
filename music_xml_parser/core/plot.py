@@ -202,8 +202,9 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
         plt.show()
     else:
         plt.show(block=False)
-        plt.pause(20000)
+        plt.pause(9999999)
         plt.close()
+
 
 
 def barplot_pitch_histogram(labels,
