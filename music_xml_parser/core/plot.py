@@ -83,20 +83,38 @@ def pianoroll_parts(func, *args, **kwargs):
         return m_o
 
     def plotting_wrapper_parts(*args, **kwargs):
-        df, do_plot, measure_duration_list, x_axis_res, get_measure_onset, measure_offset_data = func(*args, **kwargs)
+        df, \
+        do_plot, \
+        measure_duration_list, \
+        x_axis_res, \
+        get_measure_onset, \
+        measure_offset_data,\
+        plot_inline_ipynb = func(*args, **kwargs)
 
         measure = m_dur_off(measure_duration_list)
+        try:
+            if do_plot:
 
-        if do_plot:
-            offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
-            duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
-            total_measure = int(max(list(np.squeeze(df['Measure'].to_numpy(dtype=float)))))
-            measure = measure[:total_measure]
-            midi = df['MIDI'].replace({np.nan: 0}).to_list()
-            partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
-            part_name = list(np.squeeze(df['Part Name'].to_numpy(dtype=str)))
-            _create_pianoroll_single_parts(pitch=midi, time=offset, measure=measure, partid=partid,part_name=part_name, duration=duration,
-                                           midi_min=55, midi_max=75, x_axis_res=x_axis_res)
+                offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
+                duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
+                total_measure = int(max(list(np.squeeze(df['Measure'].to_numpy(dtype=float)))))
+                measure = measure[:total_measure]
+                midi = df['MIDI'].replace({np.nan: 0}).to_list()
+                partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
+                part_name = list(np.squeeze(df['Part Name'].to_numpy(dtype=str)))
+                _create_pianoroll_single_parts(pitch=midi,
+                                               time=offset,
+                                               measure=measure,
+                                               partid=partid,
+                                               part_name=part_name,
+                                               duration=duration,
+                                               midi_min=55,
+                                               midi_max=75,
+                                               x_axis_res=x_axis_res,
+                                               plot_inline_ipynb=plot_inline_ipynb)
+        except:
+            print("Error in ploting piano roll")
+            pass
         if get_measure_onset:
             return df, measure_offset_data
         else:
@@ -117,7 +135,7 @@ def _get_xtickslabels_with_measure(x_axis, measure):
     return x_lab
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, duration,
-                                   midi_min, midi_max, x_axis_res, *args, **kwargs):
+                                   midi_min, midi_max, x_axis_res,plot_inline_ipynb, *args, **kwargs):
 
     cm = plt.get_cmap('gist_rainbow')
     x_axis = np.arange(0, max(time) * x_axis_res + 1) / x_axis_res
@@ -126,7 +144,10 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
     labels_128 = _get_midi_labels_128()
     s_part_names = list(set(part_name))
-    assert len(s_part_names) == NUM_PARTS
+
+    # if len(s_part_names) != NUM_PARTS:
+    #     s_part_names = [i+1 for i in range(NUM_PARTS)]
+    assert len(s_part_names) == NUM_PARTS, "s_part_names {} NUM_PARTS {}".format(len(s_part_names), NUM_PARTS)
     labels_set = s_part_names
     #labels_set = [str(s_part_names[i-1]) + str(i) for i, pn in range(1, NUM_PARTS + 1)]
 
@@ -177,7 +198,12 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     zp = ZoomPan()
     _ = zp.zoom_factory(ax, base_scale=1.1)
     _ =zp.pan_factory(ax)
-    plt.show()
+    if plot_inline_ipynb:
+        plt.show()
+    else:
+        plt.show(block=False)
+        plt.pause(20000)
+        plt.close()
 
 
 def barplot_pitch_histogram(labels,
@@ -263,7 +289,7 @@ def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label')
 
     f = plt.figure(figsize=figsize)
     ax = f.add_subplot(111)
-    ax.bar(labels, counts, width=0.2, color='darkslateblue', alpha=0.8)
+    ax.bar(labels, counts, width=0.1, color='darkslateblue', alpha=0.8)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     # ax.set_xticks(np.arange(np.min(labels), np.max(labels)+1))

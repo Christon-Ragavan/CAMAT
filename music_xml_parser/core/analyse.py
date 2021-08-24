@@ -88,8 +88,8 @@ def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True,
                                 c,
                                 do_plot_full_axis,
                                 visulize_midi_range=visulize_midi_range)
-
-    data = [[int(i), int(c)] for i, c in zip(u, c)]
+    pitch_str = [midi2str(int(i)) for i in u]
+    data = [[int(i), str(p), int(c)] for i,p, c in zip(u, pitch_str, c)]
 
     return data
 
@@ -269,8 +269,6 @@ def filter(df_data: pd.DataFrame, filter_dict):
             grouped = f_df.groupby(by=[i])
             f_df = grouped.get_group(s_d).copy()
 
-
-
     return f_df
 
 
@@ -281,20 +279,32 @@ if __name__ == '__main__':
     sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
     import hfm.scripts_in_progress.xml_parser.music_xml_parser as mp
 
-    xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
+    # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
+    xml_file = 'BeLuva_Op59_1-3_1-4_StringQuar_003_00129.xml'
+
     filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
 
     m_df = mp.parse.with_xml_file(file_name=xml_file,
-                                  plot_pianoroll=True,
+                                  plot_pianoroll=False,
+                                  plot_inline_ipynb=False,
                                   save_at=None,
                                   save_file_name=None,
                                   do_save=False,
                                   x_axis_res=2,
-                                  get_measure_onset=False, filter_dict=filter_dict_t)
-    dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
-                                                              with_pitch=True,
-                                                              do_plot=True)
+                                  get_measure_onset=False)#, filter_dict=filter_dict_t)
+
+    part = m_df[['PartID']].to_numpy()
+    part_name = m_df[['Part Name']].to_numpy()
+    print(part)
+    print(np.unique(part, return_counts=True))
+    print(np.unique(part_name, return_counts=True))
+    print(len(part))
+
+
+    # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
+    #                                                           with_pitch=True,
+    #                                                           do_plot=True)
 
 
 

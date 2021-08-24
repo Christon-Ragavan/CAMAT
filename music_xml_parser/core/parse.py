@@ -28,11 +28,12 @@ logger = set_up_logger(__name__)
 @pianoroll_parts
 def with_xml_file(file_name: str,
                   plot_pianoroll: bool = False,
+                  plot_inline_ipynb: bool=False,
                   save_at: str = None,
                   save_file_name: str = None,
                   do_save: bool = False,
                   x_axis_res=2,
-                  get_measure_onset:bool=False, filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, list, int, bool,tuple[pd.DataFrame]]:
+                  get_measure_onset:bool=False, filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
 
     file = _get_file_path(file_name=file_name)
 
@@ -70,7 +71,7 @@ def with_xml_file(file_name: str,
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset,measure_offset_data
+    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset,measure_offset_data, plot_inline_ipynb
 
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'

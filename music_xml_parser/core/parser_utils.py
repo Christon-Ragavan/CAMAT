@@ -67,10 +67,11 @@ class ZoomPan:
 
             new_width = (cur_xlim[1] - cur_xlim[0]) * scale_factor
             new_height = (cur_ylim[1] - cur_ylim[0]) * scale_factor
-
-            relx = (cur_xlim[1] - xdata) / (cur_xlim[1] - cur_xlim[0])
-            ax.set_xlim([xdata - new_width * (1 - relx), xdata + new_width * (relx)])
-
+            try:
+                relx = (cur_xlim[1] - xdata) / (cur_xlim[1] - cur_xlim[0])
+                ax.set_xlim([xdata - new_width * (1 - relx), xdata + new_width * (relx)])
+            except:
+                pass
             # rely = (cur_ylim[1] - ydata)/(cur_ylim[1] - cur_ylim[0])
             # ax.set_ylim([ydata - new_height * (1-rely), ydata + new_height * (rely)])
 
