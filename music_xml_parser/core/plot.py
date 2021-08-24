@@ -315,6 +315,7 @@ def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label')
 def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
     p = [int(i) for i in np_bs_data[:, 0]]
     midi = [midi2str(i) for i in p]
+
     midi_dict = dict(zip(p, midi))
 
     n_uni = np.unique(np_bs_data[:, 0])

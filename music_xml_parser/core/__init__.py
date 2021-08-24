@@ -17,6 +17,7 @@ from .analyse import ambitus,\
     pitch_class_histogram,\
     quarterlength_duration_histogram,\
     interval,\
-    beat_strength,\
-    time_signature_histogram
+    metric_profile,\
+    time_signature_histogram,\
+    metric_profile_split_time_signature
 from .utils import export_as_csv,display_table

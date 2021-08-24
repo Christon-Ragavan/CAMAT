@@ -20,7 +20,7 @@ def getVoice(df_data: pd.DataFrame):
     return list(set(v))
 
 
-def beat_strength_split_time_signature(df_data: pd.DataFrame,
+def metric_profile_split_time_signature(df_data: pd.DataFrame,
                                        with_pitch=False,
                                        do_plot=True, filter_dict=None):
     if filter_dict is not None:
@@ -30,7 +30,7 @@ def beat_strength_split_time_signature(df_data: pd.DataFrame,
     pd_list = []
     for ts_c in u:
         c_d = df_data.loc[df_data['Time Signature'] == ts_c].copy()
-        curr_h = beat_strength(c_d, x_label=f"Beat Strength (Time Signature : {ts_c})",
+        curr_h = metric_profile(c_d, x_label=f"Metric Profile (Time Signature : {ts_c})",
                                with_pitch=with_pitch,
                                do_plot=do_plot)
         pd_list.append(curr_h)
@@ -207,41 +207,42 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True,filter_dict=None):
     return data
 
 
-def beat_strength(df_data: pd.DataFrame,
-                  x_label='Beat Strength',
+def metric_profile(df_data: pd.DataFrame,
+                  x_label='Metric Profile',
                   with_pitch=False,
                   do_plot=True, filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
     df_data.dropna(subset=["MIDI"], inplace=True)
-    df_data['beatstrength'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
+    df_data['metricprofile'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
     if with_pitch == False:
-        u, c = np.unique(df_data['beatstrength'].to_numpy(dtype=float), axis=0, return_counts=True)
+        u, c = np.unique(df_data['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u = [i+1for i in u]
         if do_plot:
             barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
         data = [[int(i), int(c)] for i, c in zip(u, c)]
         return data
     else:
-        n_df = df_data[['MIDI', 'beatstrength']].to_numpy(dtype=float)
+        n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
-
         p = [int(i) for i in u[:, 0]]
+        pitch = [midi2str(int(i)) for i in u[:, 0]]
 
-        # data = np.array([p, u[:, 1], c]).T
-
-        pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'beatstrength', 'Count'])
-        convert_dict = {'Count': int,
-                        'beatstrength': float
-                        }
+        pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'metricprofile', 'Count'])
+        convert_dict = {'Count': int,'metricprofile': float }
         pd_data_s = pd_data_s.astype(convert_dict)
         data = pd_data_s.to_numpy()
 
 
         if do_plot:
-            beat_stength_3d(data, ylabel='Beat Strength')
-        return data
+            beat_stength_3d(data, ylabel='Metric Profile')
+        data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
+        convert_dict_2 = {'Count': int,'metricprofile': float }
+        data_f = data_f.astype(convert_dict_2)
+        data_2 = data_f.to_numpy()
+
+        return data_2
 
 def filter(df_data: pd.DataFrame, filter_dict):
     """
