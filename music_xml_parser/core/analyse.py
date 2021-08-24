@@ -218,9 +218,9 @@ def beat_strength(df_data: pd.DataFrame,
     df_data['beatstrength'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
     if with_pitch == False:
         u, c = np.unique(df_data['beatstrength'].to_numpy(dtype=float), axis=0, return_counts=True)
-
+        u = [i+1for i in u]
         if do_plot:
-            barplot(u, counts=c, x_label=x_label, y_label='Occurrences')
+            barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
         data = [[int(i), int(c)] for i, c in zip(u, c)]
         return data
     else:

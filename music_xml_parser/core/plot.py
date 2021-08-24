@@ -284,6 +284,22 @@ def barplot_intervals(labels, counts):
     plt.grid()
     plt.show()
 
+def barplot_mp(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label'):
+    if figsize == 'fit':
+        figsize = None
+
+    f = plt.figure(figsize=figsize)
+    ax = f.add_subplot(111)
+    ax.bar(labels, counts, width=0.1, color='darkslateblue', alpha=0.8)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    t_ax = np.arange(1, max(labels)+1)
+    ax.set_xticks(t_ax)
+    ax.set_xticklabels(t_ax)
+    ax.set_xlim([0.5, max(labels)+0.5])
+    plt.grid()
+    plt.show()
+
 def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label'):
     if figsize == 'fit':
         figsize = None
@@ -293,8 +309,6 @@ def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label')
     ax.bar(labels, counts, width=0.1, color='darkslateblue', alpha=0.8)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
-    # ax.set_xticks(np.arange(np.min(labels), np.max(labels)+1))
-
     plt.grid()
     plt.show()
 
