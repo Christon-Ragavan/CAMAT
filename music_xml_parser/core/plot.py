@@ -184,6 +184,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
     p = [i for i in pitch if i != 0]
     ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+
+
     ax.set_xlim([int(time[0]), int(x_axis[-1])])
     # ax.set_xlim([0, int(x_axis[-1]*0.20)])
     # ax.set_xlim([0, 5])

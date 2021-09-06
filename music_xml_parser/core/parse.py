@@ -78,15 +78,18 @@ def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
     # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
-    xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
-    filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
+    # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
+    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+
+    # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file_name=xml_file,
                       plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
-                      do_save=False,filter_dict=filter_dict_t,
+                      do_save=False,#filter_dict=filter_dict_t,
                       x_axis_res=1)
+    print(d)
     # import analyse
     # analyse.ambitus(d)
 

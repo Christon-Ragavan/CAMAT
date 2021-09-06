@@ -218,9 +218,11 @@ class XMLToolBox:
                 self.logger.debug(
                     f"measure {self.measure_id_counter} measure idtag {int(m.attrib['number'])}  curr_offset {self.curr_measure_offset}")
                 self.curr_measure_num = self.measure_id_counter
+                # self.curr_measure_num = int(m.attrib['number'])
                 self.measure_number_list.append(self.curr_measure_num)
                 self.measure_number_list_corr_part.append(self.curr_part_id)
                 if self.measure_id_counter == 1:
+                # if self.curr_measure_num == 1:
                     self.measure_offset_list.append(0.0)
                     self.curr_measure_offset_df = 0.0
                 else:
