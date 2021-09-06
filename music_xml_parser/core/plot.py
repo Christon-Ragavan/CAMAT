@@ -126,16 +126,16 @@ def _get_xtickslabels_with_measure(x_axis, measure):
     for i in range(len(x_axis)):
         s = x_axis[i]
         idx = np.argmin(np.abs(s-measure))
-
         if s == measure[idx]:
-            l = '\n\n'+str(measure.index(measure[idx]))
+            l = '\n\n'+str(measure.index(measure[idx])+1)
         else:
             l =''
         x_lab.append(str(s)+l)
     return x_lab
 
 def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, duration,
-                                   midi_min, midi_max, x_axis_res,plot_inline_ipynb, *args, **kwargs):
+                                   midi_min, midi_max, x_axis_res,plot_inline_ipynb,
+                                   *args, **kwargs):
 
     cm = plt.get_cmap('gist_rainbow')
     x_axis = np.arange(0, max(time) * x_axis_res + 1) / x_axis_res
@@ -156,7 +156,6 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
     for i, l in enumerate(labels_set):
         colors_dicts[l] = colors[i]
-
     assert np.shape(pitch)[0] == np.shape(time)[0]
     f = plt.figure(figsize=(16, 9))
     ax = f.add_subplot(111)
@@ -185,8 +184,8 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
 
     p = [i for i in pitch if i != 0]
     ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
-
-    ax.set_xlim([0, int(x_axis[-1]*0.20)])
+    ax.set_xlim([int(time[0]), int(x_axis[-1])])
+    # ax.set_xlim([0, int(x_axis[-1]*0.20)])
     # ax.set_xlim([0, 5])
 
     ax.set_xlabel("Time \n Measure Number")
@@ -201,6 +200,7 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     if plot_inline_ipynb:
         plt.show()
     else:
+
         plt.show(block=False)
         plt.pause(9999999)
         plt.close()

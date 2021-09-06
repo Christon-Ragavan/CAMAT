@@ -33,7 +33,8 @@ def with_xml_file(file_name: str,
                   save_file_name: str = None,
                   do_save: bool = False,
                   x_axis_res=2,
-                  get_measure_onset:bool=False, filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
+                  get_measure_onset:bool=False,
+                  filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
 
     file = _get_file_path(file_name=file_name)
 
@@ -78,15 +79,16 @@ def testing():
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
     # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
     xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
+    filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file_name=xml_file,
-                      plot_pianoroll=False,
+                      plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
-                      do_save=False,
+                      do_save=False,filter_dict=filter_dict_t,
                       x_axis_res=1)
-    import analyse
-    analyse.ambitus(d)
+    # import analyse
+    # analyse.ambitus(d)
 
 
 if __name__ == "__main__":
