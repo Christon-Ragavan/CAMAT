@@ -20,6 +20,13 @@ def getVoice(df_data: pd.DataFrame):
     return list(set(v))
 
 
+def max_measure_num(df_data: pd.DataFrame, part='all'):
+    df_c = df_data.copy()
+    df_c.drop_duplicates(subset='PartID', keep="last", inplace=True)
+    df_c_n = df_c[['Measure', 'PartID', 'Part Name']].to_numpy()
+
+    return df_c_n
+
 def metric_profile_split_time_signature(df_data: pd.DataFrame,
                                        with_pitch=False,
                                        do_plot=True, filter_dict=None):
@@ -61,7 +68,7 @@ def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=F
     return data
 
 
-def ambitus(df_data: pd.DataFrame, filter_dict=None):
+def ambitus(df_data: pd.DataFrame, output_as_midi=True, filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
@@ -73,7 +80,15 @@ def ambitus(df_data: pd.DataFrame, filter_dict=None):
         max_r = np.max(d['MIDI'].to_numpy(dtype=float))
         min_r = np.min(d['MIDI'].to_numpy(dtype=float))
         diff_r = max_r - min_r
-        ab.append([int(i), int(min_r), int(max_r), int(diff_r)])
+
+        if output_as_midi:
+            ab.append([int(i), int(min_r), int(max_r), int(diff_r)])
+        else:
+
+            min_r = midi2str(int(min_r))
+            max_r = midi2str(int(max_r))
+            ab.append([int(i), str(min_r), str(max_r), int(diff_r)])
+
     return ab
 
 
@@ -243,6 +258,8 @@ def metric_profile(df_data: pd.DataFrame,
         data_2 = data_f.to_numpy()
 
         return data_2
+
+
 
 def filter(df_data: pd.DataFrame, filter_dict):
     """

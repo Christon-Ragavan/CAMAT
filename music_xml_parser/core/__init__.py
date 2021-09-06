@@ -19,5 +19,5 @@ from .analyse import ambitus,\
     interval,\
     metric_profile,\
     time_signature_histogram,\
-    metric_profile_split_time_signature
+    metric_profile_split_time_signature, max_measure_num
 from .utils import export_as_csv,display_table
