@@ -23,7 +23,7 @@ def get_file_from_server(xml_link, save_at=None):
     if save_at == None:
         save_at = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
     file_name = xml_link.split('/')[-1]
-    s = save_at + file_name
+    s = os.path.join(save_at, file_name)
 
     if os.path.isfile(s):
         return s
