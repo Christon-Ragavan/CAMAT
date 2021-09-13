@@ -8,7 +8,10 @@ from os.path import join, basename, isfile
 import os
 
 def _get_file_path(file_name):
+
     file = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file_name))
+    if not isfile(file):
+        file = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'hfm_database', file_name))
     assert isfile(file), f"FIle Not Found {file}"
     return file
 

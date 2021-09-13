@@ -84,7 +84,7 @@ def testing():
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file_name=xml_file,
-                      plot_pianoroll=True,
+                      plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,
                       do_save=False,#filter_dict=filter_dict_t,
@@ -92,7 +92,6 @@ def testing():
     print(d)
     # import analyse
     # analyse.ambitus(d)
-
 
 if __name__ == "__main__":
     testing()

@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import patches
 from matplotlib.patches import Rectangle
-
+import traceback
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -83,6 +83,7 @@ def pianoroll_parts(func, *args, **kwargs):
         return m_o
 
     def plotting_wrapper_parts(*args, **kwargs):
+
         df, \
         do_plot, \
         measure_duration_list, \
@@ -114,6 +115,7 @@ def pianoroll_parts(func, *args, **kwargs):
                                                plot_inline_ipynb=plot_inline_ipynb)
         except:
             print("Error in ploting piano roll")
+            print(traceback.format_exc())
             pass
         if get_measure_onset:
             return df, measure_offset_data
@@ -145,9 +147,9 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     labels_128 = _get_midi_labels_128()
     s_part_names = list(set(part_name))
 
-    # if len(s_part_names) != NUM_PARTS:
-    #     s_part_names = [i+1 for i in range(NUM_PARTS)]
-    assert len(s_part_names) == NUM_PARTS, "s_part_names {} NUM_PARTS {}".format(len(s_part_names), NUM_PARTS)
+    if len(s_part_names) != NUM_PARTS:
+        s_part_names = [i+1 for i in range(NUM_PARTS)]
+    # assert len(s_part_names) == NUM_PARTS, "s_part_names {} NUM_PARTS {}".format(len(s_part_names), NUM_PARTS)
     labels_set = s_part_names
     #labels_set = [str(s_part_names[i-1]) + str(i) for i, pn in range(1, NUM_PARTS + 1)]
 

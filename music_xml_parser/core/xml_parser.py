@@ -217,12 +217,12 @@ class XMLToolBox:
                 self.measure_id_counter += 1
                 self.logger.debug(
                     f"measure {self.measure_id_counter} measure idtag {int(m.attrib['number'])}  curr_offset {self.curr_measure_offset}")
-                self.curr_measure_num = self.measure_id_counter
-                # self.curr_measure_num = int(m.attrib['number'])
+                # self.curr_measure_num = self.measure_id_counter
+                self.curr_measure_num = int(m.attrib['number'])
                 self.measure_number_list.append(self.curr_measure_num)
                 self.measure_number_list_corr_part.append(self.curr_part_id)
                 if self.measure_id_counter == 1:
-                # if self.curr_measure_num == 1:
+                # if self.measure_number_list[0] == 1 or self.measure_number_list[0] == 0:
                     self.measure_offset_list.append(0.0)
                     self.curr_measure_offset_df = 0.0
                 else:
@@ -632,7 +632,36 @@ class XMLToolBox:
     def _compute_measure_n_offset(self):
         return pd.DataFrame(np.array([self.measure_number_list, self.measure_number_list_corr_part, self.measure_offset_list]).T,
                             columns=['Measure Number', 'Part ID', 'Measure Offset'])
+    def _get_upbeat_measure_durr(self, df_c):
+        grouped = df_c.groupby(df_c.Measure)
+        f_m = grouped.get_group(str(0)).copy()
+        moff2 = f_m.filter(['Duration' ,'PartID'])
+        convert_dict = {'Duration': float, 'PartID': int}
+        moff2 = moff2.astype(convert_dict)
+        mx_measure_dur_ub = max(np.squeeze(moff2.groupby("PartID").agg({"Duration": np.sum}).to_numpy()))
+        return mx_measure_dur_ub
 
+    def _compute_upbeat(self, df):
+        df_c = df.copy()
+        meau = np.squeeze(df_c[['Measure']].to_numpy())
+        if '0' in meau:
+            df_c.drop_duplicates(subset=[ 'Measure', 'PartID','Measure Offset'], keep="last", inplace=True)
+
+            moff = np.squeeze(df_c[['Measure Offset']].to_numpy(dtype=float))
+
+            upbeat_measure_dur = moff[1]-moff[0]
+            upbeat_durr = self._get_upbeat_measure_durr(df)
+            diff = upbeat_measure_dur - upbeat_durr
+            assert diff >=0, "Error: Upbeat note duration must be less or equal to measure duration -> upbeat_measure_dur-upbeat_durr >=0"
+            # print(moff)
+            # print(df_c)
+
+            if diff==0:
+                return df
+            else:
+                return df
+        else:
+            return df
 
 class XMLParser(XMLToolBox):
     def __init__(self, path, *args, **kwargs):
@@ -647,9 +676,12 @@ class XMLParser(XMLToolBox):
         else:
             self.logger.info(f"File Found - {self.path}")
         df_data = self.strip_xml()
+
         df_data_m = self.compute_measure_offset(df_data)
         df_data_v = self.compute_voice_offset(df_data_m)
         df_data_chord_tied = self.compute_tie_duration(df_data_v)
         df_data_midi = self.convert_pitch_midi(df_data_chord_tied)
-        df_data_f = self.remove_df_cols(df_data_midi)
+        df_data_m = self.remove_df_cols(df_data_midi)
+        df_data_f = self._compute_upbeat(df_data_m)
+
         return df_data_f

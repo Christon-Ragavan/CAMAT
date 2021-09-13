@@ -19,6 +19,9 @@ def getVoice(df_data: pd.DataFrame):
     v = df_data['Voice']
     return list(set(v))
 
+def search_upeat_files():
+    pass
+
 
 def max_measure_num(df_data: pd.DataFrame, part='all'):
     df_c = df_data.copy()
@@ -299,25 +302,35 @@ if __name__ == '__main__':
 
     # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
-    xml_file = 'BeLuva_Op59_1-3_1-4_StringQuar_003_00129.xml'
+    # xml_file = 'BeLuva_Op59_1-3_1-4_StringQuar_003_00129.xml'
 
-    filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
+    # filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
 
+    xml_file = 'MoWo_K279_COM_1-3_PianoSonat_003_00920.xml'
     m_df = mp.parse.with_xml_file(file_name=xml_file,
-                                  plot_pianoroll=False,
-                                  plot_inline_ipynb=False,
-                                  save_at=None,
-                                  save_file_name=None,
-                                  do_save=False,
-                                  x_axis_res=2,
-                                  get_measure_onset=False)#, filter_dict=filter_dict_t)
+                                plot_pianoroll=True,
+                                plot_inline_ipynb=True,
+                                save_at=None,
+                                save_file_name=None,
+                                do_save=False,
+                                x_axis_res=2,
+                                get_measure_onset=False)
+    print(m_df)
+    # m_df = mp.parse.with_xml_file(file_name=xml_file,
+    #                               plot_pianoroll=False,
+    #                               plot_inline_ipynb=False,
+    #                               save_at=None,
+    #                               save_file_name=None,
+    #                               do_save=False,
+    #                               x_axis_res=2,
+    #                               get_measure_onset=False)#, filter_dict=filter_dict_t)
 
-    part = m_df[['PartID']].to_numpy()
-    part_name = m_df[['Part Name']].to_numpy()
-    print(part)
-    print(np.unique(part, return_counts=True))
-    print(np.unique(part_name, return_counts=True))
-    print(len(part))
+    # part = m_df[['PartID']].to_numpy()
+    # part_name = m_df[['Part Name']].to_numpy()
+    # print(part)
+    # print(np.unique(part, return_counts=True))
+    # print(np.unique(part_name, return_counts=True))
+    # print(len(part))
 
 
     # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
