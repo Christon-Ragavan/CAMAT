@@ -21,3 +21,6 @@ from .analyse import ambitus,\
     time_signature_histogram,\
     metric_profile_split_time_signature, max_measure_num
 from .utils import export_as_csv,display_table
+
+from .web_scrapper import get_file_from_server, \
+    get_files_from_server

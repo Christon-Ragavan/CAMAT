@@ -6,14 +6,25 @@ License: The MIT license, https://opensource.org/licenses/MIT
 import logging
 from os.path import join, basename, isfile
 import os
+try:
+    from .web_scrapper import get_file_from_server
+except:
+    from web_scrapper import get_file_from_server
 
-def _get_file_path(file_name):
 
-    file = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file_name))
-    if not isfile(file):
-        file = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'hfm_database', file_name))
-    assert isfile(file), f"FIle Not Found {file}"
-    return file
+def _get_file_path(file):
+    if 'https:' in file:
+        f = get_file_from_server(file)
+    else:
+        f = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file))
+        if not isfile(f):
+            f = join(os.getcwd().replace(basename(os.getcwd()), 'data'),
+                        join('xmls_to_parse', 'hfm_database', file))
+
+        assert isfile(f), f"Please enter either the web https link or file name"
+        assert isfile(f), f"File Not Found {f}"
+
+    return f
 
 def set_up_logger(name):
     logger = logging.getLogger(name)

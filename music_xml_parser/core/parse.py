@@ -26,7 +26,7 @@ logger = set_up_logger(__name__)
 
 
 @pianoroll_parts
-def with_xml_file(file_name: str,
+def with_xml_file(file: str,
                   plot_pianoroll: bool = False,
                   plot_inline_ipynb: bool=False,
                   save_at: str = None,
@@ -36,7 +36,7 @@ def with_xml_file(file_name: str,
                   get_measure_onset:bool=False,
                   filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
 
-    file = _get_file_path(file_name=file_name)
+    file = _get_file_path(file=file)
 
     if '.xml' not in basename(file):
         e = "Not a .XML file, Only .xml file is supported. Use Musescore or finale to convert to .xml format"
@@ -83,7 +83,7 @@ def testing():
 
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
-    d = with_xml_file(file_name=xml_file,
+    d = with_xml_file(file=xml_file,
                       plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,

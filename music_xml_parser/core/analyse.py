@@ -306,8 +306,10 @@ if __name__ == '__main__':
 
     # filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
 
-    xml_file = 'MoWo_K279_COM_1-3_PianoSonat_003_00920.xml'
-    m_df = mp.parse.with_xml_file(file_name=xml_file,
+    # xml_file = 'MoWo_K279_COM_1-3_PianoSonat_003_00920.xml'
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/BoMaEn_Op115_11-22_COM_ThemeetVar_003_00181.xml'
+
+    m_df = mp.parse.with_xml_file(file=xml_file,
                                 plot_pianoroll=True,
                                 plot_inline_ipynb=True,
                                 save_at=None,
@@ -316,7 +318,7 @@ if __name__ == '__main__':
                                 x_axis_res=2,
                                 get_measure_onset=False)
     print(m_df)
-    # m_df = mp.parse.with_xml_file(file_name=xml_file,
+    # m_df = mp.parse.with_xml_file(file=xml_file,
     #                               plot_pianoroll=False,
     #                               plot_inline_ipynb=False,
     #                               save_at=None,

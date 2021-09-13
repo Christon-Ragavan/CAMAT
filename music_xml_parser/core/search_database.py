@@ -43,7 +43,6 @@ def extract_links(url):
 def _convert_col(thead):
     column_names = []
     for th in thead.find_all('th'):
-
         t = th.text.strip()
         if t == 'Werktitel':
             t = 'url'
@@ -106,7 +105,6 @@ def extract_tables(artist_meta, url):
     root_url = "https://analyse.hfm-weimar.de"
     r = auth(url)
     soup = bs(r.content, 'lxml')
-
     table = soup.find('table')
     thead = soup.find('thead')
 
@@ -288,16 +286,16 @@ def scrape_database(database_csv, do_print=False):
     composer_url = "https://analyse.hfm-weimar.de/doku.php?id=komponisten"
     composer_data = extract_links(url=composer_url)
 
-
+    # print(composer_data)
     entrie_database_list = []
-    # 51 62
     for id, i in enumerate(composer_data):
         if do_print:
             print(f"{id}/{len(composer_data)} - {i}")
         if i[0]=='hier':
             continue
-
+        print(i[0], i[1])
         pd_data = extract_tables(i[0], i[1])
+        print(pd_data)
         entrie_database_list.append(pd_data)
     df_entrie_database = pd.concat(entrie_database_list,
                                    ignore_index=True,
@@ -491,15 +489,16 @@ if __name__=='__main__':
                         'Year Range': None}
 
     # database_csv_path = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/database/'
-
+    #
     database_csv_path = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
 
     assert os.path.isdir(database_csv_path), "File not Found"
 
     df_s = run_search(search_keywords=search_keywords,
-                      extract_database=False,
-                      apply_precise_keyword_search=True,extract_extire_database=True,
+                      extract_database=True,
+                      apply_precise_keyword_search=True,
+                      extract_extire_database=False,
                       save_extracted_database_path=database_csv_path,
                       save_search_output_path='search_output.csv')
 
-    #print(df_s)
+    # print(df_s)
