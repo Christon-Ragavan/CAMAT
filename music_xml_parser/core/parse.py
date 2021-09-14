@@ -84,7 +84,7 @@ def testing():
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file=xml_file,
-                      plot_pianoroll=False,
+                      plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
                       do_save=False,#filter_dict=filter_dict_t,

@@ -1,3 +1,4 @@
+import copy
 import re
 import tempfile
 import traceback
@@ -213,15 +214,19 @@ class XMLToolBox:
             curr_part_name = self._get_curr_part_name(part.attrib['id'])
             # self.curr_part_id = part.attrib['id']
 
-            for m in part:
-                self.measure_id_counter += 1
+            for idx_t, m in enumerate(part):
                 self.logger.debug(
                     f"measure {self.measure_id_counter} measure idtag {int(m.attrib['number'])}  curr_offset {self.curr_measure_offset}")
-                self.curr_measure_num = self.measure_id_counter
+                if idx_t ==0 and int(m.attrib['number'])==0:
+                    pass
+                else:
+                    self.measure_id_counter += 1
+                self.curr_measure_num = copy.deepcopy(self.measure_id_counter)
                 # self.curr_measure_num = int(m.attrib['number'])
                 self.measure_number_list.append(self.curr_measure_num)
                 self.measure_number_list_corr_part.append(self.curr_part_id)
-                if self.measure_id_counter == 1:
+
+                if idx_t == 0:
                 # if self.measure_number_list[0] == 1 or self.measure_number_list[0] == 0:
                     self.measure_offset_list.append(0.0)
                     self.curr_measure_offset_df = 0.0
