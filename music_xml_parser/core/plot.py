@@ -89,22 +89,22 @@ def pianoroll_parts(func, *args, **kwargs):
         measure_duration_list, \
         x_axis_res, \
         get_measure_onset, \
-        measure_offset_data,\
+        measure_onset_data,\
         plot_inline_ipynb = func(*args, **kwargs)
 
         measure = m_dur_off(measure_duration_list)
         try:
             if do_plot:
 
-                offset = list(np.squeeze(df['Offset'].to_numpy(dtype=float)))
+                onset = list(np.squeeze(df['Onset'].to_numpy(dtype=float)))
                 duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
                 total_measure = int(max(list(np.squeeze(df['Measure'].to_numpy(dtype=float)))))
                 measure = measure[:total_measure]
                 midi = df['MIDI'].replace({np.nan: 0}).to_list()
                 partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
-                part_name = list(np.squeeze(df['Part Name'].to_numpy(dtype=str)))
+                part_name = list(np.squeeze(df['PartName'].to_numpy(dtype=str)))
                 _create_pianoroll_single_parts(pitch=midi,
-                                               time=offset,
+                                               time=onset,
                                                measure=measure,
                                                partid=partid,
                                                part_name=part_name,
@@ -118,7 +118,7 @@ def pianoroll_parts(func, *args, **kwargs):
             print(traceback.format_exc())
             pass
         if get_measure_onset:
-            return df, measure_offset_data
+            return df, measure_onset_data
         else:
             return df
     return plotting_wrapper_parts
@@ -159,7 +159,7 @@ def _create_pianoroll_single_parts(pitch, time, measure, partid, part_name, dura
     for i, l in enumerate(labels_set):
         colors_dicts[l] = colors[i]
     assert np.shape(pitch)[0] == np.shape(time)[0]
-    f = plt.figure(figsize=(16, 9))
+    f = plt.figure(figsize=(12, 6))
     ax = f.add_subplot(111)
 
     for i in range(np.shape(time)[0]):

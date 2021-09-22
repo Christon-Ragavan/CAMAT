@@ -6,11 +6,45 @@ License: The MIT license, https://opensource.org/licenses/MIT
 import logging
 from os.path import join, basename, isfile
 import os
+import numpy as np
+import pandas as pd
 try:
     from .web_scrapper import get_file_from_server
 except:
     from web_scrapper import get_file_from_server
 
+def _replaceing_pd_value(row, col, old_val, new_val):
+
+    pass
+
+
+def _inseart_row_in_pd(row_number, df, row_value):
+    """
+    insert row in the dataframe
+
+    :param row_number:
+    :param df:
+    :param row_value:
+    :return:
+    """
+    # if row_number==0:
+    #     df.loc[-1] = np.squeeze(row_value.to_numpy() ) # adding a row
+    #     df.index = df.index + 1  # shifting index
+    #     df.sort_index(inplace=True)
+    # else:
+    dfA = df.iloc[:row_number, ]
+    dfB = df.iloc[row_number:, ]
+
+    df = dfA.append(row_value).append(dfB).reset_index(drop=True)
+
+    return df
+    #
+    # df1 = df[0:row_number]
+    # df2 = df[row_number:]
+    # df1.loc[row_number] = row_value
+    # df_result = pd.concat([df1, df2])
+    # df_result.index = [*range(df_result.shape[0])]
+    # return df_result
 
 def _get_file_path(file):
     if 'https:' in file:

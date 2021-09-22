@@ -68,18 +68,21 @@ def with_xml_file(file: str,
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
 
-    measure_offset_data = parser_o._compute_measure_n_offset()
+    measure_onset_data = parser_o._compute_measure_n_onset()
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
-    return df_xml, plot_pianoroll, parser_o.measure_offset_list, x_axis_res, get_measure_onset,measure_offset_data, plot_inline_ipynb
+    return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
 
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
     # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
     # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
-    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    # xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    # xml_file = 'weird2.xml'
+    xml_file = 'weird33.xml'
+    # xml_file = 'ultimate_tie_test.xml'
 
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 

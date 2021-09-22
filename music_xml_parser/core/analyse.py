@@ -149,6 +149,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      with_pitch=False,
                                      with_pitchclass=False,
                                      do_plot=True, filter_dict=None):
+    #TODO: withpitchclass
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
@@ -171,6 +172,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 
         p = [int(i) for i in u[:, 0]]
+
         d = [float(i) for i in u[:, 1]]
 
         pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
@@ -233,7 +235,7 @@ def metric_profile(df_data: pd.DataFrame,
         df_data = filter(df_data, filter_dict)
 
     df_data.dropna(subset=["MIDI"], inplace=True)
-    df_data['metricprofile'] = pd.to_numeric(df_data['Offset']) - pd.to_numeric(df_data['Measure Offset'])
+    df_data['metricprofile'] = pd.to_numeric(df_data['onset']) - pd.to_numeric(df_data['Measure onset'])
     if with_pitch == False:
         u, c = np.unique(df_data['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u = [i+1for i in u]
