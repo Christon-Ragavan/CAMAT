@@ -14,7 +14,9 @@ except:
 pd.set_option('display.max_rows', 1000000)
 pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
-#TODO: change curr_measure_onset
+
+
+# TODO: change curr_measure_onset
 
 class XMLToolBox:
     def __init__(self, file_path, *args, **kwargs):
@@ -31,8 +33,8 @@ class XMLToolBox:
         self.num_voices = self._get_num_voices()
         self.curr_measure_divisions = 0
 
-        self.curr_time_signature=''
-        self.curr_time_signature_adj=''
+        self.curr_time_signature = ''
+        self.curr_time_signature_adj = ''
         self.time_signature_list = []
         self.time_signature_list_adj = []
         self.time_onset = []
@@ -55,7 +57,6 @@ class XMLToolBox:
         self.gracenote_tags = []
         self.measure_onset_df = []
         self.measure_number_list_corr_part = []
-
 
         self.set_chord = False
         self.measure_number_list = []
@@ -175,9 +176,8 @@ class XMLToolBox:
                     raise Exception("Not implemented -> tag found:{}".format(t.tag))
             d = float(b[0] / b[1])
 
-            self.curr_time_signature = str(int(float(b[0])))+'/'+ str(int(float(b[1])))
-            self.curr_time_signature_adj = str(4*int(float(b[0])))+'/'+ str(4*int(float(b[1])))
-
+            self.curr_time_signature = str(int(float(b[0]))) + '/' + str(int(float(b[1])))
+            self.curr_time_signature_adj = str(4 * int(float(b[0]))) + '/' + str(4 * int(float(b[1])))
 
             self.curr_measure_onset = float(4 * d)
             self.measure_duration_dict.update(
@@ -217,7 +217,7 @@ class XMLToolBox:
             for idx_t, m in enumerate(part):
                 self.logger.debug(
                     f"measure {self.measure_id_counter} measure idtag {int(m.attrib['number'])}  curr_onset {self.curr_measure_onset}")
-                if idx_t ==0 and int(m.attrib['number'])==0:
+                if idx_t == 0 and int(m.attrib['number']) == 0:
                     pass
                 else:
                     self.measure_id_counter += 1
@@ -227,11 +227,11 @@ class XMLToolBox:
                 self.measure_number_list_corr_part.append(self.curr_part_id)
 
                 if idx_t == 0:
-                # if self.measure_number_list[0] == 1 or self.measure_number_list[0] == 0:
+                    # if self.measure_number_list[0] == 1 or self.measure_number_list[0] == 0:
                     self.measure_onset_list.append(0.0)
                     self.curr_measure_onset_df = 0.0
                 else:
-                    self.curr_measure_onset_df +=self.curr_measure_onset
+                    self.curr_measure_onset_df += self.curr_measure_onset
 
                     self.measure_onset_list.append(self.curr_measure_onset)
 
@@ -374,7 +374,7 @@ class XMLToolBox:
                       'GraceTag': str,
                       'MeasureOnset': float,
                       'TimeSignature': str,
-                      'TimeSignatureAdjusted':str
+                      'TimeSignatureAdjusted': str
                       }
         df_data = df_data.astype(set_dtypes)
         return df_data
@@ -568,8 +568,8 @@ class XMLToolBox:
             partid_num_list,
             self.measure_onset_list,
             idx_new_measure_onsets)
-
-        df.insert(loc=1, column='onset_ml', value=self.measure_off_sparse)
+        df['onset_ml'] = self.measure_off_sparse
+        # df.insert(loc=1, column='onset_ml', value=self.measure_off_sparse)
         return df
 
     def compute_voice_onset(self, df):
@@ -585,7 +585,6 @@ class XMLToolBox:
 
         c_off = 0.0
         curr_measure_onset = 0.0
-
         for i, v in enumerate(voices_list):
             c_ch = chord_info_list[i]
             m_trk = measure_num_list[i]
@@ -611,7 +610,6 @@ class XMLToolBox:
                         c_off = curr_measure_onset
                     elif len(voice_track_container[v - 1]) == 0:
                         c_off = curr_measure_onset
-
                     else:
                         c_off = np.sum(voice_track_container[v - 1][-1])
                     if m_trk == 0:
@@ -625,7 +623,9 @@ class XMLToolBox:
                         c_off = nn_onset_list[i - 1] + duration_list[i - 1]
             voice_track_container[v - 1].append([c_off, c_dur])
             nn_onset_list.append(c_off)
-        df.insert(loc=2, column='Onset', value=nn_onset_list)
+
+        df['Onset'] = nn_onset_list
+        # df.insert(loc=2, column='Onset', value=nn_onset_list)
         return df
 
     def compute_chord_onset(self, df):
@@ -650,13 +650,14 @@ class XMLToolBox:
         return df.drop(drop_colms_labels, axis=1)
 
     def _compute_measure_n_onset(self):
-        return pd.DataFrame(np.array([self.measure_number_list, self.measure_number_list_corr_part, self.measure_onset_list]).T,
-                            columns=['Measure Number', 'Part ID', 'MeasureOnset'])
+        return pd.DataFrame(
+            np.array([self.measure_number_list, self.measure_number_list_corr_part, self.measure_onset_list]).T,
+            columns=['Measure Number', 'Part ID', 'MeasureOnset'])
 
     def _get_upbeat_measure_rest_info(self, df_c, upbeat_measure_dur):
         grouped = df_c.groupby(df_c.Measure)
         f_m = grouped.get_group(0).copy()
-        moff2 = f_m.filter(['ChordTag','Duration' ,'PartID','Voice'])
+        moff2 = f_m.filter(['ChordTag', 'Duration', 'PartID', 'Voice'])
         convert_dict = {'Duration': float, 'PartID': int, 'Voice': int, 'ChordTag': str}
         moff2 = moff2.astype(convert_dict)
         moff2 = moff2[~moff2['ChordTag'].str.contains("chord")]
@@ -667,38 +668,28 @@ class XMLToolBox:
         return up_beat_dur_per_part
 
     def _re_compute_onset_upbeat(self, df):
+        global curr_durr, t_on, curr_measure_onset
+
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
         voices_list = list(np.squeeze(df['Voice'].to_numpy(dtype=int)))
         duration_list = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
         chord_info_list = list(np.squeeze(df['ChordTag'].to_numpy()))
         part_id_list = list(np.squeeze(df['PartID'].to_numpy()))
+
         n_num_voice = max(max(list(set(voices_list))), 1)
         nn_onset_list = []
         voice_track_container = [[] for i in range(n_num_voice)]
+        MeasureOnset = list(np.squeeze(df['MeasureOnset'].to_numpy()))
 
-        global curr_durr, t_on
-        df_c = df.copy()
-        print(df_c)
-        # grouped = df_c.groupby(df_c.Measure)
-        # f_m = grouped.get_group(0).copy()
+        for i, v in enumerate(voices_list):
+            c_ch = chord_info_list[i]
+            m_trk = measure_num_list[i]
 
-        for i, row in df_c.iterrows():
-            c_ch = row['ChordTag']
-            m_trk = row['Measure']
-            pid_trk = row['PartID']
-            c_dur = row['Duration']
-            v = row['Voice']
+            pid_trk = part_id_list[i]
+            c_dur = duration_list[i]
 
-            if False:
-                if row['Measure']==0 or row['Measure']=='0':
-                    if row['Upbeat'] == 'true':
-                        curr_durr = row['Duration']
-                    if row['Upbeat'] == 'none':
-                        df_c.at[i, 'Onset'] = curr_durr
-            # if True:
             if i in self.n_measure_change_idx:  # resetting the container at every change in measure
-
-                curr_measure_onset = self.measure_off_sparse[i]
+                curr_measure_onset = MeasureOnset[i]
                 del voice_track_container
                 voice_track_container = [[] for i in range(n_num_voice)]
 
@@ -706,6 +697,7 @@ class XMLToolBox:
                 c_off = 0.0
             if i == 0:
                 c_off = 0.0
+
             else:
                 if part_id_list[i - 1] != pid_trk:  # resetting the container at every change in measure
                     c_off = 0.0
@@ -724,38 +716,21 @@ class XMLToolBox:
                 else:
                     if measure_num_list[i - 1] != m_trk:
                         c_off = curr_measure_onset
+
                     elif c_ch == 'chord':
                         c_off = nn_onset_list[i - 1]
                     else:
                         c_off = nn_onset_list[i - 1] + duration_list[i - 1]
             voice_track_container[v - 1].append([c_off, c_dur])
             nn_onset_list.append(c_off)
-        df.insert(loc=2, column='Onset_2', value=nn_onset_list)
+
+        df['Onset'] = nn_onset_list
         return df
 
-
-
-
-        # for idx, row_2 in df_c.iterrows():
-        #     if row_2['Measure'] == 0 or row_2['Measure'] == '0':
-        #         if row_2['Upbeat'] == 'true':
-        #             t_on = 0.0
-        #             d_on = float(row_2['Duration'])
-        #         if row_2['Upbeat'] =='none':
-        #             d = float(row_2['Duration'])
-        #             t_on +=d_on
-        #             # t_on +=d
-        #             df_c.at[idx, 'Onset'] = t_on
-        #             pass
-
-
-        print(df_c)
-        return df_c
     def check_upbeat(self, df):
-        up_beat_dur_per_measure = df.groupby(["Measure", "Voice","PartID"]).agg({"Duration": np.sum}).reset_index()
+        up_beat_dur_per_measure = df.groupby(["Measure", "Voice", "PartID"]).agg({"Duration": np.sum}).reset_index()
         print(up_beat_dur_per_measure)
         pass
-
 
     def testing_compute_voice_onset(self, df):
         measure_num_list = list(np.squeeze(df['Measure'].to_numpy(dtype=int)))
@@ -766,10 +741,8 @@ class XMLToolBox:
         n_num_voice = max(max(list(set(voices_list))), 1)
         nn_onset_list = []
         voice_track_container = [[] for i in range(n_num_voice)]
-
         c_off = 0.0
         curr_measure_onset = 0.0
-
         for i, v in enumerate(voices_list):
             c_ch = chord_info_list[i]
             m_trk = measure_num_list[i]
@@ -812,23 +785,23 @@ class XMLToolBox:
         df.insert(loc=2, column='Onset', value=nn_onset_list)
         return df
 
+    def check_for_upbeat_measure(self):
+        pass
+
     def compute_upbeat(self, df):
-        df['Upbeat'] = ['none'for i in range(len(df))]
+        df['UpbeatM'] = ['none' for i in range(len(df))]
+
+        df['Upbeat'] = ['none' for i in range(len(df))]
         df_c = df.copy()
         meau = np.squeeze(df_c[['Measure']].to_numpy())
-        if 0 in meau or '0' in  meau:
+        if 0 in meau or '0' in meau:
             df_c.drop_duplicates(subset=['Measure',
                                          'PartID',
                                          'MeasureOnset'],
                                  keep="last", inplace=True)
-            # df_c.drop_duplicates(subset=['Onset',
-            #                              'Measure',
-            #                              'PartID',
-            #                              'MeasureOnset'],
-            #                      keep="last", inplace=True)
             moff = np.squeeze(df_c[['MeasureOnset']].to_numpy(dtype=float))
 
-            upbeat_measure_dur = moff[1]-moff[0]
+            upbeat_measure_dur = moff[1] - moff[0]
             ub_rest_df = self._get_upbeat_measure_rest_info(df, upbeat_measure_dur)
             ub_r_np = ub_rest_df[["PartID", "Voice", "rest_info"]].to_numpy()
             convert_dict = {'Duration': float, 'PartID': int, 'Voice': int, 'ChordTag': str}
@@ -836,8 +809,6 @@ class XMLToolBox:
             for i in range(np.shape(ub_r_np)[0]):
                 m_idx = min(df[(df['PartID'] == ub_r_np[i][0]) & (df['Voice'] == ub_r_np[i][1])].index.tolist())
                 n_v = df.iloc[[m_idx]].copy()
-
-
                 n_v.loc[:, 'Pitch'] = 'rest'
                 n_v.loc[:, 'Octave'] = 'rest'
                 n_v.loc[:, 'MIDI'] = np.nan
@@ -845,11 +816,11 @@ class XMLToolBox:
                 n_v.loc[:, 'Duration'] = ub_r_np[i][2]
                 n_v.loc[:, 'Upbeat'] = 'true'
                 df = _inseart_row_in_pd(row_number=m_idx, df=df, row_value=n_v)
+            self.compute_measure_onset(df)
             df = self._re_compute_onset_upbeat(df)
             return df
         else:
             return df
-
 
 
 class XMLParser(XMLToolBox):
@@ -872,8 +843,5 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_tie_duration(df_data)
         df_data = self.convert_pitch_midi(df_data)
         df_data = self.compute_upbeat(df_data)
-
         df_data = self.remove_df_cols(df_data)
-        # print(df_data)
-        # df_data_f = df_data_m
         return df_data

@@ -38,13 +38,6 @@ def _inseart_row_in_pd(row_number, df, row_value):
     df = dfA.append(row_value).append(dfB).reset_index(drop=True)
 
     return df
-    #
-    # df1 = df[0:row_number]
-    # df2 = df[row_number:]
-    # df1.loc[row_number] = row_value
-    # df_result = pd.concat([df1, df2])
-    # df_result.index = [*range(df_result.shape[0])]
-    # return df_result
 
 def _get_file_path(file):
     if 'https:' in file:

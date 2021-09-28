@@ -150,6 +150,8 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      with_pitchclass=False,
                                      do_plot=True, filter_dict=None):
     #TODO: withpitchclass
+    if with_pitchclass:
+        print("TO BE IMPLEMENT")
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
@@ -168,8 +170,6 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
         n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
         u, c = np.unique(n_df, axis=0, return_counts=True)
-
-
 
         p = [int(i) for i in u[:, 0]]
 

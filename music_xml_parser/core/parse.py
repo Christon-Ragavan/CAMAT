@@ -92,7 +92,7 @@ def testing():
                       save_file_name=None,
                       do_save=False,#filter_dict=filter_dict_t,
                       x_axis_res=1)
-    print(d)
+    # print(d)
     # import analyse
     # analyse.ambitus(d)
 
