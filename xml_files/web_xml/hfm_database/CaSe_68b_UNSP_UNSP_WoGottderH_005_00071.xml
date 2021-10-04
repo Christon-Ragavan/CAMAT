@@ -1,0 +1,3388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE score-partwise  PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <work>
+    <work-title>[LXVIII. a] Justus Jonas. [Altera Harmonia]</work-title>
+  </work>
+  <movement-title>CaSe_68b_UNSP_UNSP_WoGottderH_005_00071.mxl</movement-title>
+  <identification>
+    <creator type="composer">(Seth Calvisius)</creator>
+    <rights>Copyright ©</rights>
+    <encoding>
+      <encoding-date>2021-05-03</encoding-date>
+      <software>music21 v.6.7.1</software>
+      <software>Sibelius 20.3.0</software>
+      <software>Direct export, not from Dolet</software>
+      <supports attribute="new-system" element="print" type="yes" value="yes" />
+      <supports attribute="new-page" element="print" type="yes" value="yes" />
+    </encoding>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>210</millimeters>
+      <tenths>2100</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>2970</page-height>
+      <page-width>2100</page-width>
+      <page-margins>
+        <left-margin>150</left-margin>
+        <right-margin>150</right-margin>
+        <top-margin>150</top-margin>
+        <bottom-margin>150</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>45</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>92</system-distance>
+    </system-layout>
+    <appearance>
+      <line-width type="stem">0.9375</line-width>
+      <line-width type="beam">5</line-width>
+      <line-width type="staff">0.9375</line-width>
+      <line-width type="light barline">1.5625</line-width>
+      <line-width type="heavy barline">5</line-width>
+      <line-width type="leger">1.5625</line-width>
+      <line-width type="ending">1.5625</line-width>
+      <line-width type="wedge">1.25</line-width>
+      <line-width type="enclosure">0.9375</line-width>
+      <line-width type="tuplet bracket">1.25</line-width>
+      <line-width type="bracket">5</line-width>
+      <line-width type="dashes">1.5625</line-width>
+      <line-width type="extend">0.9375</line-width>
+      <line-width type="octave shift">1.5625</line-width>
+      <line-width type="pedal">1.5625</line-width>
+      <line-width type="slur middle">1.5625</line-width>
+      <line-width type="slur tip">0.625</line-width>
+      <line-width type="tie middle">1.5625</line-width>
+      <line-width type="tie tip">0.625</line-width>
+      <note-size type="cue">75</note-size>
+      <note-size type="grace">60</note-size>
+    </appearance>
+    <music-font font-family="Opus Std" font-size="11.3386" />
+    <word-font font-family="Junicode" font-size="11.4272" />
+    <lyric-font font-family="Junicode" font-size="7.9724" />
+    <lyric-language xml:lang="de" />
+  </defaults>
+  <credit page="1">
+    <credit-words default-x="1050" default-y="133" font-family="Junicode" font-size="12.5787" font-style="normal" font-weight="normal" justify="center" valign="middle">[LXVIII. a] Justus Jonas. [Altera Harmonia]</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1050" default-y="91" font-family="Junicode" font-size="7.9724" font-style="italic" font-weight="normal" justify="center" valign="middle">Wo Gott der HErr nicht bei uns hält</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1950" default-y="64" font-family="Junicode" font-size="6.2894" font-style="normal" font-weight="normal" justify="right" valign="middle">(Seth Calvisius)</credit-words>
+  </credit>
+  <part-list>
+    <part-group number="1" type="start">
+      <group-symbol>bracket</group-symbol>
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P1">
+      <part-name>P1</part-name>
+      <part-abbreviation>S.</part-abbreviation>
+      <score-instrument id="I99245a842c2127e3b2f48b22a2a0a5f8">
+        <instrument-name>Soprano</instrument-name>
+      </score-instrument>
+    </score-part>
+    <score-part id="P2">
+      <part-name>P2</part-name>
+      <part-abbreviation>A.</part-abbreviation>
+      <score-instrument id="I3d7e0ffeeec131735d2c405bdc62a644">
+        <instrument-name>Alto</instrument-name>
+      </score-instrument>
+    </score-part>
+    <score-part id="P3">
+      <part-name>P3</part-name>
+      <part-abbreviation>T.</part-abbreviation>
+      <score-instrument id="Ibf47f14254560a177d897156e137dafe">
+        <instrument-name>Tenor</instrument-name>
+      </score-instrument>
+    </score-part>
+    <score-part id="P4">
+      <part-name>P4</part-name>
+      <part-abbreviation>B.</part-abbreviation>
+      <score-instrument id="I8a08df1a03dce65ae586bd0072b31cfb">
+        <instrument-name>Bass (2)</instrument-name>
+      </score-instrument>
+    </score-part>
+    <part-group number="1" type="stop" />
+  </part-list>
+  <!--=========================== Part 1 ===========================-->
+  <part id="P1">
+    <!--========================= Measure 1 ==========================-->
+    <measure number="1" width="243">
+      <print new-page="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>188</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <top-system-distance>285</top-system-distance>
+        </system-layout>
+        <staff-layout number="1" />
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+        <key color="#000000">
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <time color="#000000" print-object="no">
+          <beats>2</beats>
+          <beat-type>1</beat-type>
+        </time>
+        <clef color="#000000">
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+        <staff-details print-object="yes" />
+      </attributes>
+      <direction>
+        <direction-type>
+          <words default-x="-147" default-y="-40" enclosure="none" font-family="capella-Renaissance" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-122" default-y="-10" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-102" default-y="-20" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-85" default-y="-28" enclosure="none" font-family="Junicode" font-size="11.4272" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-47" default-y="-24" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="92" default-y="-20" enclosure="none" font-family="Opus Std" font-size="11.4272" font-style="normal" font-weight="normal" justify="center" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <note color="#000000" default-x="116">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Vnd</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 2 ==========================-->
+    <measure number="2" width="140">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Gott</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="85">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 3 ==========================-->
+    <measure number="3" width="372">
+      <note color="#000000" default-x="22">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>HErr</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="start" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bey</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>sach</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="227" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="285">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>zu</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 4 ==========================-->
+    <measure number="4" width="102">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>helt/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>fellt/</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+    </measure>
+    <!--========================= Measure 5 ==========================-->
+    <measure number="5" width="198">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wenn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Jm</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="102">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>Him</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 6 ==========================-->
+    <measure number="6" width="193">
+      <note color="#000000" default-x="8">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>mel</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="105">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>hoch</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 7 ==========================-->
+    <measure number="7" width="360">
+      <note color="#000000" default-x="3" default-y="10">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>dort</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="48">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>to</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>o</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="133" default-y="10">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="181">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="266">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ben/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-116" name="part1verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ben.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <repeat direction="backward" />
+      </barline>
+    </measure>
+    <!--========================= Measure 8 ==========================-->
+    <measure number="8" width="156">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>21</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <system-distance>247</system-distance>
+        </system-layout>
+        <staff-layout number="1" />
+      </print>
+      <attributes>
+        <staff-details print-object="yes" />
+      </attributes>
+      <note color="#000000" default-x="73">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="115">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 9 ==========================-->
+    <measure number="9" width="99">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Js</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="62">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>ra</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 10 =========================-->
+    <measure number="10" width="224">
+      <note color="#000000" default-x="15" default-y="-50">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>els</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="65" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>schutz</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="117" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="180" default-y="-50">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 11 =========================-->
+    <measure number="11" width="91">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ist/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 12 =========================-->
+    <measure number="12" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vnd</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="71">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>sel</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 13 =========================-->
+    <measure number="13" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ber</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="77">
+        <pitch>
+          <step>D</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bricht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 14 =========================-->
+    <measure number="14" width="339">
+      <note color="#000000" default-x="22" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="66">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="132" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="172">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="261">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>list/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 15 =========================-->
+    <measure number="15" width="153">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>So</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="79">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ists</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 16 =========================-->
+    <measure number="16" width="322">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>mit</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>30240</duration>
+        <type>half</type>
+        <dot />
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="149" default-y="10">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="177" default-y="5">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="215">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>ver</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="256">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>lo</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 17 =========================-->
+    <measure number="17" width="145">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <tie type="start" />
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part1verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ren.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================== Part 2 ===========================-->
+  <part id="P2">
+    <!--========================= Measure 1 ==========================-->
+    <measure number="1" width="243">
+      <print new-page="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>188</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>126</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+        <key color="#000000">
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <time color="#000000" print-object="no">
+          <beats>2</beats>
+          <beat-type>1</beat-type>
+        </time>
+        <clef color="#000000">
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+        <staff-details print-object="yes" />
+      </attributes>
+      <direction>
+        <direction-type>
+          <words default-x="-147" default-y="-30" enclosure="none" font-family="capella-Renaissance" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-122" default-y="-35" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-122" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-102" default-y="-20" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-85" default-y="-28" enclosure="none" font-family="Junicode" font-size="11.4272" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-47" default-y="-30" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="92" default-y="-20" enclosure="none" font-family="Opus Std" font-size="11.4272" font-style="normal" font-weight="normal" justify="center" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <note color="#000000" default-x="116">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Vnd</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 2 ==========================-->
+    <measure number="2" width="140">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Gott</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="85">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 3 ==========================-->
+    <measure number="3" width="372">
+      <note color="#000000" default-x="22">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>HErr</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>sach</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="start" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bey</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="227">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="328">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <accidental>sharp</accidental>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>zu</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 4 ==========================-->
+    <measure number="4" width="102">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>helt/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>fellt/</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+    </measure>
+    <!--========================= Measure 5 ==========================-->
+    <measure number="5" width="198">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wenn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Jm</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="102">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>Him</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 6 ==========================-->
+    <measure number="6" width="193">
+      <note color="#000000" default-x="8">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>mel</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="105">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>hoch</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 7 ==========================-->
+    <measure number="7" width="360">
+      <note color="#000000" default-x="3">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>dort</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92" default-y="-5">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>to</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>o</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="133">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="start" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="221" default-y="-5">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="266">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ben/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part2verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ben.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <repeat direction="backward" />
+      </barline>
+    </measure>
+    <!--========================= Measure 8 ==========================-->
+    <measure number="8" width="156">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>21</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>111</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <staff-details print-object="yes" />
+      </attributes>
+      <note color="#000000" default-x="73">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="133">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <note color="#000000" default-x="115">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 9 ==========================-->
+    <measure number="9" width="99">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Js</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="62">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>ra</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 10 =========================-->
+    <measure number="10" width="224">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>els</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="65">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>schutz</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="180">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 11 =========================-->
+    <measure number="11" width="91">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ist/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 12 =========================-->
+    <measure number="12" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vnd</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="71">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>sel</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 13 =========================-->
+    <measure number="13" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ber</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="77">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bricht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 14 =========================-->
+    <measure number="14" width="339">
+      <note color="#000000" default-x="22">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="66">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="132">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="start" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="222">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <accidental>sharp</accidental>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="261">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>list/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 15 =========================-->
+    <measure number="15" width="153">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>So</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="132">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <note color="#000000" default-x="79" default-y="5">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ists</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="119" default-y="-10">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>mit</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 16 =========================-->
+    <measure number="16" width="322">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89">
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>ver</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="177" default-y="-15">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>lo</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="215">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="290" default-y="-5">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+    </measure>
+    <!--========================= Measure 17 =========================-->
+    <measure number="17" width="145">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <tie type="start" />
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part2verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ren.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================== Part 3 ===========================-->
+  <part id="P3">
+    <!--========================= Measure 1 ==========================-->
+    <measure number="1" width="243">
+      <print new-page="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>188</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>129</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+        <key color="#000000">
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <time color="#000000" print-object="no">
+          <beats>2</beats>
+          <beat-type>1</beat-type>
+        </time>
+        <clef color="#000000">
+          <sign>G</sign>
+          <line>2</line>
+          <clef-octave-change>-1</clef-octave-change>
+        </clef>
+        <staff-details print-object="yes" />
+        <transpose>
+          <diatonic>0</diatonic>
+          <chromatic>0</chromatic>
+          <octave-change>-1</octave-change>
+        </transpose>
+      </attributes>
+      <direction>
+        <direction-type>
+          <words default-x="-147" default-y="-20" enclosure="none" font-family="capella-Renaissance" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-122" default-y="-25" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-102" default-y="-20" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-85" default-y="-28" enclosure="none" font-family="Junicode" font-size="11.4272" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-47" default-y="-5" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="92" default-y="-20" enclosure="none" font-family="Opus Std" font-size="11.4272" font-style="normal" font-weight="normal" justify="center" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <note color="#000000" default-x="116">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Vnd</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 2 ==========================-->
+    <measure number="2" width="140">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Gott</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="85">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 3 ==========================-->
+    <measure number="3" width="372">
+      <note color="#000000" default-x="22">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>HErr</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <tie type="start" />
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>sach</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="227">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bey</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="328" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>zu</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 4 ==========================-->
+    <measure number="4" width="102">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>helt/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>fellt/</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+    </measure>
+    <!--========================= Measure 5 ==========================-->
+    <measure number="5" width="198">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wenn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Jm</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="102" default-y="-35">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>Him</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="125" default-y="-40">
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="150" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="172" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+    </measure>
+    <!--========================= Measure 6 ==========================-->
+    <measure number="6" width="193">
+      <note color="#000000" default-x="8">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="105">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>mel</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 7 ==========================-->
+    <measure number="7" width="360">
+      <note color="#000000" default-x="3">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>hoch</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="48" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="92" default-y="5">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="133">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>dort</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="181">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>to</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>o</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="266">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ben/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part3verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ben.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <repeat direction="backward" />
+      </barline>
+    </measure>
+    <!--========================= Measure 8 ==========================-->
+    <measure number="8" width="156">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>21</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>111</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <staff-details print-object="yes" />
+      </attributes>
+      <note color="#000000" default-x="73">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="115">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 9 ==========================-->
+    <measure number="9" width="99">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Js</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="62">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>ra</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 10 =========================-->
+    <measure number="10" width="224">
+      <note color="#000000" default-x="15" default-y="10">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>els</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="65">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>schutz</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="180" default-y="10">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 11 =========================-->
+    <measure number="11" width="91">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ist/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 12 =========================-->
+    <measure number="12" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <accidental>flat</accidental>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vnd</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="71">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>sel</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 13 =========================-->
+    <measure number="13" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ber</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="77">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bricht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 14 =========================-->
+    <measure number="14" width="339">
+      <note color="#000000" default-x="22" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="66">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="132" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="172">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="261">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>list/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 15 =========================-->
+    <measure number="15" width="153">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>So</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="79" default-y="-45">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ists</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="119" default-y="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>mit</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 16 =========================-->
+    <measure number="16" width="322">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <tie type="start" />
+        <type>whole</type>
+        <accidental>flat</accidental>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>ver</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="215" default-y="-50">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="256">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>lo</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 17 =========================-->
+    <measure number="17" width="145">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>80640</duration>
+        <tie type="start" />
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part3verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ren.</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+  <!--=========================== Part 4 ===========================-->
+  <part id="P4">
+    <!--========================= Measure 1 ==========================-->
+    <measure number="1" width="243">
+      <print new-page="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>188</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>129</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+        <key color="#000000">
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <time color="#000000" print-object="no">
+          <beats>2</beats>
+          <beat-type>1</beat-type>
+        </time>
+        <clef color="#000000">
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+        <staff-details print-object="yes" />
+      </attributes>
+      <direction>
+        <direction-type>
+          <words default-x="-155" default-y="-10" enclosure="none" font-family="capella-Renaissance" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-122" default-y="-30" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-102" default-y="-20" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-85" default-y="-28" enclosure="none" font-family="Junicode" font-size="11.4272" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="-47" default-y="-10" enclosure="none" font-family="capellaMittelalter" font-size="12.5787" font-style="normal" font-weight="normal" justify="left" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <direction>
+        <direction-type>
+          <words default-x="92" default-y="-20" enclosure="none" font-family="Opus Std" font-size="11.4272" font-style="normal" font-weight="normal" justify="center" valign="middle"></words>
+        </direction-type>
+      </direction>
+      <note color="#000000" default-x="116">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>80640</duration>
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Vnd</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 2 ==========================-->
+    <measure number="2" width="140">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Gott</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="85">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 3 ==========================-->
+    <measure number="3" width="372">
+      <note color="#000000" default-x="22">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>HErr</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92" default-y="5">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="start" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bey</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>sach</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="227" default-y="-40">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="285">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>zu</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 4 ==========================-->
+    <measure number="4" width="102">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>helt/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>fellt/</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="150">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+    </measure>
+    <!--========================= Measure 5 ==========================-->
+    <measure number="5" width="198">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wenn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>Jm</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="102">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>vn</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>Him</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 6 ==========================-->
+    <measure number="6" width="193">
+      <note color="#000000" default-x="8">
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ser</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>mel</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="105" default-y="-40">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>hoch</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="146" default-y="-45">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="167" default-y="-50">
+        <pitch>
+          <step>E</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+    </measure>
+    <!--========================= Measure 7 ==========================-->
+    <measure number="7" width="360">
+      <note color="#000000" default-x="3" default-y="15">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="48" default-y="5">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>single</syllabic>
+          <text>dort</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <tie type="start" />
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>to</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>begin</syllabic>
+          <text>o</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>40320</duration>
+      </forward>
+      <note color="#000000" default-x="266">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ben/</text>
+        </lyric>
+        <lyric color="#000000" default-y="-114" name="part4verse2" number="2">
+          <syllabic>end</syllabic>
+          <text>ben.</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <repeat direction="backward" />
+      </barline>
+    </measure>
+    <!--========================= Measure 8 ==========================-->
+    <measure number="8" width="156">
+      <print new-system="yes">
+        <system-layout>
+          <system-margins>
+            <left-margin>21</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+        </system-layout>
+        <staff-layout number="1">
+          <staff-distance>105</staff-distance>
+        </staff-layout>
+      </print>
+      <attributes>
+        <staff-details print-object="yes" />
+      </attributes>
+      <note color="#000000" default-x="73">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>Wo</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="92">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <tie type="stop" />
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <note color="#000000" default-x="115">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>er</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 9 ==========================-->
+    <measure number="9" width="99">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Js</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="62">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>ra</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 10 =========================-->
+    <measure number="10" width="224">
+      <note color="#000000" default-x="15" default-y="-10">
+        <pitch>
+          <step>F</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>els</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="65">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>schutz</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="180" default-y="-45">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>nicht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 11 =========================-->
+    <measure number="11" width="91">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ist/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 12 =========================-->
+    <measure number="12" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vnd</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="71">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>sel</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 13 =========================-->
+    <measure number="13" width="122">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ber</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="77">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>bricht</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 14 =========================-->
+    <measure number="14" width="339">
+      <note color="#000000" default-x="22" default-y="5">
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>up</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>der</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="66">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>Fein</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="132" default-y="-40">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+      </note>
+      <note color="#000000" default-x="172">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>de</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="261">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>list/</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 15 =========================-->
+    <measure number="15" width="153">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>So</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="79">
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>ists</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 16 =========================-->
+    <measure number="16" width="322">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>mit</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <tie type="start" />
+        <type>whole</type>
+        <accidental>flat</accidental>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>single</syllabic>
+          <text>vns</text>
+        </lyric>
+      </note>
+      <forward>
+        <duration>20160</duration>
+      </forward>
+      <note color="#000000" default-x="215" default-y="-45">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <type>half</type>
+        <stem>down</stem>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>begin</syllabic>
+          <text>ver</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="256">
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>40320</duration>
+        <type>whole</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>middle</syllabic>
+          <text>lo</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--========================= Measure 17 =========================-->
+    <measure number="17" width="145">
+      <note color="#000000" default-x="15">
+        <pitch>
+          <step>F</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>80640</duration>
+        <tie type="start" />
+        <type>breve</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="start" />
+        </notations>
+        <lyric color="#000000" default-y="-80" name="part4verse1" number="1">
+          <syllabic>end</syllabic>
+          <text>ren.</text>
+        </lyric>
+      </note>
+      <note color="#000000" default-x="89">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>20160</duration>
+        <tie type="stop" />
+        <type>half</type>
+        <notehead color="#000000" parentheses="no">normal</notehead>
+        <notations>
+          <tied type="stop" />
+        </notations>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+</score-partwise>
