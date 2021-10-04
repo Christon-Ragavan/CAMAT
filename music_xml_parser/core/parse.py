@@ -33,7 +33,7 @@ def with_xml_file(file: str,
                   save_file_name: str = None,
                   do_save: bool = False,
                   x_axis_res=2,
-                  get_measure_onset:bool=False,
+                  get_measure_onset:bool=False, get_upbeat_info=False,
                   filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
 
     file = _get_file_path(file=file)
@@ -64,6 +64,9 @@ def with_xml_file(file: str,
     logger.info("Extracting")
     parser_o = XMLParser(path=file, logger=logger)
     df_xml = parser_o.xml_parse()
+    if get_upbeat_info:
+        upbeat_info = parser_o.upbeat_measure_info
+        return df_xml, plot_pianoroll, parser_o.measure_onset_list, upbeat_info, x_axis_res, get_measure_onset, measure_onset_data, plot_inline_ipynb
 
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
@@ -89,7 +92,7 @@ def testing():
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file=xml_file,
-                      plot_pianoroll=False,
+                      plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
                       do_save=False,#filter_dict=filter_dict_t,
