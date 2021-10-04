@@ -80,14 +80,16 @@ def testing():
     # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
     # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    # xml_file = 'ElEd_Op39_1-5_COM_PompandCir_001_00292.xml'
     # xml_file = 'weird2.xml'
-    xml_file = 'weird33.xml'
+    # xml_file = 'weird33.xml'
     # xml_file = 'ultimate_tie_test.xml'
 
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
     d = with_xml_file(file=xml_file,
-                      plot_pianoroll=True,
+                      plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,
                       do_save=False,#filter_dict=filter_dict_t,

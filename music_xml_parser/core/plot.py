@@ -103,6 +103,11 @@ def pianoroll_parts(func, *args, **kwargs):
                 onset = list(np.squeeze(df['Onset'].to_numpy(dtype=float)))
                 duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
                 total_measure = int(max(list(np.squeeze(df['Measure'].to_numpy(dtype=float)))))
+                if int(min(list(np.squeeze(df['Measure'].to_numpy(dtype=float))))) == 0:
+                    upbeat = True
+                else:
+                    upbeat = True
+
                 measure = measure[:total_measure]
                 midi = df['MIDI'].replace({np.nan: 0}).to_list()
                 partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
@@ -117,6 +122,7 @@ def pianoroll_parts(func, *args, **kwargs):
                                                midi_min=55,
                                                midi_max=75,
                                                x_axis_res=x_axis_res,
+                                               upbeat=upbeat,
                                                plot_inline_ipynb=plot_inline_ipynb)
         except:
             print("Error in ploting piano roll")
@@ -128,22 +134,33 @@ def pianoroll_parts(func, *args, **kwargs):
             return df
     return plotting_wrapper_parts
 
-def _get_xtickslabels_with_measure(x_axis, measure):
+def _get_xtickslabels_with_measure(x_axis, measure,upbeat):
+    if upbeat:
+        a=0
+    else:
+        a=1
     x_lab = []
     for i in range(len(x_axis)):
         s = x_axis[i]
         idx = np.argmin(np.abs(s-measure))
         if s == measure[idx]:
-            l = '\n\n'+str(measure.index(measure[idx])+1)
+            l = '\n\n'+str(measure.index(measure[idx])+a)
         else:
             l =''
         x_lab.append(str(s)+l)
     return x_lab
 
-def _create_pianoroll_single_parts(pitch, time, measure,part_name_list, partid, part_name, duration,
-                                   midi_min, midi_max, x_axis_res,plot_inline_ipynb,
+def _create_pianoroll_single_parts(pitch, time,
+                                   measure,
+                                   part_name_list,
+                                   partid,
+                                   part_name,
+                                   duration,
+                                   midi_min,
+                                   midi_max,
+                                   x_axis_res,upbeat,
+                                   plot_inline_ipynb,
                                    *args, **kwargs):
-
     cm = plt.get_cmap('gist_rainbow')
     x_axis = np.arange(0, max(time) * x_axis_res + 1) / x_axis_res
     NUM_PARTS = len(list(set(partid)))
@@ -190,7 +207,7 @@ def _create_pianoroll_single_parts(pitch, time, measure,part_name_list, partid, 
     for tt in measure:
         ax.vlines(tt, ymax=500, ymin=0, colors='grey', linestyles=(0, (2, 15)))
 
-    xlab = _get_xtickslabels_with_measure(x_axis, measure)
+    xlab = _get_xtickslabels_with_measure(x_axis, measure,upbeat)
     ax.set_xticks(x_axis)
     ax.set_xticklabels(xlab)
 
@@ -202,14 +219,12 @@ def _create_pianoroll_single_parts(pitch, time, measure,part_name_list, partid, 
 
 
     ax.set_xlim([int(time[0]), int(x_axis[-1])])
-    # ax.set_xlim([0, int(x_axis[-1]*0.20)])
-    # ax.set_xlim([0, 5])
 
     ax.set_xlabel("Time \n Measure Number")
     ax.set_ylabel("Pitch")
 
-    ax.legend([patches.Patch(linewidth=1, edgecolor='k', facecolor=colors_dicts[key]) for key in labels_set],
-              labels_set, loc='upper right', framealpha=1)
+    ax.legend([patches.Patch(linewidth=1, edgecolor='k', facecolor=colors_dicts[key], alpha=0.5) for key in labels_set],
+              labels_set, loc='upper right', framealpha=0.5)
 
     zp = ZoomPan()
     _ = zp.zoom_factory(ax, base_scale=1.1)
