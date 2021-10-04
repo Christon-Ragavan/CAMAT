@@ -821,14 +821,13 @@ class XMLToolBox:
                 measure_durr_data.append([c_mea, c_part, self.measure_duration_dict[md]])
             else:continue
         gp['diff'] = gp['MeasureDuration'] - gp['Duration']
-        gp['UpbeatTag'] = ['' for _ in range(len(gp))]
-
-        #mie forma
+        gp['UpbeatTag'] = ['none' for _ in range(len(gp))]
 
         diff_tag = np.squeeze(np.where(( gp['diff'] != 0.0 )))
         if diff_tag.size !=0:
             for x in diff_tag:
                 gp.loc[int(x), 'UpbeatTag']='True'
+        self.upbeat_measure_info = gp.copy()
         column_names = ["#Note_Debug",
                         "Onset",
                         "Duration",
@@ -854,8 +853,7 @@ class XMLToolBox:
 
     def compute_upbeat(self, df):
         df['Upbeat'] = ['none' for _ in range(len(df))]
-        # df = self.check_for_upbeat_measure(df)
-        #
+        df = self.check_for_upbeat_measure(df)
         df_c = df.copy()
         meau = np.squeeze(df_c[['Measure']].to_numpy())
         if 0 in meau or '0' in meau:
@@ -884,10 +882,6 @@ class XMLToolBox:
 
             self.compute_measure_onset(df)
             df = self._re_compute_onset_upbeat(df)
-
-            # return df
-        # else:
-        #     return df
         return df
 
 
@@ -916,4 +910,5 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_upbeat(df_data)
         df_data = self.remove_df_cols(df_data)
         print(df_data)
+        print(self.upbeat_measure_info)
         return df_data
