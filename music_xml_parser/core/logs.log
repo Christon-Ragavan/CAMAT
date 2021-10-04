@@ -1,0 +1,98 @@
+2021-10-04 09:25:18,565:INFO:__main__:parse.py:64:Extracting
+2021-10-04 09:25:18,572:INFO:__main__:xml_parser.py:899:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/xml_pool/BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:209: ------------- part part P1 1-------------
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 0  curr_onset 0.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 1  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 1 measure idtag 2  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 2 measure idtag 3  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 3 measure idtag 4  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 4 measure idtag 5  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 5 measure idtag 6  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 6 measure idtag 7  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 7 measure idtag 8  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 8 measure idtag 9  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 9 measure idtag 10  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 10 measure idtag 11  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 11 measure idtag 12  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 12 measure idtag 13  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 13 measure idtag 14  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:209: ------------- part part P2 2-------------
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 0  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 1  curr_onset 4.0
+2021-10-04 09:25:18,572:DEBUG:__main__:xml_parser.py:216:measure 1 measure idtag 2  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 2 measure idtag 3  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 3 measure idtag 4  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 4 measure idtag 5  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 5 measure idtag 6  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 6 measure idtag 7  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 7 measure idtag 8  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 8 measure idtag 9  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 9 measure idtag 10  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 10 measure idtag 11  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 11 measure idtag 12  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 12 measure idtag 13  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 13 measure idtag 14  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:209: ------------- part part P3 3-------------
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 0  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 1  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 1 measure idtag 2  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 2 measure idtag 3  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 3 measure idtag 4  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 4 measure idtag 5  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 5 measure idtag 6  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 6 measure idtag 7  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 7 measure idtag 8  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 8 measure idtag 9  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 9 measure idtag 10  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 10 measure idtag 11  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 11 measure idtag 12  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 12 measure idtag 13  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 13 measure idtag 14  curr_onset 4.0
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:209: ------------- part part P4 4-------------
+2021-10-04 09:25:18,573:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 0  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 1  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 1 measure idtag 2  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 2 measure idtag 3  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 3 measure idtag 4  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 4 measure idtag 5  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 5 measure idtag 6  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 6 measure idtag 7  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 7 measure idtag 8  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 8 measure idtag 9  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 9 measure idtag 10  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 10 measure idtag 11  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 11 measure idtag 12  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 12 measure idtag 13  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 13 measure idtag 14  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:209: ------------- part part P5 5-------------
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 0  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 0 measure idtag 1  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 1 measure idtag 2  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 2 measure idtag 3  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 3 measure idtag 4  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 4 measure idtag 5  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 5 measure idtag 6  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 6 measure idtag 7  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 7 measure idtag 8  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 8 measure idtag 9  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 9 measure idtag 10  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 10 measure idtag 11  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 11 measure idtag 12  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 12 measure idtag 13  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:216:measure 13 measure idtag 14  curr_onset 4.0
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:313:self.step                   :301
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:314:self.octave                 :301
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:315:self.tie                    :301
+2021-10-04 09:25:18,574:DEBUG:__main__:xml_parser.py:316:self.duration               :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:317:self.chord_tags             :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:318:self.voice_num              :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:319:self.GraceNote              :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:320:self.measure_num_per_note   :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:321:self.glb_part_id_list       :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:322:self.part_name_list         :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:323:measure_onset_list         :75
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:324:self.note_counter_list      :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:325:self.measure_onset_df      :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:326:self.time_signature_list     :301
+2021-10-04 09:25:18,575:DEBUG:__main__:xml_parser.py:327:curr_measure_num            :14
+2021-10-04 09:25:18,654:INFO:__main__:parse.py:74:Successful
