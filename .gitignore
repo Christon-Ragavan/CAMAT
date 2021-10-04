@@ -136,4 +136,3 @@ xml_files/
 scripts/
 clear_pycache.sh
 *.xml
-data/
