@@ -8,13 +8,16 @@ try:
     from .parser_utils import _get_file_path
     from .plot import pianoroll_parts
     from .xml_parser import XMLParser
-    from .analyse import filter
+    from .analyse import *
+    from .analyse import _cs_total_parts,_cs_total_meas, _cs_pitch_histogram, _cs_initialize_df
+
 except:
     from parser_utils import *
     from parser_utils import _get_file_path
     from plot import pianoroll_parts
     from xml_parser import XMLParser
-    from analyse import filter
+    from analyse import *
+    from analyse import _cs_total_parts,_cs_total_meas, _cs_pitch_histogram,_cs_initialize_df
 
 
 import os
@@ -77,6 +80,32 @@ def with_xml_file(file: str,
     logger.info("Successful")
     return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
 
+
+def corpus_study(xml_files):
+    df_list = []
+    if 'https' in xml_files[0]:
+        print("Please download the files and save it in the data folder")
+        raise Exception("Please download the files and save it in the data folder")
+
+    FileNames = [i.replace('.xml', '') for i in xml_files]
+    df_data = _cs_initialize_df(FileNames)
+    for xf in xml_files:
+        c_df = with_xml_file(file=xf,
+                              plot_pianoroll=False,
+                              plot_inline_ipynb=False,
+                              save_at=None,
+                              save_file_name=None,
+                              do_save=False,
+                              x_axis_res=2,
+                              get_measure_Onset=False)
+        df_list.append(c_df)
+    df_data = _cs_total_parts(df_data, df_list)
+    df_data = _cs_total_meas(df_data, df_list)
+    df_data = _cs_pitch_histogram(df_data, df_list, FileNames)
+    # df_data = _cs_pitchclass_histogram(df_data, df_list, FileNames)
+
+    print(df_data)
+
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
@@ -84,6 +113,9 @@ def testing():
     # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
     xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
+    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+
     # xml_file = 'ElEd_Op39_1-5_COM_PompandCir_001_00292.xml'
     # xml_file = 'weird2.xml'
     # xml_file = 'weird33.xml'
@@ -91,15 +123,18 @@ def testing():
 
     # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
 
+
+
     d = with_xml_file(file=xml_file,
                       plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
-                      do_save=False,#filter_dict=filter_dict_t,
+                      do_save=False, get_upbeat_info=False,#filter_dict=filter_dict_t,
                       x_axis_res=1)
     # print(d)
     # import analyse
     # analyse.ambitus(d)
+
 
 if __name__ == "__main__":
     testing()

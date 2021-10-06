@@ -6,8 +6,6 @@ License: The MIT license, https://opensource.org/licenses/MIT
 try:
     from .parser_utils import ZoomPan
     from .utils import str2midi, midi2str, midi2pitchclass
-
-
 except:
     from parser_utils import ZoomPan
     from utils import str2midi, midi2str, midi2pitchclass

@@ -658,7 +658,24 @@ class XMLToolBox:
     def remove_df_cols(self, df, drop_colms_labels=None):
         if drop_colms_labels is None:
             drop_colms_labels = ['#Note_Debug', 'MeasureOnset_ref']
-        return df.drop(drop_colms_labels, axis=1)
+        df.drop(drop_colms_labels, axis=1)
+        set_dtypes = {'Duration': float,
+                      'Pitch': str,
+                      'Octave': str,
+                      'Measure': int,
+                      'Voice': int,
+                      'PartID': int,
+                      'PartName': str,
+                      'ChordTag': str,
+                      'TieType': str,
+                      'GraceTag': str,
+                      'MeasureOnset': float,
+                      'TimeSignature': str,
+                      'TimeSignatureAdjusted': str
+                      }
+        df_data = df.astype(set_dtypes)
+        return df_data
+
 
     def _compute_measure_n_onset(self):
         return pd.DataFrame(
@@ -798,17 +815,25 @@ class XMLToolBox:
 
     def check_for_upbeat_measure(self, df):
         df['UpbeatMeasure'] = ['none' for _ in range(len(df))]
-        gp = df.groupby(["Measure", "Voice", "PartID"]).agg({"Duration": np.sum}).reset_index()
-        set_dtypes = {'Voice': str}
-        gp = gp.astype(set_dtypes)
 
-        gp = gp[gp['Voice'].str.contains("1")].reset_index()
+        for i in [ "1", "0"]:
+            gp = df.groupby(["Measure", "Voice", "PartID"]).agg({"Duration": np.sum}).reset_index()
+
+            set_dtypes = {'Voice': str}
+            gp = gp.astype(set_dtypes)
+            gp = gp[gp['Voice'].str.contains(i)].reset_index()
+            if len(gp)==0:
+                continue
+            else:
+                break
+
 
         set_dtypes = {'Measure': int,
                       'Voice': int,
                       'PartID': int,
                       'Duration': float}
         gp = gp.astype(set_dtypes)
+
         # assert len(self.measure_duration_dict) == len(gp),f"Assering the lenth of unique measure duration with pd " \
         #                                                    f"measure measure_duration_dict:{len(self.measure_duration_dict)}, GP:{len(gp)}"
         measure_durr_data = []
@@ -909,6 +934,4 @@ class XMLParser(XMLToolBox):
 
         df_data = self.compute_upbeat(df_data)
         df_data = self.remove_df_cols(df_data)
-        print(df_data)
-        print(self.upbeat_measure_info)
         return df_data
