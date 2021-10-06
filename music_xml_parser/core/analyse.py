@@ -1,8 +1,12 @@
 import os
 import re
 import sys
-# sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
+sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
 # sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), os.path.join('music_xml_parser', 'core')))
+import numpy as np
+np.seterr(all="ignore")
+
+
 try:
     from utils import midi2str, midi2pitchclass
     from parse import with_xml_file

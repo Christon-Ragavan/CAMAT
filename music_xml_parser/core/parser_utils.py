@@ -39,7 +39,6 @@ def _get_file_path(file):
         if not isfile(f):
             f = join(os.getcwd().replace(basename(os.getcwd()), 'data'),
                         join('xmls_to_parse', 'hfm_database', file))
-
         assert isfile(f), f"Please enter either the web https link or file name"
         assert isfile(f), f"File Not Found {f}"
 

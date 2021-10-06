@@ -6,7 +6,9 @@ import xml.etree.ElementTree as ET
 from os.path import isfile
 import numpy as np
 import pandas as pd
-
+np.seterr(all="ignore")
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 try:
     from .parser_utils import set_up_logger, _inseart_row_in_pd
 except:
@@ -657,8 +659,8 @@ class XMLToolBox:
 
     def remove_df_cols(self, df, drop_colms_labels=None):
         if drop_colms_labels is None:
-            drop_colms_labels = ['#Note_Debug', 'MeasureOnset_ref']
-        df.drop(drop_colms_labels, axis=1)
+            drop_colms_labels = ['#Note_Debug', 'MeasureOnset_ref'] ##Note_Debug
+        df = df.drop(drop_colms_labels, axis=1)
         set_dtypes = {'Duration': float,
                       'Pitch': str,
                       'Octave': str,

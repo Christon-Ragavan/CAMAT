@@ -1,13 +1,11 @@
-import numpy as np
+import itertools as it
+import os
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import itertools as it
+from IPython.display import display, HTML
 
-from IPython.display import HTML, display
-import os
-
+np.seterr(all="ignore")
 
 
 

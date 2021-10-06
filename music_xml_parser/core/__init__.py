@@ -10,8 +10,7 @@ __license__ = "Licensed under the MIT license:"
 __version__ = "1.0"
 
 
-from .parse import with_xml_file, \
-    pianoroll_parts
+from .parse import pianoroll_parts
 from .analyse import ambitus,\
     pitch_histogram,\
     pitch_class_histogram,\
