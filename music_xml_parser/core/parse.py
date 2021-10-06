@@ -135,6 +135,10 @@ def testing():
                       do_save=False, get_upbeat_info=False,#filter_dict=filter_dict_t,
                       x_axis_res=1)
     print(d)
+
+
+    ts_hist = time_signature_histogram(d, do_plot=False, do_adjusted=False)
+    print(ts_hist)
     # print(d)
     # import analyse
     # analyse.ambitus(d)

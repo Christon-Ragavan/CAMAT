@@ -70,12 +70,18 @@ def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=F
         df_data = filter(df_data, filter_dict)
     if not do_adjusted:
         ts = df_data['TimeSignature'].to_numpy()
+        ts_m = df_data[['TimeSignatureAdjusted','Measure']].drop_duplicates().to_numpy()
+        ts_m = ts_m[:,0]
+
         xlab = 'TimeSignature'
     else:
         xlab = 'TimeSignatureAdjusted'
         ts = df_data['TimeSignatureAdjusted'].to_numpy()
+        ts_m = df_data[['TimeSignatureAdjusted','Measure']].drop_duplicates().to_numpy()
+        ts_m = ts_m[:,0]
 
-    u, c = np.unique(ts, return_counts=True)
+
+    u, c = np.unique(ts_m, return_counts=True)
     if do_plot:
         barplot(u, counts=c, figsize='fit', x_label=xlab, y_label='Occurrences')
     data = [[i, int(c)] for i, c in zip(u, c)]
@@ -453,7 +459,7 @@ def _cs_pitchclass_histogram(df_data, dfs,FileNames):
 
 # if __name__ == '__main__':
     # sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
-    # import hfm.scripts_in_progress.xml_parser.music_xml_parser as mp
+    import hfm.scripts_in_progress.xml_parser.music_xml_parser as mp
     # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
     # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
     # xml_file = 'BeLuva_Op59_1-3_1-4_StringQuar_003_00129.xml'
@@ -477,6 +483,7 @@ def _cs_pitchclass_histogram(df_data, dfs,FileNames):
     #                               do_save=False,
     #                               x_axis_res=2,
     #                               get_measure_Onset=False)#, filter_dict=filter_dict_t)
+    # ts_hist = time_signature_histogram(m_df, do_plot=False, do_adjusted=False)
 
     # part = m_df[['PartID']].to_numpy()
     # part_name = m_df[['PartName']].to_numpy()
