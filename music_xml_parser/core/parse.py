@@ -82,7 +82,7 @@ def with_xml_file(file: str,
     logger.info("Successful")
     return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
 
-"""
+
 # def corpus_study(xml_files):
 #     df_list = []
 #     if 'https' in xml_files[0]:
@@ -123,15 +123,19 @@ def testing():
     # xml_file = 'weird33.xml'
     # xml_file = 'ultimate_tie_test.xml'
 
-    filter_dict_t = {'Measure': '4-5', 'PartID': 1}
+    # filter_dict_t = {'Measure': '4-5', 'PartID': 1}
 
 
 
     d = with_xml_file(file=xml_file,
-                      plot_pianoroll=True,
+                      plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,
                       do_save=False, get_upbeat_info=False,#filter_dict=filter_dict_t,
-                      x_axis_res=1, filter_dict=filter_dict_t)
+                      x_axis_res=1)#, filter_dict=filter_dict_t)
+    import analyse
 
-"""
+    ss = analyse.ambitus(d,output_as_midi=True)
+    print(ss)
+if __name__=='__main__':
+    testing()

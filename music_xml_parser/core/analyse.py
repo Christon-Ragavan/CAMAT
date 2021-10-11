@@ -96,21 +96,24 @@ def ambitus(df_data: pd.DataFrame, output_as_midi=True, filter_dict=None):
     df_data['PartID'] = df_data['PartID'].astype(str)
 
     uni_parts = np.unique(df_data['PartID'].values)
+
     for i in uni_parts:
 
         d = df_data[df_data['PartID'].str.contains(i)].copy()
+
         d.dropna(subset=["MIDI"], inplace=True)
         max_r = np.max(d['MIDI'].to_numpy(dtype=float))
         min_r = np.min(d['MIDI'].to_numpy(dtype=float))
         diff_r = max_r - min_r
+        name = np.unique(d['PartName'].to_numpy())[0]
 
         if output_as_midi:
-            ab.append([int(i), int(min_r), int(max_r), int(diff_r)])
+            ab.append([int(i), str(name), int(min_r), int(max_r), int(diff_r)])
         else:
 
             min_r = midi2str(int(min_r))
             max_r = midi2str(int(max_r))
-            ab.append([int(i), str(min_r), str(max_r), int(diff_r)])
+            ab.append([int(i),str(name), str(min_r), str(max_r), int(diff_r)])
 
     return ab
 
