@@ -104,7 +104,7 @@ def pianoroll_parts(func, *args, **kwargs):
                 if int(min(list(np.squeeze(df['Measure'].to_numpy(dtype=float))))) == 0:
                     upbeat = True
                 else:
-                    upbeat = True
+                    upbeat = False
 
                 measure = measure[:total_measure]
                 midi = df['MIDI'].replace({np.nan: 0}).to_list()
@@ -261,19 +261,25 @@ def barplot_pitch_histogram(labels,
     if do_plot_full_axis:
         ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
         midi_labels = [midi2str(i) for i in range(128)]
+        # none = [None] * len(midi_labels[1::2])
+        # midi_labels[1::2] = none
         ax.set_xticks(np.arange(128))
         ax.set_xticklabels(midi_labels)
+        ax.set_xticks(ax.get_xticks()[::2])
+
         ax.set_xlim(visulize_midi_range[0]-0.5, visulize_midi_range[1]-0.5)
     else:
         midi_labels = [midi2str(i) for i in labels]
+        # none = [None] * len(midi_labels[1::2])
+        # midi_labels[1::2] = none
         ax.bar(midi_labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
 
     plt.grid()
-    plt.show()
+    # plt.show()
 
 def barplot_pitch_class_histogram(labels, counts, label_str, x_axis_12pc =False):
 
-    f = plt.figure(figsize=(12, 4))
+    f = plt.figure(figsize=(12, 6))
     ax = f.add_subplot(111)
     ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
     ax.set_xlabel('Pitch')
@@ -294,7 +300,7 @@ def barplot_quaterlength_duration_histogram(labels, counts):
 
     f = plt.figure(figsize=(12, 4))
     ax = f.add_subplot(111)
-    ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+    ax.bar(labels, counts, width=0.1, color='darkslateblue', alpha=0.8)
     ax.set_xlabel('Quater Length')
     ax.set_ylabel('Occurrences')
     ax.set_xticks(np.arange(np.max(labels)+1))
@@ -387,9 +393,13 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
 
 
 def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
+    try:
+        p = [int(i) for i in np_bs_data[:, 0]]
+        midi = [midi2str(i) for i in p]
 
-    p = [int(i) for i in np_bs_data[:, 0]]
-    midi = [midi2str(i) for i in p]
+    except:
+        p = [str(i) for i in np_bs_data[:, 0]]
+        midi = p
     midi_dict = dict(zip(p, midi))
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])

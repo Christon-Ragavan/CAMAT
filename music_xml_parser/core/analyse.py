@@ -1,11 +1,11 @@
 import os
 import re
 import sys
-sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
-# sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), os.path.join('music_xml_parser', 'core')))
-import numpy as np
-np.seterr(all="ignore")
 
+sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
+import numpy as np
+
+np.seterr(all="ignore")
 
 try:
     from utils import midi2str, midi2pitchclass
@@ -17,7 +17,6 @@ except:
     from .utils import midi2str, midi2pitchclass
     # from .parse import with_xml_file
     from .plot import *
-
 
 
 def getVoice(df_data: pd.DataFrame):
@@ -70,16 +69,15 @@ def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=F
         df_data = filter(df_data, filter_dict)
     if not do_adjusted:
         ts = df_data['TimeSignature'].to_numpy()
-        ts_m = df_data[['TimeSignatureAdjusted','Measure']].drop_duplicates().to_numpy()
-        ts_m = ts_m[:,0]
+        ts_m = df_data[['TimeSignature', 'Measure']].drop_duplicates().to_numpy()
+        ts_m = ts_m[:, 0]
 
         xlab = 'TimeSignature'
     else:
         xlab = 'TimeSignatureAdjusted'
         ts = df_data['TimeSignatureAdjusted'].to_numpy()
-        ts_m = df_data[['TimeSignatureAdjusted','Measure']].drop_duplicates().to_numpy()
-        ts_m = ts_m[:,0]
-
+        ts_m = df_data[['TimeSignatureAdjusted', 'Measure']].drop_duplicates().to_numpy()
+        ts_m = ts_m[:, 0]
 
     u, c = np.unique(ts_m, return_counts=True)
     if do_plot:
@@ -172,9 +170,10 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      with_pitch=False,
                                      with_pitchclass=False,
                                      do_plot=True, filter_dict=None):
-    # TODO: withpitchclass
     if with_pitchclass:
-        print("TO BE IMPLEMENT")
+        if not with_pitch:
+            with_pitch = True
+
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
@@ -187,15 +186,28 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             barplot_quaterlength_duration_histogram(labels, counts=c)
 
         data = [[round(float(i), 2), int(c)] for i, c in zip(u, c)]
+        return data
     else:
         df_data.dropna(subset=["MIDI"], inplace=True)
+        # print(df_data[['Pitch', 'Duration']])
+        if with_pitchclass:
+            n_df = df_data[['MIDI', 'Duration']].to_numpy()
 
-        n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
-        u, c = np.unique(n_df, axis=0, return_counts=True)
+            p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
 
-        p = [int(i) for i in u[:, 0]]
 
-        d = [float(i) for i in u[:, 1]]
+            d = n_df[:, 1]
+            n_df = [[i, ii] for i, ii in zip(p,d)]
+            n_df = np.array(n_df,dtype='<U21')
+            u, c = np.unique(n_df, axis=0, return_counts=True)
+            p = [str(i) for i in u[:, 0]]
+            d = [float(i) for i in u[:, 1]]
+        else:
+            n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
+
+            u, c = np.unique(n_df, axis=0, return_counts=True)
+            p = [int(i) for i in u[:, 0]]
+            d = [float(i) for i in u[:, 1]]
 
         pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
         convert_dict = {'Count': int,
@@ -205,7 +217,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         data = pd_data_s.to_numpy()
         if do_plot:
             plot_3d(np.array(data))
-    return data
+        return data
 
 
 def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
@@ -312,7 +324,13 @@ def filter(df_data: pd.DataFrame, filter_dict):
                              copy=False)
         else:
             grouped = f_df.groupby(by=[i])
-            f_df = grouped.get_group(s_d).copy()
+            try:
+                s_d = int(s_d)
+                f_df = grouped.get_group(s_d).copy()
+            except:
+                s_d = str(s_d)
+                f_df = grouped.get_group(s_d).copy()
+
 
     return f_df
 
@@ -343,31 +361,31 @@ def _cs_total_meas(df_data, dfs):
 def _cs_ambitus(df_data, dfs, FileNames):
     ph_data = []
     for df in dfs:
-        print("......")
         data = ambitus(df,
                        output_as_midi=True,
                        filter_dict=None)
         data = np.array(data)
-        print(data)
         ph_data.append(data)
 
     # for idx, p in enumerate(ph_data):
-        # data_f = np.full(shape=(12, 2), fill_value='')
-        # data_f[:, 0] = pc_names
-        # data_f = pd.DataFrame(data_f, columns=['PitchCLass', 'Freq'])
-        # for i in p:
-        #     r = data_f.index[data_f['PitchCLass'] == str(i[0])]
-        #     data_f.loc[r, 'Freq'] = str(i[1])
-        # data_f = data_f.T
-        # n_l = [FileNames[idx] for _ in range(len(data_f))]
-        # col_names =  ['PitcClasshHist' for _ in range (len(data_f.columns))]
-        # data_f.columns = col_names
-        #
-        # data_f['FileName'] = n_l
-        #
-        # data_all.append(data_f)
-        # del data_f
+    # data_f = np.full(shape=(12, 2), fill_value='')
+    # data_f[:, 0] = pc_names
+    # data_f = pd.DataFrame(data_f, columns=['PitchCLass', 'Freq'])
+    # for i in p:
+    #     r = data_f.index[data_f['PitchCLass'] == str(i[0])]
+    #     data_f.loc[r, 'Freq'] = str(i[1])
+    # data_f = data_f.T
+    # n_l = [FileNames[idx] for _ in range(len(data_f))]
+    # col_names =  ['PitcClasshHist' for _ in range (len(data_f.columns))]
+    # data_f.columns = col_names
+    #
+    # data_f['FileName'] = n_l
+    #
+    # data_all.append(data_f)
+    # del data_f
     return df_data
+
+
 def _cs_pitch_histogram(df_data, dfs, FileNames):
     midi_min_max = []
     ph_data = []
@@ -382,20 +400,20 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
         midi_min_max.append(max(data[:, 0]))
         ph_data.append(data)
 
-    axis_range = np.arange(start=int(min(midi_min_max)), stop= int(max(midi_min_max)))
+    axis_range = np.arange(start=int(min(midi_min_max)), stop=int(max(midi_min_max)))
     data_all = []
-    for idx, p in enumerate (ph_data):
+    for idx, p in enumerate(ph_data):
         data_f = np.full(shape=(len(axis_range), 3), fill_value=0)
         data_f[:, 0] = axis_range
         data_f = pd.DataFrame(data_f, columns=['Midi', 'Pitch', 'Freq'])
 
         for i in p:
-            r = data_f.index[data_f['Midi']==int(i[0])]
+            r = data_f.index[data_f['Midi'] == int(i[0])]
             data_f.loc[r, 'Pitch'] = str(i[1])
             data_f.loc[r, 'Freq'] = int(i[2])
         data_f = data_f.T
         n_l = [FileNames[idx] for _ in range(len(data_f))]
-        col_names= ['PitchHist' for _ in range (len(data_f.columns))]
+        col_names = ['PitchHist' for _ in range(len(data_f.columns))]
         data_f.columns = col_names
 
         data_f['FileName'] = n_l
@@ -404,21 +422,21 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
         del data_f
     data_all = pd.concat(data_all, ignore_index=True, sort=False)
 
-    df_data = df_data.merge(data_all, on='FileName', how='outer')#,suffixes = ('', '_n'))
+    df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
 
     return df_data
 
-def _cs_pitchclass_histogram(df_data, dfs,FileNames):
-    pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
+def _cs_pitchclass_histogram(df_data, dfs, FileNames):
+    pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
     midi_min_max = []
     ph_data = []
     for idx, df in enumerate(dfs):
         data = pitch_class_histogram(df,
-                               do_plot=False,
-                               x_axis_12pc=True,
-                               filter_dict=None)
+                                     do_plot=False,
+                                     x_axis_12pc=True,
+                                     filter_dict=None)
         ph_data.append(data)
     data_all = []
 
@@ -431,7 +449,7 @@ def _cs_pitchclass_histogram(df_data, dfs,FileNames):
             data_f.loc[r, 'Freq'] = str(i[1])
         data_f = data_f.T
         n_l = [FileNames[idx] for _ in range(len(data_f))]
-        col_names =  ['PitcClasshHist' for _ in range (len(data_f.columns))]
+        col_names = ['PitcClasshHist' for _ in range(len(data_f.columns))]
         data_f.columns = col_names
 
         data_f['FileName'] = n_l
@@ -441,10 +459,8 @@ def _cs_pitchclass_histogram(df_data, dfs,FileNames):
     # col_names.append('FileName')
     data_all = pd.concat(data_all, ignore_index=True, sort=False)
     # data_all = data_all.drop_duplicates(subset=col_names, keep='first')
-    print(data_all)
     # df_data = df_data.merge(data_all, left_index=True, right_index=True, how='outer')
     df_data = df_data.merge(data_all, left_index=True, right_index=True, how='outer')  # ,suffixes = ('', '_n'))
-    print(df_data)
     # df_data['FileName_x'] = df_data['FileName_y'].tolist()
     df_data = df_data.rename(columns={'FileName_x': 'FileName'})
     df_data.drop(df_data.filter(regex='_y$').columns.tolist(), axis=1, inplace=True)
@@ -452,51 +468,3 @@ def _cs_pitchclass_histogram(df_data, dfs,FileNames):
 
     return df_data
 
-
-
-    # print("..",dfdata)
-
-
-# if __name__ == '__main__':
-    # sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
-    import hfm.scripts_in_progress.xml_parser.music_xml_parser as mp
-    # xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
-    # xml_file = 'PrJode_Jos1102_COM_2-5_MissaLasol_002_00138.xml'
-    # xml_file = 'BeLuva_Op59_1-3_1-4_StringQuar_003_00129.xml'
-    # filter_dict_t = {'Measure': '6-7', 'PartID': '2-3'}
-    # xml_file = 'MoWo_K279_COM_1-3_PianoSonat_003_00920.xml'
-    # xml_file = 'https://analyse.hfm-weimar.de/database/03/BoMaEn_Op115_11-22_COM_ThemeetVar_003_00181.xml'
-    # m_df = mp.parse.with_xml_file(file=xml_file,
-    #                             plot_pianoroll=True,
-    #                             plot_inline_ipynb=True,
-    #                             save_at=None,
-    #                             save_file_name=None,
-    #                             do_save=False,
-    #                             x_axis_res=2,
-    #                             get_measure_Onset=False)
-    # print(m_df)
-    # m_df = mp.parse.with_xml_file(file=xml_file,
-    #                               plot_pianoroll=False,
-    #                               plot_inline_ipynb=False,
-    #                               save_at=None,
-    #                               save_file_name=None,
-    #                               do_save=False,
-    #                               x_axis_res=2,
-    #                               get_measure_Onset=False)#, filter_dict=filter_dict_t)
-    # ts_hist = time_signature_histogram(m_df, do_plot=False, do_adjusted=False)
-
-    # part = m_df[['PartID']].to_numpy()
-    # part_name = m_df[['PartName']].to_numpy()
-    # print(part)
-    # print(np.unique(part, return_counts=True))
-    # print(np.unique(part_name, return_counts=True))
-    # print(len(part))
-
-    # dur_pc_hist = mp.analyse.quarterlength_duration_histogram(m_df,
-    #                                                           with_pitch=True,
-    #                                                           do_plot=True)
-    #
-    # xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml',
-    #              'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-    #
-    # corpus_study(xml_files=xml_files)

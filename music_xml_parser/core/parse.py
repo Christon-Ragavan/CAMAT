@@ -10,7 +10,6 @@ try:
     from .xml_parser import XMLParser
     from .analyse import *
     # from .analyse import _cs_total_parts,_cs_total_meas, _cs_pitch_histogram, _cs_initialize_df
-
 except:
     from parser_utils import *
     from parser_utils import _get_file_path
@@ -83,7 +82,7 @@ def with_xml_file(file: str,
     logger.info("Successful")
     return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
 
-#
+"""
 # def corpus_study(xml_files):
 #     df_list = []
 #     if 'https' in xml_files[0]:
@@ -107,7 +106,7 @@ def with_xml_file(file: str,
 #     df_data = _cs_pitch_histogram(df_data, df_list, FileNames)
 #     # df_data = _cs_pitchclass_histogram(df_data, df_list, FileNames)
 
-    print(df_data)
+    # print(df_data)
 
 def testing():
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
@@ -124,29 +123,15 @@ def testing():
     # xml_file = 'weird33.xml'
     # xml_file = 'ultimate_tie_test.xml'
 
-    # filter_dict_t = {'Measure': '2-5', 'PartID': '1-4'}
+    filter_dict_t = {'Measure': '4-5', 'PartID': 1}
 
 
 
     d = with_xml_file(file=xml_file,
-                      plot_pianoroll=False,
+                      plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
                       do_save=False, get_upbeat_info=False,#filter_dict=filter_dict_t,
-                      x_axis_res=1)
-    print(d)
+                      x_axis_res=1, filter_dict=filter_dict_t)
 
-
-    ts_hist = time_signature_histogram(d, do_plot=False, do_adjusted=False)
-    print(ts_hist)
-    # print(d)
-    # import analyse
-    # analyse.ambitus(d)
-
-
-if __name__ == "__main__":
-    testing()
-    # xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml',
-    #                  'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-    #
-    # corpus_study(xml_files=xml_files)
+"""
