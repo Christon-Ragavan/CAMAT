@@ -159,5 +159,5 @@ def testing():
                               do_plot=False)
     print(out)
 
-# if __name__=='__main__':
-#     testing()
+if __name__=='__main__':
+    testing()

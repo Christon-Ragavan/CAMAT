@@ -42,7 +42,7 @@ def max_measure_num(df_data: pd.DataFrame, part='all'):
 
 
 def metric_profile_split_time_signature(df_data: pd.DataFrame,
-                                        with_pitch=False,
+                                        plot_with=None,
                                         do_plot=True, filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
@@ -53,7 +53,7 @@ def metric_profile_split_time_signature(df_data: pd.DataFrame,
     for ts_c in u:
         c_d = df_data.loc[df_data['TimeSignature'] == ts_c].copy()
         curr_h = metric_profile(c_d, x_label=f"Metric Profile (TimeSignature : {ts_c})",
-                                with_pitch=with_pitch,
+                                plot_with=plot_with,
                                 do_plot=do_plot)
         mp_tc_dict[ts_c] = curr_h
     return mp_tc_dict
@@ -292,7 +292,6 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
 
 def metric_profile(df_data: pd.DataFrame,
                    x_label='Metric Profile',
-                   with_pitch=False,
                    plot_with=None,
                    do_plot=True,
                    filter_dict=None):
