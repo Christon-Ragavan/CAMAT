@@ -297,7 +297,7 @@ def metric_profile(df_data: pd.DataFrame,
         u = [i + 1 for i in u]
         if do_plot:
             barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
-        data = [[int(i), int(c)] for i, c in zip(u, c)]
+        data = [[round(float(i),2), int(c)] for i, c in zip(u, c)]
         return data
     else:
         if plot_with == 'Pitch':

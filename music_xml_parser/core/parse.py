@@ -150,8 +150,21 @@ def testing():
     # out = analyse.quarterlength_duration_histogram(m_df, plot_with=None,
     #                                               do_plot=True)
 
-    out = analyse.metric_profile_split_time_signature(m_df, plot_with=None, do_plot=True)
-    #
+    # out = analyse.metric_profile_split_time_signature(m_df, plot_with=None, do_plot=True)
+    filter_dict_cello = {'PartID': '4', 'Measure': '1-10'}
+
+    out = analyse.pitch_class_histogram(m_df,
+                                        do_plot=True)#, filter_dict=filter_dict_cello)
+
+    # mp.utils.export_as_csv(data=pitchclass_hist_cello,
+    #                        columns=['Tonhöhenklasse', 'Häufigkeit'],
+    #                        save_file_name='cello.csv',
+    #                        do_save=False,
+    #                        do_print=True,
+    #                        do_return_pd=False,
+    #                        sep=';',
+    #                        index=False,
+    #                        header=True)
     # out = analyse.quarterlength_duration_histogram(m_df,
     #                                               plot_with='Pitch',
     #                                               do_plot=False)
