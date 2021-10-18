@@ -124,18 +124,40 @@ def testing():
     # xml_file = 'ultimate_tie_test.xml'
 
     # filter_dict_t = {'Measure': '4-5', 'PartID': 1}
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
 
-
-
-    d = with_xml_file(file=xml_file,
+    m_df = with_xml_file(file=xml_file,
                       plot_pianoroll=False,
                       save_at=None,
                       save_file_name=None,
-                      do_save=False, get_upbeat_info=False,#filter_dict=filter_dict_t,
+                      do_save=False, get_upbeat_info=False,
                       x_axis_res=1)#, filter_dict=filter_dict_t)
-    import analyse
+    import analyse, utils
 
-    ss = analyse.ambitus(d,output_as_midi=True)
-    print(ss)
-if __name__=='__main__':
-    testing()
+    # ss = analyse.ambitus(m_df,output_as_midi=True)
+    pitchclass_hist = analyse.pitch_class_histogram(m_df, do_plot=False)
+    # t = utils.export_as_csv(data=pitchclass_hist,
+    #                        columns=['Pitch Class', 'Occurrences'],
+    #                        save_file_name='pitch_class_hist.csv',
+    #                        do_save=False,
+    #                        do_print=False,
+    #                        do_return_pd=True,
+    #                        sep=';',
+    #                        index=False,
+    #                        header=True)
+
+    # out = analyse.quarterlength_duration_histogram(m_df, plot_with=None,
+    #                                               do_plot=True)
+
+    # out = analyse.metric_profile_split_time_signature(m_df, with_pitch='Pitch', do_plot=True)
+    #
+    # out = analyse.quarterlength_duration_histogram(m_df,
+    #                                               plot_with='Pitch',
+    #                                               do_plot=False)
+    out = analyse.metric_profile(m_df,
+                              plot_with='PitchClass',
+                              do_plot=False)
+    print(out)
+
+# if __name__=='__main__':
+#     testing()

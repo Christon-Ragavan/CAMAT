@@ -365,6 +365,7 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
         plt_bs_data[i][2] = np_bs_data[i][2]
     fig = plt.figure(figsize=(16,8))
     ax1 = fig.add_subplot(111, projection='3d')
+
     numele = np.shape(np_bs_data)[0]
     x = plt_bs_data[:, 0]
     y = plt_bs_data[:, 1]
@@ -388,6 +389,9 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
     ax1.set_zlabel('Occurrence')
+    # ax1.set_xticks(ax1.get_xticks()[::2])
+    # plt.tick_params(axis='x', which='major', labelsize=2)
+
     plt.grid()
     plt.show()
 
@@ -403,7 +407,6 @@ def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     midi_dict = dict(zip(p, midi))
     n_uni = np.unique(np_bs_data[:, 0])
     bs_uni = np.unique(np_bs_data[:, 1])
-
 
     n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
     bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
@@ -437,6 +440,7 @@ def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
+    # ax1.set_xticks(ax1.get_xticks()[::2])
     ax1.set_zlabel('Occurrence')
     plt.grid()
     plt.show()

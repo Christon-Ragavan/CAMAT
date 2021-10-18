@@ -48,14 +48,15 @@ def metric_profile_split_time_signature(df_data: pd.DataFrame,
         df_data = filter(df_data, filter_dict)
     ts = df_data['TimeSignature'].to_numpy()
     u, c = np.unique(ts, return_counts=True)
-    pd_list = []
+    mp_tc_dict = {}
+
     for ts_c in u:
         c_d = df_data.loc[df_data['TimeSignature'] == ts_c].copy()
         curr_h = metric_profile(c_d, x_label=f"Metric Profile (TimeSignature : {ts_c})",
                                 with_pitch=with_pitch,
                                 do_plot=do_plot)
-        pd_list.append(curr_h)
-    return pd_list
+        mp_tc_dict[ts_c] = curr_h
+    return mp_tc_dict
 
 
 def duration_histogram(df_data: pd.DataFrame,
@@ -140,6 +141,7 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True,
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
     d = df_data.copy()
+
     d.dropna(subset=["Pitch"], inplace=True)
     d.drop(index=d[d['Pitch'] == 'rest'].index, inplace=True)
     d.drop_duplicates(subset='Pitch', keep="first", inplace=True)
@@ -150,9 +152,7 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True,
     d.dropna(subset=["Pitch"], inplace=True)
     p_df.drop(index=p_df[p_df['Pitch'] == 'rest'].index, inplace=True)
     p_o = p_df[['Pitch']].to_numpy()
-
     u, c = np.unique(p_o, return_counts=True)
-
     label_str = []
     r_note = []
     for i in u:
@@ -170,30 +170,32 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True,
 
 
 def quarterlength_duration_histogram(df_data: pd.DataFrame,
-                                     with_pitch=False,
-                                     with_pitchclass=False,
+                                     plot_with=None,
                                      do_plot=True, filter_dict=None):
-    if with_pitchclass:
-        if not with_pitch:
-            with_pitch = True
+    if plot_with == 'pitch':
+        plot_with = 'Pitch'
+    if plot_with == 'pitchclass':
+        plot_with = 'PitchClass'
+    if plot_with == 'none':
+        plot_with = None
 
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
-    if not with_pitch:
+    if plot_with == None:
         dur = df_data['Duration'].to_numpy(dtype=float)
         u, c = np.unique(dur, return_counts=True)
         # a.sort(key=lambda x: x[1])
         labels = u
         if do_plot:
             barplot_quaterlength_duration_histogram(labels, counts=c)
-
         data = [[round(float(i), 2), int(c)] for i, c in zip(u, c)]
         return data
     else:
-        df_data.dropna(subset=["MIDI"], inplace=True)
-        # print(df_data[['Pitch', 'Duration']])
-        if with_pitchclass:
+        if plot_with == 'PitchClass':
+            # print(df_data[['Pitch', 'Duration']])
+            df_data.dropna(subset=["MIDI"], inplace=True)
+
             n_df = df_data[['MIDI', 'Duration']].to_numpy()
 
             p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
@@ -204,23 +206,47 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             n_df = np.array(n_df,dtype='<U21')
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [str(i) for i in u[:, 0]]
+            p = [str(i) for i in u[:, 0]]
             d = [float(i) for i in u[:, 1]]
-        else:
+            pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
+            convert_dict = {'Count': int,
+                            'Duration': float
+                            }
+            pd_data_s = pd_data_s.astype(convert_dict)
+            data = pd_data_s.to_numpy()
+
+
+            if do_plot:
+                plot_3d(np.array(data))
+            return data
+
+        elif plot_with == 'Pitch':
+
+            df_data.dropna(subset=["MIDI"], inplace=True)
+
             n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
 
             u, c = np.unique(n_df, axis=0, return_counts=True)
+            p_str = [midi2str(int(i)) for i in u[:, 0]]
             p = [int(i) for i in u[:, 0]]
             d = [float(i) for i in u[:, 1]]
+            pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
+            pd_data_p_str = pd.DataFrame(np.array([p_str, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
+            convert_dict = {'Count': int,
+                            'Duration': float
+                            }
+            pd_data_s = pd_data_s.astype(convert_dict)
+            data = pd_data_s.to_numpy()
 
-        pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
-        convert_dict = {'Count': int,
-                        'Duration': float
-                        }
-        pd_data_s = pd_data_s.astype(convert_dict)
-        data = pd_data_s.to_numpy()
-        if do_plot:
-            plot_3d(np.array(data))
-        return data
+            pd_data_p_str = pd_data_p_str.astype(convert_dict)
+            pd_data_p_str = pd_data_p_str.to_numpy()
+
+            if do_plot:
+                plot_3d(np.array(data))
+            return pd_data_p_str
+        else:
+            print("Please either enter PitchClass or Pitch or None ")
+
 
 
 def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
@@ -267,13 +293,15 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
 def metric_profile(df_data: pd.DataFrame,
                    x_label='Metric Profile',
                    with_pitch=False,
-                   do_plot=True, filter_dict=None):
+                   plot_with=None,
+                   do_plot=True,
+                   filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
 
     df_data.dropna(subset=["MIDI"], inplace=True)
     df_data['metricprofile'] = pd.to_numeric(df_data['Onset']) - pd.to_numeric(df_data['MeasureOnset'])
-    if with_pitch == False:
+    if plot_with == None:
         u, c = np.unique(df_data['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u = [i + 1 for i in u]
         if do_plot:
@@ -281,24 +309,54 @@ def metric_profile(df_data: pd.DataFrame,
         data = [[int(i), int(c)] for i, c in zip(u, c)]
         return data
     else:
-        n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
-        u, c = np.unique(n_df, axis=0, return_counts=True)
-        p = [int(i) for i in u[:, 0]]
-        pitch = [midi2str(int(i)) for i in u[:, 0]]
+        if plot_with == 'Pitch':
 
-        pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'metricprofile', 'Count'])
-        convert_dict = {'Count': int, 'metricprofile': float}
-        pd_data_s = pd_data_s.astype(convert_dict)
-        data = pd_data_s.to_numpy()
+            n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            u, c = np.unique(n_df, axis=0, return_counts=True)
+            p = [int(i) for i in u[:, 0]]
+            pitch = [midi2str(int(i)) for i in u[:, 0]]
 
-        if do_plot:
-            beat_stength_3d(data, ylabel='Metric Profile')
-        data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
-        convert_dict_2 = {'Count': int, 'metricprofile': float}
-        data_f = data_f.astype(convert_dict_2)
-        data_2 = data_f.to_numpy()
+            pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'metricprofile', 'Count'])
+            convert_dict = {'Count': int, 'metricprofile': float}
+            pd_data_s = pd_data_s.astype(convert_dict)
+            data = pd_data_s.to_numpy()
 
-        return data_2
+            if do_plot:
+                beat_stength_3d(data, ylabel='Metric Profile')
+            data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
+            convert_dict_2 = {'Count': int, 'metricprofile': float}
+            data_f = data_f.astype(convert_dict_2)
+            data_2 = data_f.to_numpy()
+
+            return data_2
+        elif plot_with == 'PitchClass':
+
+            n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            m_pc = np.array([midi2pitchclass(i)[1] for i in n_df[:,0]])
+
+            n_df[:,0] = m_pc
+            # for i u in zip(n_df:
+            #     print(u)
+            u, c = np.unique(n_df, axis=0, return_counts=True)
+            p = [int(i) for i in u[:, 0]]
+
+            # pitch = [midi2str(int(i)) for i in u[:, 0]]
+
+            pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['PitchClass', 'metricprofile', 'Count'])
+            # convert_dict = {'Count': int, 'metricprofile': float}
+            # pd_data_s = pd_data_s.astype(convert_dict)
+            # data = pd_data_s.to_numpy()
+            #
+            # if do_plot:
+            #     beat_stength_3d(data, ylabel='Metric Profile')
+            # data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T,
+            #                       columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
+            # convert_dict_2 = {'Count': int, 'metricprofile': float}
+            # data_f = data_f.astype(convert_dict_2)
+            # data_2 = data_f.to_numpy()
+            #
+            # return data_2
+
 
 
 def filter(df_data: pd.DataFrame, filter_dict):
