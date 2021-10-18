@@ -124,8 +124,9 @@ def pitch_histogram(df_data: pd.DataFrame,
                     filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
-    df_data.dropna(subset=["MIDI"], inplace=True)
-    midi = df_data[['MIDI']].to_numpy()
+    df_c = df_data.copy()
+    df_c.dropna(subset=["MIDI"], inplace=True)
+    midi = df_c[['MIDI']].to_numpy()
     u, c = np.unique(midi, return_counts=True)
     if do_plot:
         barplot_pitch_histogram(u,
@@ -167,6 +168,7 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True,
 def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      plot_with=None,
                                      do_plot=True, filter_dict=None):
+    df_c = df_data.copy()
     if plot_with == 'pitch':
         plot_with = 'Pitch'
     if plot_with == 'pitchclass':
@@ -175,10 +177,10 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         plot_with = None
 
     if filter_dict is not None:
-        df_data = filter(df_data, filter_dict)
+        df_c = filter(df_c, filter_dict)
 
     if plot_with == None:
-        dur = df_data['Duration'].to_numpy(dtype=float)
+        dur = df_c['Duration'].to_numpy(dtype=float)
         u, c = np.unique(dur, return_counts=True)
         # a.sort(key=lambda x: x[1])
         labels = u
@@ -188,10 +190,10 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         return data
     else:
         if plot_with == 'PitchClass':
-            # print(df_data[['Pitch', 'Duration']])
-            df_data.dropna(subset=["MIDI"], inplace=True)
+            # print(df_c[['Pitch', 'Duration']])
+            df_c.dropna(subset=["MIDI"], inplace=True)
 
-            n_df = df_data[['MIDI', 'Duration']].to_numpy()
+            n_df = df_c[['MIDI', 'Duration']].to_numpy()
 
             p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
 
@@ -217,9 +219,9 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
         elif plot_with == 'Pitch':
 
-            df_data.dropna(subset=["MIDI"], inplace=True)
+            df_c.dropna(subset=["MIDI"], inplace=True)
 
-            n_df = df_data[['MIDI', 'Duration']].to_numpy(dtype=float)
+            n_df = df_c[['MIDI', 'Duration']].to_numpy(dtype=float)
 
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p_str = [midi2str(int(i)) for i in u[:, 0]]
@@ -246,8 +248,9 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
     # v = df_data[['PartID', 'PartName']].drop_duplicates().to_numpy()
+    df_c = df_data.copy()
     if filter_dict is not None:
-        df_data = filter(df_data, filter_dict)
+        df_c = filter(df_c, filter_dict)
     if part is None:
         part = 'all'
     if type(part) is str and part != 'all':
@@ -290,13 +293,14 @@ def metric_profile(df_data: pd.DataFrame,
                    plot_with=None,
                    do_plot=True,
                    filter_dict=None):
+    df_c = df_data.copy()
     if filter_dict is not None:
-        df_data = filter(df_data, filter_dict)
+        df_c = filter(df_c, filter_dict)
 
-    df_data.dropna(subset=["MIDI"], inplace=True)
-    df_data['metricprofile'] = pd.to_numeric(df_data['Onset']) - pd.to_numeric(df_data['MeasureOnset'])
+    df_c.dropna(subset=["MIDI"], inplace=True)
+    df_c['metricprofile'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
     if plot_with == None:
-        u, c = np.unique(df_data['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
+        u, c = np.unique(df_c['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u = [i + 1 for i in u]
         if do_plot:
             barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
@@ -305,7 +309,7 @@ def metric_profile(df_data: pd.DataFrame,
     else:
         if plot_with == 'Pitch':
 
-            n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            n_df = df_c[['MIDI', 'metricprofile']].to_numpy(dtype=float)
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [int(i) for i in u[:, 0]]
             pitch = [midi2str(int(i)) for i in u[:, 0]]
@@ -316,7 +320,7 @@ def metric_profile(df_data: pd.DataFrame,
             data = pd_data_s.to_numpy()
 
             if do_plot:
-                beat_stength_3d(data, ylabel='Metric Profile', plot_with=plot_with)
+                beat_stength_3d(data, ylabel=x_label, plot_with=plot_with)
             data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
             convert_dict_2 = {'Count': int, 'metricprofile': float}
             data_f = data_f.astype(convert_dict_2)
@@ -325,7 +329,7 @@ def metric_profile(df_data: pd.DataFrame,
             return data_2
         elif plot_with == 'PitchClass':
 
-            n_df = df_data[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            n_df = df_c[['MIDI', 'metricprofile']].to_numpy(dtype=float)
             m_pc = np.array([midi2pitchclass(i)[1] for i in n_df[:,0]])
 
             n_df[:,0] = m_pc
@@ -344,7 +348,7 @@ def metric_profile(df_data: pd.DataFrame,
             data = pd_data_s.to_numpy()
 
             if do_plot:
-                beat_stength_3d(data, ylabel='Metric Profile', plot_with=plot_with)
+                beat_stength_3d(data, ylabel= x_label, plot_with=plot_with)
             data_f = pd.DataFrame(np.array([pc_n, u[:, 1], c]).T,
                                   columns=[ 'Pitch', 'metricprofile', 'Count'])
             convert_dict_2 = {'Count': int, 'metricprofile': float}
@@ -357,7 +361,7 @@ def metric_profile(df_data: pd.DataFrame,
 
 def filter(df_data: pd.DataFrame, filter_dict):
     """
-    Order of the dicture is important
+    Order of the dict is important
     :param df_data:
     :param filter_dict:
     :return:
@@ -387,8 +391,6 @@ def filter(df_data: pd.DataFrame, filter_dict):
             except:
                 s_d = str(s_d)
                 f_df = grouped.get_group(s_d).copy()
-
-
     return f_df
 
 

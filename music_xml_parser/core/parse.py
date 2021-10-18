@@ -165,9 +165,9 @@ def testing():
     #                        sep=';',
     #                        index=False,
     #                        header=True)
-    # out = analyse.quarterlength_duration_histogram(m_df,
-    #                                               plot_with='Pitch',
-    #                                               do_plot=False)
+    out = analyse.quarterlength_duration_histogram(m_df,
+                                                  plot_with='Pitch',
+                                                  do_plot=False)
     # out = analyse.metric_profile(m_df,
     #                           plot_with='Pitch',
     #                           do_plot=True)
