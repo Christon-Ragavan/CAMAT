@@ -112,3 +112,10 @@ def pitchclassid2pitchclass(id, sharp=True):
     else:
         names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
     return names[id]
+
+def print_full_df(x):
+    pd.set_option('display.max_rows', len(x))
+    display(HTML(x.to_html()))
+    # pd.reset_option('display.max_rows')
+    pd.set_option('display.max_rows', 10)
+
