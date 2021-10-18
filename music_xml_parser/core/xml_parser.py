@@ -275,10 +275,7 @@ class XMLToolBox:
                                     for ppp in p:
                                         if ppp.tag == 'step':
                                             if is_alter != None:
-                                                if is_alter.text == '0':
-                                                    s = ppp.text
-                                                else:
-                                                    s = ppp.text + is_alter.text
+                                                s = ppp.text + is_alter.text
 
                                                 self.step.append(s)
                                             else:
