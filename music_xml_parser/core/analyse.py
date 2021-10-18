@@ -214,7 +214,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 
             if do_plot:
-                plot_3d(np.array(data))
+                plot_3d(np.array(data),  ylabel='Quarterlength Duration')
             return data
 
         elif plot_with == 'Pitch':
@@ -239,7 +239,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             pd_data_p_str = pd_data_p_str.to_numpy()
 
             if do_plot:
-                plot_3d(np.array(data))
+                plot_3d(np.array(data), ylabel='Quarterlength Duration')
             return pd_data_p_str
         else:
             print("Please either enter PitchClass or Pitch or None ")
