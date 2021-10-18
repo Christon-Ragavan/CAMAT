@@ -117,7 +117,10 @@ def ambitus(df_data: pd.DataFrame, output_as_midi=True, filter_dict=None):
     return ab
 
 
-def pitch_histogram(df_data: pd.DataFrame, do_plot=True, do_plot_full_axis=True, visulize_midi_range=None,
+def pitch_histogram(df_data: pd.DataFrame,
+                    do_plot=True,
+                    do_plot_full_axis=True,
+                    visulize_midi_range=None,
                     filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)

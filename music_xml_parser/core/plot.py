@@ -250,7 +250,7 @@ def barplot_pitch_histogram(labels,
 
 
     if visulize_midi_range is None:
-        visulize_midi_range = [min(labels)-0.5, max(labels)+0.5]
+        visulize_midi_range = [min(labels)-1, max(labels)+1]
 
     f = plt.figure(figsize=(12, 4))
 
@@ -265,7 +265,8 @@ def barplot_pitch_histogram(labels,
         # midi_labels[1::2] = none
         ax.set_xticks(np.arange(128))
         ax.set_xticklabels(midi_labels)
-        ax.set_xticks(ax.get_xticks()[::2])
+        # if visulize_midi_range is None:
+            # ax.set_xticks(ax.get_xticks()[::2])
 
         ax.set_xlim(visulize_midi_range[0]-0.5, visulize_midi_range[1]-0.5)
     else:
