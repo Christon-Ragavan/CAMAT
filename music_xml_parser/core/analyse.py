@@ -8,13 +8,12 @@ import numpy as np
 np.seterr(all="ignore")
 
 try:
-    from utils import midi2str, midi2pitchclass
+    from utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
     from parse import with_xml_file
     from parser_utils import *
     from plot import *
-
 except:
-    from .utils import midi2str, midi2pitchclass
+    from .utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
     # from .parse import with_xml_file
     from .plot import *
 
@@ -22,7 +21,6 @@ except:
 def getVoice(df_data: pd.DataFrame):
     v = df_data['Voice']
     return list(set(v))
-
 
 def search_upeat_files():
     pass
@@ -143,27 +141,21 @@ def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True,
     d = df_data.copy()
 
     d.dropna(subset=["Pitch"], inplace=True)
+    d.dropna(subset=["MIDI"], inplace=True)
     d.drop(index=d[d['Pitch'] == 'rest'].index, inplace=True)
-    d.drop_duplicates(subset='Pitch', keep="first", inplace=True)
-    pitch_midi = d[['Pitch', 'MIDI']].to_numpy()
-    dict_map = dict(pitch_midi)
 
-    p_df = df_data.copy()
-    d.dropna(subset=["Pitch"], inplace=True)
-    p_df.drop(index=p_df[p_df['Pitch'] == 'rest'].index, inplace=True)
-    p_o = p_df[['Pitch']].to_numpy()
-    u, c = np.unique(p_o, return_counts=True)
-    label_str = []
-    r_note = []
-    for i in u:
-        l, rn = midi2pitchclass(dict_map[i])
-        label_str.append(l)
-        r_note.append(rn)
+    p_o = d[['MIDI']].to_numpy()
+    pc_int = [midi2pitchclass(int(i))[1] for i in p_o]
+
+    u, c = np.unique(pc_int, return_counts=True)
+    names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
+    u_labels = [names[i] for i in u]
 
     if do_plot:
-        barplot_pitch_class_histogram(r_note, c, label_str, x_axis_12pc=x_axis_12pc)
+        barplot_pitch_class_histogram(u, c, u_labels, x_axis_12pc=x_axis_12pc)
 
-    data = [[int(id), str(i), int(c)] for id, i, c in zip(r_note, label_str, c)]
+    data = [[int(id), str(i), int(c)] for id, i, c in zip(u, u_labels, c)]
     data.sort(key=lambda x: x[0])
     data = [[i[1], i[2]] for i in data]
     return data
@@ -321,7 +313,7 @@ def metric_profile(df_data: pd.DataFrame,
             data = pd_data_s.to_numpy()
 
             if do_plot:
-                beat_stength_3d(data, ylabel='Metric Profile')
+                beat_stength_3d(data, ylabel='Metric Profile', plot_with=plot_with)
             data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
             convert_dict_2 = {'Count': int, 'metricprofile': float}
             data_f = data_f.astype(convert_dict_2)
@@ -336,25 +328,27 @@ def metric_profile(df_data: pd.DataFrame,
             n_df[:,0] = m_pc
             # for i u in zip(n_df:
             #     print(u)
+            # print(n_df)
             u, c = np.unique(n_df, axis=0, return_counts=True)
+
             p = [int(i) for i in u[:, 0]]
 
-            # pitch = [midi2str(int(i)) for i in u[:, 0]]
+            pc_n = [pitchclassid2pitchclass(int(i)) for i in u[:, 0]]
 
             pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['PitchClass', 'metricprofile', 'Count'])
-            # convert_dict = {'Count': int, 'metricprofile': float}
-            # pd_data_s = pd_data_s.astype(convert_dict)
-            # data = pd_data_s.to_numpy()
-            #
-            # if do_plot:
-            #     beat_stength_3d(data, ylabel='Metric Profile')
-            # data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T,
-            #                       columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
-            # convert_dict_2 = {'Count': int, 'metricprofile': float}
-            # data_f = data_f.astype(convert_dict_2)
-            # data_2 = data_f.to_numpy()
-            #
-            # return data_2
+            convert_dict = {'Count': int, 'metricprofile': float}
+            pd_data_s = pd_data_s.astype(convert_dict)
+            data = pd_data_s.to_numpy()
+
+            if do_plot:
+                beat_stength_3d(data, ylabel='Metric Profile', plot_with=plot_with)
+            data_f = pd.DataFrame(np.array([pc_n, u[:, 1], c]).T,
+                                  columns=[ 'Pitch', 'metricprofile', 'Count'])
+            convert_dict_2 = {'Count': int, 'metricprofile': float}
+            data_f = data_f.astype(convert_dict_2)
+            data_2 = data_f.to_numpy()
+
+            return data_2
 
 
 

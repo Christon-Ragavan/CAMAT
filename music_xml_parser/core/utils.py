@@ -104,3 +104,11 @@ def midi2pitchclass(midi_number, sharp=True):
     else:
         names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
     return names[rnote], rnote
+
+def pitchclassid2pitchclass(id, sharp=True):
+    assert type(id) ==int
+    if sharp:
+        names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    else:
+        names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+    return names[id]

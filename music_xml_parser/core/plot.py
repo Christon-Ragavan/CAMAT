@@ -5,10 +5,10 @@ License: The MIT license, https://opensource.org/licenses/MIT
 
 try:
     from .parser_utils import ZoomPan
-    from .utils import str2midi, midi2str, midi2pitchclass
+    from .utils import str2midi, midi2str, midi2pitchclass,pitchclassid2pitchclass
 except:
     from parser_utils import ZoomPan
-    from utils import str2midi, midi2str, midi2pitchclass
+    from utils import str2midi, midi2str, midi2pitchclass,pitchclassid2pitchclass
 
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -295,7 +295,7 @@ def barplot_pitch_class_histogram(labels, counts, label_str, x_axis_12pc =False)
         ax.set_xticklabels(names)
 
     plt.grid()
-    plt.show()
+    # plt.show(block=False)
 def barplot_quaterlength_duration_histogram(labels, counts):
 
     f = plt.figure(figsize=(12, 4))
@@ -348,9 +348,18 @@ def barplot(labels, counts,figsize=(12,4), x_label='x_label', y_label='y_label')
     plt.grid()
     plt.show()
 
-def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel'):
+def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel', plot_with=None):
     p = [int(i) for i in np_bs_data[:, 0]]
-    midi = [midi2str(i) for i in p]
+
+    if plot_with == None:
+        raise Exception("Not implemented for 2D")
+    elif plot_with == 'Pitch':
+        midi = [midi2str(i) for i in p]
+
+    elif plot_with == 'PitchClass':
+        midi = [pitchclassid2pitchclass(int(i)) for i in p]
+    else:
+        raise Exception("Error in plotting...")
 
     midi_dict = dict(zip(p, midi))
 

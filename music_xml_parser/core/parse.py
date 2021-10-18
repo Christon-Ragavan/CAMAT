@@ -2,6 +2,7 @@
 Author: Christon Nadar
 License: The MIT license, https://opensource.org/licenses/MIT
 """
+import matplotlib.pyplot as plt
 
 try:
     from .parser_utils import *
@@ -133,9 +134,9 @@ def testing():
                       do_save=False, get_upbeat_info=False,
                       x_axis_res=1)#, filter_dict=filter_dict_t)
     import analyse, utils
-
+    # print(m_df)
     # ss = analyse.ambitus(m_df,output_as_midi=True)
-    pitchclass_hist = analyse.pitch_class_histogram(m_df, do_plot=False)
+    # out = analyse.pitch_class_histogram(m_df, do_plot=True)
     # t = utils.export_as_csv(data=pitchclass_hist,
     #                        columns=['Pitch Class', 'Occurrences'],
     #                        save_file_name='pitch_class_hist.csv',
@@ -149,14 +150,14 @@ def testing():
     # out = analyse.quarterlength_duration_histogram(m_df, plot_with=None,
     #                                               do_plot=True)
 
-    # out = analyse.metric_profile_split_time_signature(m_df, with_pitch='Pitch', do_plot=True)
+    out = analyse.metric_profile_split_time_signature(m_df, plot_with=None, do_plot=True)
     #
     # out = analyse.quarterlength_duration_histogram(m_df,
     #                                               plot_with='Pitch',
     #                                               do_plot=False)
-    out = analyse.metric_profile(m_df,
-                              plot_with='PitchClass',
-                              do_plot=False)
+    # out = analyse.metric_profile(m_df,
+    #                           plot_with='Pitch',
+    #                           do_plot=True)
     print(out)
 
 if __name__=='__main__':
