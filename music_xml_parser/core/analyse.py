@@ -203,7 +203,6 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             n_df = np.array(n_df,dtype='<U21')
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [str(i) for i in u[:, 0]]
-            p = [str(i) for i in u[:, 0]]
             d = [float(i) for i in u[:, 1]]
             pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
             convert_dict = {'Count': int,
@@ -214,7 +213,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 
             if do_plot:
-                plot_3d(np.array(data),  ylabel='Quarterlength Duration')
+                plot_3d(np.array(data),  ylabel='Quarter Length Duration')
             return data
 
         elif plot_with == 'Pitch':
@@ -239,7 +238,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             pd_data_p_str = pd_data_p_str.to_numpy()
 
             if do_plot:
-                plot_3d(np.array(data), ylabel='Quarterlength Duration')
+                plot_3d(np.array(data), ylabel='Quarter Length Duration')
             return pd_data_p_str
         else:
             print("Please either enter PitchClass or Pitch or None ")
