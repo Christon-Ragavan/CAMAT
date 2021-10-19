@@ -447,7 +447,7 @@ def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
     # for i in n_uni:
     #     print()
-    ax1.set_xticklabels([midi[i]for i in n_uni])
+    ax1.set_xticklabels([midi_dict[i]for i in n_uni])
 
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
