@@ -445,8 +445,65 @@ def plot_3d(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     ax1.set_yticks(np.arange(len(bs_uni)))
 
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
+    # for i in n_uni:
+    #     print()
+    ax1.set_xticklabels([midi[i]for i in n_uni])
 
-    ax1.set_xticklabels([midi_dict[i]for i in n_uni])
+    ax1.set_yticklabels([str(i) for i in bs_uni])
+    ax1.set_xlabel(xlabel)
+    ax1.set_ylabel(ylabel)
+    # ax1.set_xticks(ax1.get_xticks()[::2])
+    ax1.set_zlabel('Occurrence')
+    plt.grid()
+    plt.show()
+
+
+
+def plot_3d_ql_pc(np_bs_data, xlabel='Notes', ylabel='ylabel'):
+    try:
+        p = [int(i) for i in np_bs_data[:, 0]]
+        midi = [midi2str(i) for i in p]
+
+    except:
+        p = [str(i) for i in np_bs_data[:, 0]]
+        midi = p
+    # print(np_bs_data)
+    midi_dict = dict(zip(p, midi))
+    n_uni = np.unique(np_bs_data[:, 0])
+    bs_uni = np.unique(np_bs_data[:, 1])
+
+    n_uni_int_dict = dict(zip(n_uni, np.arange(len(n_uni))))
+    bs_uni_int_dict = dict(zip(bs_uni, np.arange(len(bs_uni))))
+    plt_bs_data = np.zeros(np.shape(np_bs_data))
+
+    for i in range(np.shape(np_bs_data)[0]):
+        plt_bs_data[i][0] = n_uni_int_dict[np_bs_data[i][0]]
+        plt_bs_data[i][1] = bs_uni_int_dict[np_bs_data[i][1]]
+        plt_bs_data[i][2] = np_bs_data[i][2]
+    fig = plt.figure(figsize=(16,8))
+    ax1 = fig.add_subplot(111, projection='3d')
+    numele = np.shape(np_bs_data)[0]
+    x = plt_bs_data[:, 0]
+    y = plt_bs_data[:, 1]
+    z = np.zeros(numele)
+
+    dx = 0.5 * np.ones(numele)
+    dy = 0.3 * np.ones(numele)
+    dz = plt_bs_data[:, 2]
+
+    cmap = cm.get_cmap('jet')  # Get desired colormap
+    max_height = np.max(dz)  # get range of colorbars
+    min_height = np.min(dz)
+    rgba = [cmap((k - min_height) / max_height) for k in dz]
+    ax1.set_xticks(np.arange(len(n_uni)))
+    ax1.set_yticks(np.arange(len(bs_uni)))
+
+    ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
+    # for i in n_uni:
+    #     print(i)
+    ax1.set_xticklabels([pitchclassid2pitchclass(int(i))for i in n_uni])
+    # ax1.set_xticklabels([midi_dict[i]for i in n_uni])
+
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)

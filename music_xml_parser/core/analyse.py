@@ -195,8 +195,9 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
             n_df = df_c[['MIDI', 'Duration']].to_numpy()
 
-            p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
+            p = [midi2pitchclass(i)[1] for i in n_df[:, 0]]
 
+            # p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
 
             d = n_df[:, 1]
             n_df = [[i, ii] for i, ii in zip(p,d)]
@@ -206,14 +207,19 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             d = [float(i) for i in u[:, 1]]
             pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
             convert_dict = {'Count': int,
-                            'Duration': float
+                            'Duration': float,
                             }
             pd_data_s = pd_data_s.astype(convert_dict)
             data = pd_data_s.to_numpy()
-
+            # print(data[:,0])
+            # for i in data[:,0]:
+            #     print(int(i))
+            #     print(pitchclassid2pitchclass(int(i)))
+            # pc_Idx = [pitchclassid2pitchclass(int(i)) for i in data[:, 0]]
+            # data2 = [[i, ii,iii] for i, ii,iii in zip(pc_Idx,d,c)]
 
             if do_plot:
-                plot_3d(np.array(data),  ylabel='Quarter Length Duration')
+                plot_3d_ql_pc(np.array(data),  ylabel='Quarter Length Duration')
             return data
 
         elif plot_with == 'Pitch':
