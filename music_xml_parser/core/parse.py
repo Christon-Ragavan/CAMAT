@@ -2,29 +2,20 @@
 Author: Christon Nadar
 License: The MIT license, https://opensource.org/licenses/MIT
 """
-import matplotlib.pyplot as plt
+from os.path import isdir, basename, isfile
 
 try:
-    from .parser_utils import *
-    from .parser_utils import _get_file_path
+    from .parser_utils import _get_file_path, set_up_logger
     from .plot import pianoroll_parts
-    from .xml_parser import XMLParser
     from .analyse import *
-    # from .analyse import _cs_total_parts,_cs_total_meas, _cs_pitch_histogram, _cs_initialize_df
+
+    from .xml_parser import XMLParser
 except:
-    from parser_utils import *
-    from parser_utils import _get_file_path
+    from parser_utils import _get_file_path, set_up_logger
     from plot import pianoroll_parts
-    from xml_parser import XMLParser
     from analyse import *
-    # from analyse import _cs_total_parts,_cs_total_meas, _cs_pitch_histogram,_cs_initialize_df
+    from xml_parser import XMLParser
 
-
-import os
-from os.path import basename, isdir, join
-
-import pandas as pd
-import numpy as np
 np.seterr(all="ignore")
 
 
@@ -40,7 +31,7 @@ def with_xml_file(file: str,
                   do_save: bool = False,
                   x_axis_res=2,
                   get_measure_onset:bool=False, get_upbeat_info=False,
-                  filter_dict=None, *args, **kwargs) -> tuple[pd.DataFrame, bool, bool, list, int, bool,tuple[pd.DataFrame]]:
+                  filter_dict=None, *args, **kwargs):
 
     file = _get_file_path(file=file)
 
@@ -72,7 +63,7 @@ def with_xml_file(file: str,
     df_xml = parser_o.xml_parse()
     if get_upbeat_info:
         upbeat_info = parser_o.upbeat_measure_info
-        return df_xml, plot_pianoroll, parser_o.measure_onset_list, upbeat_info, x_axis_res, get_measure_onset, measure_onset_data, plot_inline_ipynb
+        return df_xml, plot_pianoroll, parser_o.measure_onset_list, upbeat_info, x_axis_res, get_measure_onset, plot_inline_ipynb
 
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
@@ -82,6 +73,7 @@ def with_xml_file(file: str,
         df_xml.to_csv(save_at_fn, sep=';')
     logger.info("Successful")
     return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
+
 
 
 # def corpus_study(xml_files):
@@ -110,6 +102,8 @@ def with_xml_file(file: str,
     # print(df_data)
 
 def testing():
+    import analyse
+
     # xml_file = 'BrumAn_Bru1011_COM_3-6_MissaProde_002_01134.xml'
     # xml_file = 'MahGu_IGM11_COM_1-5_SymphonyNo_001_00334.xml'
     # xml_file = 'BuDi_Op1_2-7_COM_TrioSonata_001_00066.xml'
@@ -133,9 +127,8 @@ def testing():
                       save_file_name=None,
                       do_save=False, get_upbeat_info=False,
                       x_axis_res=1)#, filter_dict=filter_dict_t)
-    import analyse, utils
     # print(m_df)
-    # ss = analyse.ambitus(m_df,output_as_midi=True)
+    out = analyse.ambitus(m_df,output_as_midi=True)
     # out = analyse.pitch_class_histogram(m_df, do_plot=True)
     # t = utils.export_as_csv(data=pitchclass_hist,
     #                        columns=['Pitch Class', 'Occurrences'],
@@ -151,7 +144,7 @@ def testing():
     #                                               do_plot=True)
 
     # out = analyse.metric_profile_split_time_signature(m_df, plot_with=None, do_plot=True)
-    filter_dict_cello = {'PartID': '4', 'Measure': '1-10'}
+    # filter_dict_cello = {'PartID': '4', 'Measure': '1-10'}
 
     # out = analyse.pitch_class_histogram(m_df,
     #                                     do_plot=True)#, filter_dict=filter_dict_cello)
@@ -165,13 +158,16 @@ def testing():
     #                        sep=';',
     #                        index=False,
     #                        header=True)
-    out = analyse.quarterlength_duration_histogram(m_df,
-                                                  plot_with='PitchClass',
-                                                  do_plot=True)
+    # out = analyse.quarterlength_duration_histogram(m_df,
+    #                                               plot_with='PitchClass',
+    #                                               do_plot=True)
     # out = analyse.metric_profile(m_df,
     #                           plot_with='Pitch',
     #                           do_plot=True)
-    print(out)
+    # xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
 
-if __name__=='__main__':
-    testing()
+
+    print(out)
+#
+# if __name__=='__main__':
+#     testing()

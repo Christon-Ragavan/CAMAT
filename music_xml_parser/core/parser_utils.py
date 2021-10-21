@@ -16,7 +16,6 @@ def _replaceing_pd_value(row, col, old_val, new_val):
 
     pass
 
-
 def _inseart_row_in_pd(row_number, df, row_value):
     """
     insert row in the dataframe
@@ -58,14 +57,6 @@ def set_up_logger(name):
     # logger.addHandler(stream_handler)
     return logger
 
-
-def file_path_handler(file_path):
-
-    pass
-
-def save_df_xml(save_at):
-
-    pass
 class ZoomPan:
     def __init__(self):
         self.press = None

@@ -6,15 +6,12 @@ sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), '
 import numpy as np
 
 np.seterr(all="ignore")
-
 try:
     from utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
-    from parse import with_xml_file
     from parser_utils import *
     from plot import *
 except:
     from .utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
-    # from .parse import with_xml_file
     from .plot import *
 
 
@@ -204,23 +201,23 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             n_df = np.array(n_df,dtype='<U21')
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [str(i) for i in u[:, 0]]
+            p_str = [pitchclassid2pitchclass(int(i)) for i in u[:, 0]]
+
             d = [float(i) for i in u[:, 1]]
             pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
-            convert_dict = {'Count': int,
-                            'Duration': float,
-                            }
+            convert_dict = {'Count': int, 'Duration': float}
             pd_data_s = pd_data_s.astype(convert_dict)
             data = pd_data_s.to_numpy()
-            # print(data[:,0])
-            # for i in data[:,0]:
-            #     print(int(i))
-            #     print(pitchclassid2pitchclass(int(i)))
-            # pc_Idx = [pitchclassid2pitchclass(int(i)) for i in data[:, 0]]
-            # data2 = [[i, ii,iii] for i, ii,iii in zip(pc_Idx,d,c)]
+
 
             if do_plot:
                 plot_3d_ql_pc(np.array(data),  ylabel='Quarter Length Duration')
-            return data
+
+            pd_data_s2 = pd.DataFrame(np.array([p_str, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
+            convert_dict2 = {'Count': int, 'Duration': float}
+            pd_data_s2 = pd_data_s2.astype(convert_dict2)
+            data2 = pd_data_s2.to_numpy()
+            return data2
 
         elif plot_with == 'Pitch':
 
@@ -400,7 +397,9 @@ def filter(df_data: pd.DataFrame, filter_dict):
 
 
 def _cs_initialize_df(df_row_name):
-    df_data = pd.DataFrame(df_row_name, columns=['FileName'])
+
+    c = ['FileName', 'TotalMeasure', 'PitchClass']
+    df_data = pd.DataFrame(df_row_name, columns=c)
     return df_data
 
 
@@ -532,3 +531,18 @@ def _cs_pitchclass_histogram(df_data, dfs, FileNames):
 
     return df_data
 
+
+
+
+
+
+#
+# def testing():
+#
+#     xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
+#
+#     out = corpus_study(xml_files)
+#
+#
+# if __name__=='__main__':
+#     testing()
