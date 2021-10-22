@@ -140,7 +140,7 @@ def testing():
     # filter_dict_t = {'Measure': '4-5', 'PartID': 1}
     xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
 
-    filter_dict_t = {'Measure':'1-20', 'PartID': '4'}
+    filter_dict_t = {'Measure':'15-20', 'PartID': '4'}
 
     m_df = with_xml_file(file=xml_file,
                       plot_pianoroll=True,

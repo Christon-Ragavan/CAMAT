@@ -226,7 +226,11 @@ def _create_pianoroll_single_parts(pitch,
     ax.set_yticklabels(labels_128)
 
     p = [i for i in pitch if i != 0]
-    ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+    try:
+        ax.set_ylim([min(p) - 1.5, max(p) + 1.5])
+    except:
+        ax.set_ylim([20 - 1.5, 60 + 1.5])
+        pass
 
 
     ax.set_xlim([int(time[0]), int(x_axis[-1])])
