@@ -129,7 +129,7 @@ def pianoroll_parts(func, *args, **kwargs):
                                                plot_inline_ipynb=plot_inline_ipynb)
         except:
             print("Error in ploting piano roll")
-            print(traceback.format_exc())
+            # print(traceback.format_exc())
             pass
         if get_measure_onset:
             return df, measure_onset_data
