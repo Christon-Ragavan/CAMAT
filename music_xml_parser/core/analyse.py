@@ -502,7 +502,6 @@ def _cs_pitchclass_histogram(df_data, dfs, FileNames):
                                      filter_dict=None)
         ph_data.append(data)
     data_all = []
-
     for idx, p in enumerate(ph_data):
         data_f = np.full(shape=(12, 2), fill_value='')
         data_f[:, 0] = pc_names
@@ -514,9 +513,7 @@ def _cs_pitchclass_histogram(df_data, dfs, FileNames):
         n_l = [FileNames[idx] for _ in range(len(data_f))]
         col_names = ['PitcClasshHist' for _ in range(len(data_f.columns))]
         data_f.columns = col_names
-
         data_f['FileName'] = n_l
-
         data_all.append(data_f)
         del data_f
     # col_names.append('FileName')
@@ -528,15 +525,9 @@ def _cs_pitchclass_histogram(df_data, dfs, FileNames):
     df_data = df_data.rename(columns={'FileName_x': 'FileName'})
     df_data.drop(df_data.filter(regex='_y$').columns.tolist(), axis=1, inplace=True)
     # # print(data_all)
-
     return df_data
 
 
-
-
-
-
-#
 # def testing():
 #
 #     xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']

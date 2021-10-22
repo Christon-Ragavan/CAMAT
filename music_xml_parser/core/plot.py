@@ -18,6 +18,8 @@ import pandas as pd
 from matplotlib import patches
 from matplotlib.patches import Rectangle
 import traceback
+from os.path import isdir, basename, isfile,join
+
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -81,26 +83,27 @@ def pianoroll_parts(func, *args, **kwargs):
         return m_o
 
     def plotting_wrapper_parts(*args, **kwargs):
-
         df, \
         do_plot, \
         measure_duration_list, \
+        upbeat_info, \
         x_axis_res, \
         get_measure_onset, \
-        measure_onset_data,\
-        plot_inline_ipynb = func(*args, **kwargs)
+        measure_onset_data, \
+        plot_inline_ipynb, t_pid, \
+        t_pn = func(*args, **kwargs)
 
         measure = m_dur_off(measure_duration_list)
         try:
             if do_plot:
                 n_df = df[['PartID', 'PartName']].to_numpy(dtype=str)
                 u = np.unique(n_df, axis=0)
-
-                part_name_list = [str(i[1])+'-'+str(i[0]) for idx, i in enumerate (u)]
+                c_part_name = [str(i[1]) + '-' + str(i[0]) for idx, i in enumerate(u)]
 
                 onset = list(np.squeeze(df['Onset'].to_numpy(dtype=float)))
                 duration = list(np.squeeze(df['Duration'].to_numpy(dtype=float)))
                 total_measure = int(max(list(np.squeeze(df['Measure'].to_numpy(dtype=float)))))
+
                 if int(min(list(np.squeeze(df['Measure'].to_numpy(dtype=float))))) == 0:
                     upbeat = True
                 else:
@@ -110,12 +113,14 @@ def pianoroll_parts(func, *args, **kwargs):
                 midi = df['MIDI'].replace({np.nan: 0}).to_list()
                 partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
                 part_name = list(np.squeeze(df['PartName'].to_numpy(dtype=str)))
+                # print('part_name_list', t_pn)
                 _create_pianoroll_single_parts(pitch=midi,
                                                time=onset,
-                                               part_name_list=part_name_list,
+                                               part_name_list=c_part_name,
                                                measure=measure,
                                                partid=partid,
-                                               part_name=part_name,
+                                               t_pid=t_pid,
+                                               t_pn=t_pn,
                                                duration=duration,
                                                midi_min=55,
                                                midi_max=75,
@@ -148,11 +153,13 @@ def _get_xtickslabels_with_measure(x_axis, measure,upbeat):
         x_lab.append(str(s)+l)
     return x_lab
 
-def _create_pianoroll_single_parts(pitch, time,
+def _create_pianoroll_single_parts(pitch,
+                                   time,
                                    measure,
                                    part_name_list,
                                    partid,
-                                   part_name,
+                                   t_pid,
+                                   t_pn,
                                    duration,
                                    midi_min,
                                    midi_max,
@@ -161,13 +168,16 @@ def _create_pianoroll_single_parts(pitch, time,
                                    *args, **kwargs):
     cm = plt.get_cmap('gist_rainbow')
     x_axis = np.arange(0, max(time) * x_axis_res + 1) / x_axis_res
-    NUM_PARTS = len(list(set(partid)))
-    colors = [cm(1. * i / NUM_PARTS) for i in range(NUM_PARTS)]
+    NUM_PARTS = len(list(set(part_name_list)))
+    NUM_PARTS_col = len(list(set(t_pid)))
+    colors = [cm(1. * i / NUM_PARTS_col) for i in range(NUM_PARTS_col)]
 
     labels_128 = _get_midi_labels_128()
 
     if len(part_name_list) != NUM_PARTS:
         part_name_list = [i+1 for i in range(NUM_PARTS)]
+    assert len(t_pn) == len(t_pid), f"len(t_pn) {len(t_pn)} != len(t_pid) {len(t_pid)}"
+
     # assert len(s_part_names) == NUM_PARTS, "s_part_names {} NUM_PARTS {}".format(len(s_part_names), NUM_PARTS)
     labels_set = part_name_list
     #labels_set = [str(s_part_names[i-1]) + str(i) for i, pn in range(1, NUM_PARTS + 1)]
@@ -175,8 +185,8 @@ def _create_pianoroll_single_parts(pitch, time,
 
     colors_dicts = {}
 
-    for i, l in enumerate(labels_set):
-        colors_dicts[l] = colors[i]
+    for i, l in zip(t_pid, t_pn):
+        colors_dicts[l] = colors[i-1]
 
     assert np.shape(pitch)[0] == np.shape(time)[0]
     f = plt.figure(figsize=(12, 6))
@@ -188,7 +198,10 @@ def _create_pianoroll_single_parts(pitch, time,
             p_id  = partid[i]
         except:
             p_id  = partid[i] - int(min(partid))
+        # print(partid[i]-1)
+        # print(colors)
         color_prt = colors[partid[i] - 1]
+        # color_prt = colors[0]
         c_d = duration[i]
 
         if pitch[i] == 0:

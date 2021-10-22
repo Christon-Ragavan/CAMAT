@@ -2,19 +2,19 @@
 Author: Christon Nadar
 License: The MIT license, https://opensource.org/licenses/MIT
 """
-from os.path import isdir, basename, isfile
 
 try:
     from .parser_utils import _get_file_path, set_up_logger
-    from .plot import pianoroll_parts
+    from .plot import pianoroll_parts,_create_pianoroll_single_parts
     from .analyse import *
 
     from .xml_parser import XMLParser
 except:
     from parser_utils import _get_file_path, set_up_logger
-    from plot import pianoroll_parts
+    from plot import pianoroll_parts, _create_pianoroll_single_parts
     from analyse import *
     from xml_parser import XMLParser
+from os.path import isdir, basename, isfile,join
 
 np.seterr(all="ignore")
 
@@ -30,8 +30,18 @@ def with_xml_file(file: str,
                   save_file_name: str = None,
                   do_save: bool = False,
                   x_axis_res=2,
-                  get_measure_onset:bool=False, get_upbeat_info=False,
-                  filter_dict=None, *args, **kwargs):
+                  get_measure_onset:bool=False,
+                  get_upbeat_info=False,
+                  filter_dict=None,
+                  *args,
+                  **kwargs):
+
+    def get_parts(df):
+        n_df = df[['PartID', 'PartName']].to_numpy(dtype=str)
+        u = np.unique(n_df, axis=0)
+        pn = [str(i[1]) + '-' + str(i[0]) for idx, i in enumerate(u)]
+        pid = [int(i)for i in u[:,0]]
+        return pid, pn
 
     file = _get_file_path(file=file)
 
@@ -61,18 +71,27 @@ def with_xml_file(file: str,
     logger.info("Extracting")
     parser_o = XMLParser(path=file, logger=logger)
     df_xml = parser_o.xml_parse()
-    if get_upbeat_info:
-        upbeat_info = parser_o.upbeat_measure_info
-        return df_xml, plot_pianoroll, parser_o.measure_onset_list, upbeat_info, x_axis_res, get_measure_onset, plot_inline_ipynb
+    t_pid, t_pn = get_parts(df_xml)
+
+    logger.info("Successful")
 
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
 
+    upbeat_info = parser_o.upbeat_measure_info
     measure_onset_data = parser_o._compute_measure_n_onset()
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
-    logger.info("Successful")
-    return df_xml, plot_pianoroll, parser_o.measure_onset_list, x_axis_res, get_measure_onset,measure_onset_data, plot_inline_ipynb
+    return df_xml, \
+           plot_pianoroll,\
+           parser_o.measure_onset_list,\
+           upbeat_info,\
+           x_axis_res,\
+           get_measure_onset, \
+           measure_onset_data, \
+           plot_inline_ipynb, t_pid,\
+           t_pn
+
 
 
 
@@ -121,14 +140,16 @@ def testing():
     # filter_dict_t = {'Measure': '4-5', 'PartID': 1}
     xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
 
+    filter_dict_t = {'Measure':'1-20', 'PartID': '4'}
+
     m_df = with_xml_file(file=xml_file,
-                      plot_pianoroll=False,
+                      plot_pianoroll=True,
                       save_at=None,
                       save_file_name=None,
                       do_save=False, get_upbeat_info=False,
-                      x_axis_res=1)#, filter_dict=filter_dict_t)
+                      x_axis_res=1, filter_dict=filter_dict_t)
     # print(m_df)
-    out = analyse.ambitus(m_df,output_as_midi=True)
+    # out = analyse.ambitus(m_df,output_as_midi=True)
     # out = analyse.pitch_class_histogram(m_df, do_plot=True)
     # t = utils.export_as_csv(data=pitchclass_hist,
     #                        columns=['Pitch Class', 'Occurrences'],
@@ -139,16 +160,12 @@ def testing():
     #                        sep=';',
     #                        index=False,
     #                        header=True)
-
     # out = analyse.quarterlength_duration_histogram(m_df, plot_with=None,
     #                                               do_plot=True)
-
     # out = analyse.metric_profile_split_time_signature(m_df, plot_with=None, do_plot=True)
     # filter_dict_cello = {'PartID': '4', 'Measure': '1-10'}
-
     # out = analyse.pitch_class_histogram(m_df,
     #                                     do_plot=True)#, filter_dict=filter_dict_cello)
-
     # mp.utils.export_as_csv(data=pitchclass_hist_cello,
     #                        columns=['Tonhöhenklasse', 'Häufigkeit'],
     #                        save_file_name='cello.csv',
@@ -165,9 +182,7 @@ def testing():
     #                           plot_with='Pitch',
     #                           do_plot=True)
     # xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-
-
-    print(out)
+    # print(out)
 #
-# if __name__=='__main__':
-#     testing()
+if __name__=='__main__':
+    testing()
