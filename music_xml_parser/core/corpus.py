@@ -1,5 +1,4 @@
 import numpy as np
-
 import analyse
 import parse
 
@@ -7,6 +6,14 @@ np.seterr(all="ignore")
 
 
 def corpus_study(xml_files):
+    """
+    # Basic Statistics - Ambitues, total measure, parts, Timesignatures (in one cell)
+    # Pitchclass
+    # Intervals +/-12 notes (and <> end bins)
+
+    :param xml_files:
+    :return:
+    """
     df_list = []
     if 'https' in xml_files[0]:
         print("Please download the files and save it in the data folder")

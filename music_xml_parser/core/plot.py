@@ -1,6 +1,7 @@
 """
-Author: Christon Nadar
-License: The MIT license, https://opensource.org/licenses/MIT
+Author  : Christon Nadar
+License : The MIT license, https://opensource.org/licenses/MIT
+Project : CAMAT (Computer Aided Music Analysis Toolbox) - https://analyse.hfm-weimar.de/
 """
 
 try:
@@ -516,15 +517,11 @@ def plot_3d_ql_pc(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     ax1.set_yticks(np.arange(len(bs_uni)))
 
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
-    # for i in n_uni:
-    #     print(i)
     ax1.set_xticklabels([pitchclassid2pitchclass(int(i))for i in n_uni])
-    # ax1.set_xticklabels([midi_dict[i]for i in n_uni])
 
     ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
-    # ax1.set_xticks(ax1.get_xticks()[::2])
     ax1.set_zlabel('Occurrence')
     plt.grid()
     plt.show()

@@ -187,22 +187,15 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         return data
     else:
         if plot_with == 'PitchClass':
-            # print(df_c[['Pitch', 'Duration']])
             df_c.dropna(subset=["MIDI"], inplace=True)
-
             n_df = df_c[['MIDI', 'Duration']].to_numpy()
-
             p = [midi2pitchclass(i)[1] for i in n_df[:, 0]]
-
-            # p = [midi2pitchclass(i)[0] for i in n_df[:, 0]]
-
             d = n_df[:, 1]
             n_df = [[i, ii] for i, ii in zip(p,d)]
             n_df = np.array(n_df,dtype='<U21')
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [str(i) for i in u[:, 0]]
             p_str = [pitchclassid2pitchclass(int(i)) for i in u[:, 0]]
-
             d = [float(i) for i in u[:, 1]]
             pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
             convert_dict = {'Count': int, 'Duration': float}
@@ -399,7 +392,12 @@ def filter(df_data: pd.DataFrame, filter_dict):
 def _cs_initialize_df(df_row_name):
 
     c = ['FileName', 'TotalMeasure', 'PitchClass']
+    c = ['FileName']
     df_data = pd.DataFrame(df_row_name, columns=c)
+
+    df_data['TotalMeasure'] = ''
+    df_data['PitchClass'] = ''
+
     return df_data
 
 
@@ -527,13 +525,3 @@ def _cs_pitchclass_histogram(df_data, dfs, FileNames):
     # # print(data_all)
     return df_data
 
-
-# def testing():
-#
-#     xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-#
-#     out = corpus_study(xml_files)
-#
-#
-# if __name__=='__main__':
-#     testing()
