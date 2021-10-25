@@ -56,7 +56,6 @@ def testing():
 
 
 if __name__ == '__main__':
-    # testing()
     xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
 
     corpus_study(xml_files)
