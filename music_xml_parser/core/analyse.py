@@ -389,61 +389,135 @@ def filter(df_data: pd.DataFrame, filter_dict):
     return f_df
 
 
-def _cs_initialize_df(df_row_name):
-
-    c = ['FileName', 'TotalMeasure', 'PitchClass']
-    c = ['FileName']
-    df_data = pd.DataFrame(df_row_name, columns=c)
-
-    df_data['TotalMeasure'] = ''
-    df_data['PitchClass'] = ''
+def _cs_initialize_df(df_row_name, part_info):
+    c = ['FileName', 'PartID', 'PartName']
+    data = []
+    for id, n in enumerate (df_row_name):
+        # print(id,n , part_info[id])
+        for pi in part_info[id]:
+            data.append([n, pi, part_info[id][pi]])
+        data.append([n, 'AllParts', 'AllParts'])
+    df_data = pd.DataFrame(np.array(data), columns=c)
 
     return df_data
 
 
-def _cs_total_parts(df_data, dfs):
+def _cs_total_parts(df_data, dfs, part_info):
+    df_data['TotalPart'] = [0 for i in range(len(df_data))]
+    ph_data = []
+    for idx, df in enumerate(dfs):
+        for p in part_info[idx]:
+            ph_data.append(1)
+        data = len(list(set(df['PartID'].drop_duplicates().to_numpy())))
+        ph_data.append(data)
+    for idx, p in enumerate(ph_data):
+        df_data.at[idx, 'TotalPart'] = p
+    return df_data
+
+def _cs_get_part_list(dfs):
     t_parts_list = []
     for df in dfs:
-        df_p = len(list(set(df['PartID'].drop_duplicates().to_numpy())))
-        t_parts_list.append(df_p)
-    df_data['TotalParts'] = t_parts_list
+        df_p = df[['PartID', 'PartName']].drop_duplicates().to_numpy()
+        d = {i[0]: i[1] for i in df_p}
+        t_parts_list.append(d)
+    return t_parts_list
+
+
+def _cs_total_meas(df_data, dfs, part_info, separate_parts=True):
+    df_data['TotalMeasure'] = [0 for i in range(len(df_data))]
+    if separate_parts==False:
+        ph_data = []
+        for idx, df in enumerate(dfs):
+            data = len(list(df[['Measure','PartID']].drop_duplicates().to_numpy()))
+            ph_data.append(data)
+        row_idx = df_data.index[df_data['PartID'] == 'AllParts'].tolist()
+        for idx, p in zip(row_idx,ph_data):
+            df_data.at[idx, 'TotalMeasure'] = p
+    else:
+        ph_data = []
+        for idx, df in enumerate(dfs):
+            for p in part_info[idx]:
+                grouped = df.groupby(df.PartID)
+                try:
+                    part_df = grouped.get_group(int(p)).copy()
+                except:
+                    part_df = grouped.get_group(str(p)).copy()
+                data = len(list(set(part_df['Measure'].drop_duplicates().to_numpy())))
+                ph_data.append(data)
+            data = len(list(df[['Measure','PartID']].drop_duplicates().to_numpy()))
+            ph_data.append(data)
+        for idx, p in enumerate(ph_data):
+            df_data.at[idx, 'TotalMeasure'] = p
     return df_data
 
 
-def _cs_total_meas(df_data, dfs):
-    t_meas_list = []
-    for df in dfs:
-        df_p = len(list(set(df['Measure'].drop_duplicates().to_numpy())))
-        t_meas_list.append(df_p)
-    df_data['TotalMeasure'] = t_meas_list
-    return df_data
+def _cs_ambitus(df_data, dfs, get_in_midi=False):
+    df_data['PitchMin'] = [0 for _ in range(len(df_data))]
+    df_data['PitchMax'] = [0 for _ in range(len(df_data))]
+    df_data['Ambitus'] = [0 for _ in range(len(df_data))]
+    fn = df_data['FileName'].drop_duplicates().tolist()
 
-
-def _cs_ambitus(df_data, dfs, FileNames):
     ph_data = []
-    for df in dfs:
+    all_parts_amb = []
+    for idx, df in enumerate(dfs):
         data = ambitus(df,
                        output_as_midi=True,
                        filter_dict=None)
-        data = np.array(data)
         ph_data.append(data)
+        t_min = min([i[2] for i in data])
+        t_max = max([i[3] for i in data])
+        d = ['AllParts', 'AllParts', t_min, t_max, t_max - t_min]
+        all_parts_amb.append(d)
+    row_idx = df_data.index[df_data['PartID'] == 'AllParts'].tolist()
+    assert len(row_idx) == len(ph_data) == len(fn)
 
-    # for idx, p in enumerate(ph_data):
-    # data_f = np.full(shape=(12, 2), fill_value='')
-    # data_f[:, 0] = pc_names
-    # data_f = pd.DataFrame(data_f, columns=['PitchCLass', 'Freq'])
-    # for i in p:
-    #     r = data_f.index[data_f['PitchCLass'] == str(i[0])]
-    #     data_f.loc[r, 'Freq'] = str(i[1])
-    # data_f = data_f.T
-    # n_l = [FileNames[idx] for _ in range(len(data_f))]
-    # col_names =  ['PitcClasshHist' for _ in range (len(data_f.columns))]
-    # data_f.columns = col_names
-    #
-    # data_f['FileName'] = n_l
-    #
-    # data_all.append(data_f)
-    # del data_f
+    for f, idx, p in zip(fn, row_idx, ph_data):
+        for i in p:
+            try:
+                r_id = int(np.squeeze(
+                    df_data.index[(df_data['PartID'] == str(i[0])) & (df_data['FileName'] == f)].tolist()))
+            except:
+                r_id = np.squeeze(
+                    df_data.index[(df_data['PartID'] == str(i[0])) & (df_data['FileName'] == f)].tolist())
+                print("ERROR Getting the row index", r_id)
+            df_data.at[r_id, 'PitchMin'] = i[2]
+            df_data.at[r_id, 'PitchMax'] = i[3]
+            df_data.at[r_id, 'Ambitus'] = i[4]
+    for f, ap in zip(fn, all_parts_amb):
+        try:
+            r_id = int(
+                np.squeeze(df_data.index[(df_data['PartID'] == 'AllParts') & (df_data['FileName'] == f)].tolist()))
+        except:
+            r_id = np.squeeze(
+                df_data.index[(df_data['PartID'] == 'AllParts') & (df_data['FileName'] == f)].tolist())
+            print("ERROR Getting the row index", r_id)
+        df_data.at[r_id, 'PitchMin'] = ap[2]
+        df_data.at[r_id, 'PitchMax'] = ap[3]
+        df_data.at[r_id, 'Ambitus'] = ap[4]
+
+    if get_in_midi == False:
+        a_min = [midi2str(i) for i in (df_data['PitchMin'].to_numpy())]
+        a_max = [midi2str(i) for i in (df_data['PitchMax'].to_numpy())]
+        df_data['PitchMin'] = a_min
+        df_data['PitchMax'] = a_max
+    return df_data
+
+def _cs_time_signature(df_data, dfs, part_info):
+    df_data['TimeSignature'] = ['' for _ in range(len(df_data))]
+    ph_data = []
+    for idx, df in enumerate(dfs):
+        for p in part_info[idx]:
+            grouped = df.groupby(df.PartID)
+            try:
+                part_df = grouped.get_group(int(p)).copy()
+            except:
+                part_df = grouped.get_group(str(p)).copy()
+            data = list(set(part_df['TimeSignature'].drop_duplicates().tolist()))
+            ph_data.append(data)
+        data = list(df['TimeSignature'].drop_duplicates().tolist())
+        ph_data.append(data)
+    for idx, p in enumerate(ph_data):
+        df_data.at[idx, 'TimeSignature'] = p
     return df_data
 
 
@@ -472,56 +546,100 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
             r = data_f.index[data_f['Midi'] == int(i[0])]
             data_f.loc[r, 'Pitch'] = str(i[1])
             data_f.loc[r, 'Freq'] = int(i[2])
+
         data_f = data_f.T
         n_l = [FileNames[idx] for _ in range(len(data_f))]
-        col_names = ['PitchHist' for _ in range(len(data_f.columns))]
+        col_names = ['PitchHist'+str(i) for i in range(len(data_f.columns))]
         data_f.columns = col_names
-
         data_f['FileName'] = n_l
-
         data_all.append(data_f)
         del data_f
     data_all = pd.concat(data_all, ignore_index=True, sort=False)
-
-    df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
-
+    df_data = df_data.merge(data_all, on='FileName', how='outer')
     return df_data
 
+# def _cs_pitch_histogram(df_data, dfs, FileNames):
+#     midi_min_max = []
+#     ph_data = []
+#     for df in dfs:
+#         data = pitch_histogram(df,
+#                                do_plot=False,
+#                                do_plot_full_axis=False,
+#                                visulize_midi_range=None,
+#                                filter_dict=None)
+#         data = np.array(data)
+#         midi_min_max.append(min(data[:, 0]))
+#         midi_min_max.append(max(data[:, 0]))
+#         ph_data.append(data)
+#
+#     axis_range = np.arange(start=int(min(midi_min_max)), stop=int(max(midi_min_max)))
+#     data_all = []
+#     for idx, p in enumerate(ph_data):
+#         data_f = np.full(shape=(len(axis_range), 3), fill_value=0)
+#         data_f[:, 0] = axis_range
+#         data_f = pd.DataFrame(data_f, columns=['Midi', 'Pitch', 'Freq'])
+#         for i in p:
+#             r = data_f.index[data_f['Midi'] == int(i[0])]
+#             data_f.loc[r, 'Pitch'] = str(i[1])
+#             data_f.loc[r, 'Freq'] = int(i[2])
+#         data_f = data_f.T
+#         n_l = [FileNames[idx] for _ in range(len(data_f))]
+#         col_names = ['PitchHist' for _ in range(len(data_f.columns))]
+#         data_f.columns = col_names
+#
+#         data_f['FileName'] = n_l
+#         data_all.append(data_f)
+#         del data_f
+#     data_all = pd.concat(data_all, ignore_index=True, sort=False)
+#     df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
+#     return df_data
 
-def _cs_pitchclass_histogram(df_data, dfs, FileNames):
-    pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
-    midi_min_max = []
-    ph_data = []
-    for idx, df in enumerate(dfs):
-        data = pitch_class_histogram(df,
-                                     do_plot=False,
-                                     x_axis_12pc=True,
-                                     filter_dict=None)
-        ph_data.append(data)
-    data_all = []
-    for idx, p in enumerate(ph_data):
-        data_f = np.full(shape=(12, 2), fill_value='')
-        data_f[:, 0] = pc_names
-        data_f = pd.DataFrame(data_f, columns=['PitchCLass', 'Freq'])
-        for i in p:
-            r = data_f.index[data_f['PitchCLass'] == str(i[0])]
-            data_f.loc[r, 'Freq'] = str(i[1])
-        data_f = data_f.T
-        n_l = [FileNames[idx] for _ in range(len(data_f))]
-        col_names = ['PitcClasshHist' for _ in range(len(data_f.columns))]
-        data_f.columns = col_names
-        data_f['FileName'] = n_l
-        data_all.append(data_f)
-        del data_f
-    # col_names.append('FileName')
-    data_all = pd.concat(data_all, ignore_index=True, sort=False)
-    # data_all = data_all.drop_duplicates(subset=col_names, keep='first')
-    # df_data = df_data.merge(data_all, left_index=True, right_index=True, how='outer')
-    df_data = df_data.merge(data_all, left_index=True, right_index=True, how='outer')  # ,suffixes = ('', '_n'))
-    # df_data['FileName_x'] = df_data['FileName_y'].tolist()
-    df_data = df_data.rename(columns={'FileName_x': 'FileName'})
-    df_data.drop(df_data.filter(regex='_y$').columns.tolist(), axis=1, inplace=True)
-    # # print(data_all)
+def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
+    if separate_parts==False:
+        pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        ph_data = []
+        for idx, df in enumerate(dfs):
+            data = pitch_class_histogram(df,
+                                         do_plot=False,
+                                         x_axis_12pc=True,
+                                         filter_dict=None)
+            ph_data.append(data)
+        for i in pc_names:
+            df_data[i] =0
+        unique_name = np.squeeze(df_data[['FileName']].drop_duplicates().to_numpy())
+        row_idx = df_data.index[df_data['PartID'] == 'AllParts'].tolist()
+
+        for idx, p in zip(row_idx,ph_data):
+            for ii in p:
+                df_data.at[idx, ii[0]] = ii[1]
+    else:
+        pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+        ph_data = []
+        for idx, df in enumerate(dfs):
+            for p in part_info[idx]:
+                grouped = df.groupby(df.PartID)
+                try:
+                    part_df = grouped.get_group(int(p)).copy()
+                except:
+                    part_df = grouped.get_group(str(p)).copy()
+                data = pitch_class_histogram(part_df,
+                                             do_plot=False,
+                                             x_axis_12pc=True,
+                                             filter_dict=None)
+                ph_data.append(data)
+            data = pitch_class_histogram(df,
+                                         do_plot=False,
+                                         x_axis_12pc=True,
+                                         filter_dict=None)
+            ph_data.append(data)
+
+        for i in pc_names:
+            df_data[i] = 0
+
+        for idx, p in enumerate(ph_data):
+            for ii in p:
+                df_data.at[idx, ii[0]] = ii[1]
+
     return df_data
 
