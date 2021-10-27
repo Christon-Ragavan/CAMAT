@@ -594,7 +594,8 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
 #     df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
 #     return df_data
 
-
+def _cs_interval(df_data, dfs, part_info):
+    pass
 def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
     if separate_parts==False:
         pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]

@@ -22,3 +22,5 @@ from .analyse import ambitus,\
     max_measure_num
 from .web_scrapper import get_file_from_server, \
     get_files_from_server
+
+from .corpus import analyse_pitch_class
