@@ -96,12 +96,16 @@ def with_xml_file(file: str,
 
 
 if __name__ == "__main__":
-    xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV62_COM_6-6_CantataNun_004_00363.xml'
+    # xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV62_COM_6-6_CantataNun_004_00363.xml'
+    xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml'
+
+
     m_df = with_xml_file(file=xml_file,
                           save_file_name=None,
                           plot_pianoroll=False,
                           plot_inline_ipynb=True,
                           do_save=True)
+    print(m_df)
 
     interval_hist = interval(m_df,
                         part='all',

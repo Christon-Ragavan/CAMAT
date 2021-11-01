@@ -1,63 +1,52 @@
-2021-11-01 15:36:37,591:INFO:__main__:parse.py:71:Extracting
-2021-11-01 15:36:37,595:INFO:__main__:xml_parser.py:928:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/hfm_database/BaJoSe_BWV62_COM_6-6_CantataNun_004_00363.xml
-2021-11-01 15:36:37,595:DEBUG:__main__:xml_parser.py:212: ------------- part part P1 1-------------
-2021-11-01 15:36:37,595:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 0.0
-2021-11-01 15:36:37,595:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 15:36:37,595:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 15:36:37,595:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:212: ------------- part part P2 2-------------
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:212: ------------- part part P3 3-------------
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:212: ------------- part part P4 4-------------
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 15:36:37,596:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:212: ------------- part part P5 5-------------
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:317:self.step                   :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:318:self.octave                 :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:319:self.tie                    :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:320:self.duration               :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:321:self.chord_tags             :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:322:self.voice_num              :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:323:self.GraceNote              :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:324:self.measure_num_per_note   :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:325:self.glb_part_id_list       :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:326:self.part_name_list         :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:327:measure_onset_list         :40
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:328:self.note_counter_list      :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:329:self.measure_onset_df      :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:330:self.time_signature_list     :190
-2021-11-01 15:36:37,597:DEBUG:__main__:xml_parser.py:331:curr_measure_num            :8
-2021-11-01 15:36:37,616:INFO:__main__:parse.py:76:Successful
+2021-11-01 16:05:04,682:INFO:__main__:parse.py:71:Extracting
+2021-11-01 16:05:04,690:INFO:__main__:xml_parser.py:927:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/hfm_database/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml
+2021-11-01 16:05:04,690:DEBUG:__main__:xml_parser.py:212: ------------- part part P1 1-------------
+2021-11-01 16:05:04,690:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 0.0
+2021-11-01 16:05:04,690:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
+2021-11-01 16:05:04,690:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
+2021-11-01 16:05:04,691:DEBUG:__main__:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:212: ------------- part part P2 2-------------
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:317:self.step                   :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:318:self.octave                 :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:319:self.tie                    :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:320:self.duration               :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:321:self.chord_tags             :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:322:self.voice_num              :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:323:self.GraceNote              :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:324:self.measure_num_per_note   :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:325:self.glb_part_id_list       :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:326:self.part_name_list         :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:327:measure_onset_list         :32
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:328:self.note_counter_list      :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:329:self.measure_onset_df      :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:330:self.time_signature_list     :352
+2021-11-01 16:05:04,692:DEBUG:__main__:xml_parser.py:331:curr_measure_num            :16
+2021-11-01 16:05:04,719:INFO:__main__:parse.py:76:Successful

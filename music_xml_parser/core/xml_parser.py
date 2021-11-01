@@ -820,6 +820,7 @@ class XMLToolBox:
     def check_for_upbeat_measure(self, df):
         df['UpbeatMeasure'] = ['none' for _ in range(len(df))]
 
+        # Consider only one voice -> "1", in case of no voice "1", then search for "0"
         for i in [ "1", "0"]:
             gp = df.groupby(["Measure", "Voice", "PartID"]).agg({"Duration": np.sum}).reset_index()
 
@@ -830,26 +831,25 @@ class XMLToolBox:
                 continue
             else:
                 break
-
-
         set_dtypes = {'Measure': int,
                       'Voice': int,
                       'PartID': int,
                       'Duration': float}
         gp = gp.astype(set_dtypes)
-
         # assert len(self.measure_duration_dict) == len(gp),f"Assering the lenth of unique measure duration with pd " \
         #                                                    f"measure measure_duration_dict:{len(self.measure_duration_dict)}, GP:{len(gp)}"
         measure_durr_data = []
-
         for md in self.measure_duration_dict:
             c_mea, c_part = md.split('_', 1)
             n = np.squeeze(np.where(((gp['Measure'] == int(c_mea)) & (gp['PartID'] == int(c_part)))))
-            if n.size != 0:
+            if n.size == 1:
+                gp.loc[int(n), 'MeasureDuration'] = 0
                 gp.loc[int(n), 'MeasureDuration'] = self.measure_duration_dict[md]
                 measure_durr_data.append([c_mea, c_part, self.measure_duration_dict[md]])
-            else:continue
+            else:
+                continue
         gp['diff'] = gp['MeasureDuration'] - gp['Duration']
+        print(gp)
         gp['UpbeatTag'] = ['none' for _ in range(len(gp))]
 
         diff_tag = np.squeeze(np.where(( gp['diff'] != 0.0 )))
