@@ -33,7 +33,7 @@ def _inseart_row_in_pd(row_number, df, row_value):
 def _get_file_path(file):
     if 'https:' in file:
         f = get_file_from_server(file)
-        print(f)
+        print("File at: ", f)
     else:
         f = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file))
         if not isfile(f):
