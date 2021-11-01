@@ -241,9 +241,14 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 
 
-def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
-    # v = df_data[['PartID', 'PartName']].drop_duplicates().to_numpy()
-    part = int(part)
+def interval(df_data: pd.DataFrame,
+             part=None,
+             do_plot=True,
+             filter_dict=None):
+    if part == 'all':
+        pass
+    else:
+        part = int(part)
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
     if part is None:
@@ -255,7 +260,6 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
     p_df1.dropna(subset=["MIDI"], inplace=True)
     u_parts = np.unique(df_data['PartID'].to_numpy())
     u_parts = [int(i) for i in u_parts]
-
     if part in u_parts:
         pass
     elif part == None:
@@ -375,9 +379,12 @@ def filter(df_data: pd.DataFrame, filter_dict):
             for ii in arr:
                 grouped = f_df.groupby(by=[i])
                 try:
-                    df_list.append(grouped.get_group(str(ii)).copy())
+                    try:
+                        df_list.append(grouped.get_group(str(ii)).copy())
+                    except:
+                        df_list.append(grouped.get_group(int(ii)).copy())
                 except:
-                    df_list.append(grouped.get_group(int(ii)).copy())
+                    print("Valid ")
             f_df = pd.concat(df_list,
                              ignore_index=True,
                              verify_integrity=False,

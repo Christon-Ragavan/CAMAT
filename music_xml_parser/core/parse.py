@@ -104,7 +104,7 @@ if __name__ == "__main__":
                           do_save=True)
 
     interval_hist = interval(m_df,
-                        part='1',
+                        part='all',
                         do_plot=False)
     print(interval_hist)
     # print(m_df)
