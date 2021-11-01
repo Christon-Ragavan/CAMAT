@@ -243,9 +243,9 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
     # v = df_data[['PartID', 'PartName']].drop_duplicates().to_numpy()
-    df_c = df_data.copy()
+    part = int(part)
     if filter_dict is not None:
-        df_c = filter(df_c, filter_dict)
+        df_data = filter(df_data, filter_dict)
     if part is None:
         part = 'all'
     if type(part) is str and part != 'all':
@@ -255,6 +255,7 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
     p_df1.dropna(subset=["MIDI"], inplace=True)
     u_parts = np.unique(df_data['PartID'].to_numpy())
     u_parts = [int(i) for i in u_parts]
+
     if part in u_parts:
         pass
     elif part == None:
@@ -266,9 +267,12 @@ def interval(df_data: pd.DataFrame, part=None, do_plot=True, filter_dict=None):
 
     if part == 'all':
         part_df = df_data.copy()
-    elif part not in u_parts:
+    elif part in u_parts:
         grouped = p_df1.groupby(p_df1.PartID)
-        part_df = grouped.get_group(str(part)).copy()
+        try:
+            part_df = grouped.get_group(int(part)).copy()
+        except:
+            part_df = grouped.get_group(str(part)).copy()
     else:
         part_df = df_data.copy()
 

@@ -25,7 +25,7 @@ logger = set_up_logger(__name__)
 @pianoroll_parts
 def with_xml_file(file: str,
                   plot_pianoroll: bool = False,
-                  plot_inline_ipynb: bool=False,
+                  plot_inline_ipynb: bool=True,
                   save_at: str = None,
                   save_file_name: str = None,
                   do_save: bool = False,
@@ -92,3 +92,19 @@ def with_xml_file(file: str,
            plot_inline_ipynb, t_pid,\
            t_pn
 
+
+
+
+if __name__ == "__main__":
+    xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV62_COM_6-6_CantataNun_004_00363.xml'
+    m_df = with_xml_file(file=xml_file,
+                          save_file_name=None,
+                          plot_pianoroll=False,
+                          plot_inline_ipynb=True,
+                          do_save=True)
+
+    interval_hist = interval(m_df,
+                        part='1',
+                        do_plot=False)
+    print(interval_hist)
+    # print(m_df)

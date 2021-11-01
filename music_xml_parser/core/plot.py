@@ -248,7 +248,6 @@ def _create_pianoroll_single_parts(pitch,
     if plot_inline_ipynb:
         plt.show()
     else:
-
         plt.show(block=False)
         plt.pause(9999999)
         plt.close()
