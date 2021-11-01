@@ -1,64 +1,64 @@
-2021-11-01 14:21:27,997:INFO:music_xml_parser.core.parse:parse.py:71:Extracting
-2021-11-01 14:21:28,003:INFO:music_xml_parser.core.parse:xml_parser.py:928:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/hfm_database/BaJoSe_BWV10_COM_7-7_CantataMei_004_00063.xml
-2021-11-01 14:21:28,003:DEBUG:music_xml_parser.core.parse:xml_parser.py:212: ------------- part part P1 1-------------
-2021-11-01 14:21:28,003:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 0.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 16 measure idtag 17  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 17 measure idtag 18  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 18 measure idtag 19  curr_onset 4.0
-2021-11-01 14:21:28,004:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 19 measure idtag 20  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 20 measure idtag 21  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 21 measure idtag 22  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:212: ------------- part part P2 2-------------
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 16 measure idtag 17  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 17 measure idtag 18  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 18 measure idtag 19  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 19 measure idtag 20  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 20 measure idtag 21  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 21 measure idtag 22  curr_onset 4.0
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:317:self.step                   :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:318:self.octave                 :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:319:self.tie                    :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:320:self.duration               :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:321:self.chord_tags             :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:322:self.voice_num              :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:323:self.GraceNote              :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:324:self.measure_num_per_note   :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:325:self.glb_part_id_list       :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:326:self.part_name_list         :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:327:measure_onset_list         :44
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:328:self.note_counter_list      :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:329:self.measure_onset_df      :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:330:self.time_signature_list     :273
-2021-11-01 14:21:28,005:DEBUG:music_xml_parser.core.parse:xml_parser.py:331:curr_measure_num            :22
-2021-11-01 14:21:28,497:INFO:music_xml_parser.core.parse:parse.py:76:Successful
+2021-11-01 14:26:29,062:INFO:music_xml_parser.core.parse:parse.py:71:Extracting
+2021-11-01 14:26:29,069:INFO:music_xml_parser.core.parse:xml_parser.py:928:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/hfm_database/BaJoSe_BWV10_COM_7-7_CantataMei_004_00063.xml
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:212: ------------- part part P1 1-------------
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 0.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
+2021-11-01 14:26:29,069:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 16 measure idtag 17  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 17 measure idtag 18  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 18 measure idtag 19  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 19 measure idtag 20  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 20 measure idtag 21  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 21 measure idtag 22  curr_onset 4.0
+2021-11-01 14:26:29,070:DEBUG:music_xml_parser.core.parse:xml_parser.py:212: ------------- part part P2 2-------------
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 0 measure idtag 1  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 1 measure idtag 2  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 2 measure idtag 3  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 3 measure idtag 4  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 4 measure idtag 5  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 5 measure idtag 6  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 6 measure idtag 7  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 7 measure idtag 8  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 8 measure idtag 9  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 9 measure idtag 10  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 10 measure idtag 11  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 11 measure idtag 12  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 12 measure idtag 13  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 13 measure idtag 14  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 14 measure idtag 15  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 15 measure idtag 16  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 16 measure idtag 17  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 17 measure idtag 18  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 18 measure idtag 19  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 19 measure idtag 20  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 20 measure idtag 21  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:219:measure 21 measure idtag 22  curr_onset 4.0
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:317:self.step                   :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:318:self.octave                 :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:319:self.tie                    :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:320:self.duration               :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:321:self.chord_tags             :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:322:self.voice_num              :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:323:self.GraceNote              :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:324:self.measure_num_per_note   :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:325:self.glb_part_id_list       :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:326:self.part_name_list         :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:327:measure_onset_list         :44
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:328:self.note_counter_list      :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:329:self.measure_onset_df      :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:330:self.time_signature_list     :273
+2021-11-01 14:26:29,071:DEBUG:music_xml_parser.core.parse:xml_parser.py:331:curr_measure_num            :22
+2021-11-01 14:26:29,568:INFO:music_xml_parser.core.parse:parse.py:76:Successful
