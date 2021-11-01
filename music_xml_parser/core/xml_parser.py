@@ -849,7 +849,6 @@ class XMLToolBox:
             else:
                 continue
         gp['diff'] = gp['MeasureDuration'] - gp['Duration']
-        print(gp)
         gp['UpbeatTag'] = ['none' for _ in range(len(gp))]
 
         diff_tag = np.squeeze(np.where(( gp['diff'] != 0.0 )))
