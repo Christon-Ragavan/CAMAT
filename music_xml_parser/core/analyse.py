@@ -144,9 +144,9 @@ def pitch_histogram(df_data: pd.DataFrame,
                                                visulize_midi_range=visulize_midi_range)
 
         data = [[int(float(m)), str(p), str(o), int(c)] for m, p, o, c in zip(m_u,p_u, o_u, c)]
-        # data = np.array(data)
-        # data = np.sort(data, axis=0)
-        return data
+        data = np.array(data)
+        s_data = data[data[:, 0].argsort()].tolist()
+        return s_data
 
     else:
         if filter_dict is not None:
