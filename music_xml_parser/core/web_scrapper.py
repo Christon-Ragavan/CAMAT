@@ -21,7 +21,14 @@ def get_file_from_server(xml_link, save_at=None):
     :return:
     """
     if save_at == None:
-        save_at = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
+        curr_dir = os.getcwd()
+        if 'core' in curr_dir:
+            save_at = curr_dir.replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
+        elif 'ipynb' in curr_dir:
+            save_at = curr_dir.replace('ipynb', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
+        else:
+            raise Exception("Error in Saving directory")
+
     file_name = xml_link.split('/')[-1]
     s = os.path.join(save_at, file_name)
 
