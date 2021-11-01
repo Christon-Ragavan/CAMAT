@@ -293,7 +293,39 @@ def barplot_pitch_histogram(labels,
         ax.bar(midi_labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
 
     plt.grid()
-    # plt.show()
+    plt.show()
+
+def barplot_pitch_histogram_enharmonic(labels,
+                            counts,
+                            do_plot_full_axis,
+                            visulize_midi_range=None):
+    if do_plot_full_axis==False:
+        visulize_midi_range = None
+    try:
+        from utils import midi2str
+    except:
+        from .utils import midi2str
+
+    if visulize_midi_range is None:
+        visulize_midi_range = [min(labels)-1, max(labels)+1]
+
+    f = plt.figure(figsize=(12, 4))
+    ax = f.add_subplot(111)
+    ax.set_xlabel('Pitch')
+    ax.set_ylabel('Occurrences')
+
+    if do_plot_full_axis:
+        ax.bar(labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+        midi_labels = [midi2str(i) for i in range(128)]
+        ax.set_xticks(np.arange(128))
+        ax.set_xticklabels(midi_labels)
+        ax.set_xlim(visulize_midi_range[0]-0.5, visulize_midi_range[1]-0.5)
+    else:
+        midi_labels = [midi2str(i) for i in labels]
+        ax.bar(midi_labels, counts, width=0.4, color='darkslateblue', alpha=0.8)
+
+    plt.grid()
+    plt.show()
 
 def barplot_pitch_class_histogram(labels, counts, label_str, x_axis_12pc =False):
 

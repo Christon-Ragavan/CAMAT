@@ -118,22 +118,53 @@ def pitch_histogram(df_data: pd.DataFrame,
                     do_plot=True,
                     do_plot_full_axis=True,
                     visulize_midi_range=None,
-                    filter_dict=None):
-    if filter_dict is not None:
-        df_data = filter(df_data, filter_dict)
-    df_c = df_data.copy()
-    df_c.dropna(subset=["MIDI"], inplace=True)
-    midi = df_c[['MIDI']].to_numpy()
-    u, c = np.unique(midi, return_counts=True)
-    if do_plot:
-        barplot_pitch_histogram(u,
-                                c,
-                                do_plot_full_axis,
-                                visulize_midi_range=visulize_midi_range)
-    pitch_str = [midi2str(int(i)) for i in u]
-    data = [[int(i), str(p), int(c)] for i, p, c in zip(u, pitch_str, c)]
+                    filter_dict=None,
+                    enharmonic=True):
 
-    return data
+    if enharmonic:
+        if filter_dict is not None:
+            df_data = filter(df_data, filter_dict)
+        df_c = df_data.copy()
+        df_c.dropna(subset=["MIDI"], inplace=True)
+        pom = df_c[['Pitch', 'Octave', 'MIDI']].to_numpy()
+        po = [i[0]+'_'+i[1]+'_'+str(i[2]) for i in pom]
+        u, c = np.unique(po, return_counts=True)
+        p_u, o_u, m_u = [], [], []
+
+        for i in u:
+            pi, oi, mi = re.split('_',i, 3)
+            p_u.append(pi)
+            o_u.append(oi)
+            m_u.append(int(float(mi)))
+
+        if do_plot:
+            barplot_pitch_histogram_enharmonic(m_u,
+                                               c,
+                                               do_plot_full_axis,
+                                               visulize_midi_range=visulize_midi_range)
+
+        data = [[int(float(m)), str(p), str(o), int(c)] for m, p, o, c in zip(m_u,p_u, o_u, c)]
+        # data = np.array(data)
+        # data = np.sort(data, axis=0)
+        return data
+
+    else:
+        if filter_dict is not None:
+            df_data = filter(df_data, filter_dict)
+        df_c = df_data.copy()
+        df_c.dropna(subset=["MIDI"], inplace=True)
+        midi = df_c[['MIDI']].to_numpy()
+
+        u, c = np.unique(midi, return_counts=True)
+        if do_plot:
+            barplot_pitch_histogram(u,
+                                    c,
+                                    do_plot_full_axis,
+                                    visulize_midi_range=visulize_midi_range)
+        pitch_str = [midi2str(int(i)) for i in u]
+        data = [[int(i), str(p), int(c)] for i, p, c in zip(u, pitch_str, c)]
+
+        return data
 
 
 def pitch_class_histogram(df_data: pd.DataFrame, x_axis_12pc=True, do_plot=True, filter_dict=None):
@@ -183,7 +214,7 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
         labels = u
         if do_plot:
             barplot_quaterlength_duration_histogram(labels, counts=c)
-        data = [[round(float(i), 2), int(c)] for i, c in zip(u, c)]
+        data = [[round(float(i), 3), int(c)] for i, c in zip(u, c)]
         return data
     else:
         if plot_with == 'PitchClass':
@@ -309,7 +340,7 @@ def metric_profile(df_data: pd.DataFrame,
         u = [i + 1 for i in u]
         if do_plot:
             barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
-        data = [[round(float(i),2), int(c)] for i, c in zip(u, c)]
+        data = [[round(float(i),3), int(c)] for i, c in zip(u, c)]
         return data
     else:
         if plot_with == 'Pitch':
