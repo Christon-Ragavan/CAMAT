@@ -120,5 +120,5 @@ if __name__ == "__main__":
                               plot_inline_ipynb=True,
                               do_save=True)
         # print(m_df)
-        p = pitch_histogram(m_df,do_plot=True, enharmonic=True)
+        p = count_notes(m_df)
         print(p)

@@ -197,6 +197,8 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
                                      plot_with=None,
                                      do_plot=True, filter_dict=None):
     df_c = df_data.copy()
+    df_c.dropna(subset=["MIDI"], inplace=True)
+
     if plot_with == 'pitch':
         plot_with = 'Pitch'
     if plot_with == 'pitchclass':
@@ -393,7 +395,16 @@ def metric_profile(df_data: pd.DataFrame,
 
             return data_2
 
-
+def count_notes(df_data, include_rest_info= True, filter_dict=None):
+    df_c = df_data.copy()
+    if filter_dict is not None:
+        df_c = filter(df_c, filter_dict)
+    if include_rest_info==False:
+        df_c.dropna(subset=["MIDI"], inplace=True)
+    pn= df_c["PartName"].to_numpy()
+    n_notes, c_notes = np.unique(pn, return_counts=True)
+    data = [[i, c] for i, c in zip(n_notes, c_notes)]
+    return data
 
 def filter(df_data: pd.DataFrame, filter_dict):
     """
