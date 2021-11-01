@@ -242,11 +242,13 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
 
 
 def interval(df_data: pd.DataFrame,
-             part=None,
+             part='all',
              do_plot=True,
              filter_dict=None):
     if part == 'all':
         pass
+    elif part == None:
+        part = 'all'
     else:
         part = int(part)
     if filter_dict is not None:
