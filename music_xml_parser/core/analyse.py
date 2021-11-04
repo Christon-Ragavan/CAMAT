@@ -649,8 +649,110 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
 #     df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
 #     return df_data
 
-def _cs_interval(df_data, dfs, part_info):
-    pass
+def _cs_interval(df_data, dfs,
+                 part_info,
+                 separate_parts=True,
+                 get_full_axis=True, interval_range=[-12, 12]):
+
+
+    if separate_parts:
+        min_max_d = []
+        ph_data = []
+        for idx, df in enumerate(dfs):
+            for p in part_info[idx]:
+                grouped = df.groupby(df.PartID)
+                try:
+                    part_df = grouped.get_group(int(p)).copy()
+                except:
+                    part_df = grouped.get_group(str(p)).copy()
+                data = interval(part_df, do_plot=False)
+                data = np.array(data)
+                min_max_d.append(min(data[:, 0]))
+                min_max_d.append(max(data[:, 0]))
+                ph_data.append(data)
+
+            data = interval(df, do_plot=False)
+            data = np.array(data)
+            min_max_d.append(min(data[:, 0]))
+            min_max_d.append(max(data[:, 0]))
+            ph_data.append(data)
+
+        if get_full_axis:
+            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
+            axis_range = [str(i) for i in axis_range]
+
+            for i in axis_range:
+                df_data[i] = 0
+            for idx, p in enumerate(ph_data):
+                for ii in p:
+                    df_data.at[idx, str(ii[0])] = ii[1]
+        else:
+            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
+            axis_range = [str(i) for i in axis_range]
+
+            for i in axis_range:
+                df_data[i] = 0
+            for idx, p in enumerate(ph_data):
+                for ii in p:
+                    df_data.at[idx, str(ii[0])] = ii[1]
+            len_axis = len(np.arange(min(interval_range), max(interval_range)+1))
+            print("len_axis",len_axis)
+
+            min_s = str(min(interval_range))
+            max_s = str(max(interval_range))
+            idx_min = axis_range.index(min_s)
+            idx_max = axis_range.index(max_s)
+            s_min = axis_range[:idx_min]
+            s_max = axis_range[idx_max+1:]
+            df_data['<'+min_s] = df_data[s_min].astype(float).sum(1)
+            df_data.drop(s_min, axis=1, inplace=True)
+
+            df_data[max_s+'<'] = df_data[s_max].astype(float).sum(1)
+            df_data.drop(s_max, axis=1, inplace=True)
+    else:
+        min_max_d = []
+        ph_data = []
+        for df in dfs:
+            data = interval(df, do_plot=False)
+            data = np.array(data)
+            min_max_d.append(min(data[:, 0]))
+            min_max_d.append(max(data[:, 0]))
+            ph_data.append(data)
+        if get_full_axis:
+            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
+            axis_range = [str(i) for i in axis_range]
+            for i in axis_range:
+                df_data[i] =0
+            row_idx = df_data.index[df_data['PartID'] == 'AllParts'].tolist()
+            for idx, p in zip(row_idx, ph_data):
+                for ii in p:
+                    df_data.at[idx, str(ii[0])] = ii[1]
+        else:
+            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
+            axis_range = [str(i) for i in axis_range]
+
+            for i in axis_range:
+                df_data[i] = 0
+            for idx, p in enumerate(ph_data):
+                for ii in p:
+                    df_data.at[idx, str(ii[0])] = ii[1]
+            len_axis = len(np.arange(min(interval_range), max(interval_range) + 1))
+
+            min_s = str(min(interval_range))
+            max_s = str(max(interval_range))
+            idx_min = axis_range.index(min_s)
+            idx_max = axis_range.index(max_s)
+            s_min = axis_range[:idx_min]
+            s_max = axis_range[idx_max + 1:]
+            df_data['<' + min_s] = df_data[s_min].astype(float).sum(1)
+            df_data.drop(s_min, axis=1, inplace=True)
+
+            df_data[max_s + '<'] = df_data[s_max].astype(float).sum(1)
+            df_data.drop(s_max, axis=1, inplace=True)
+    return df_data
+
+
+
 def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
     if separate_parts==False:
         pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
