@@ -696,7 +696,6 @@ def _cs_interval(df_data, dfs,
                 for ii in p:
                     df_data.at[idx, str(ii[0])] = ii[1]
             len_axis = len(np.arange(min(interval_range), max(interval_range)+1))
-            print("len_axis",len_axis)
 
             min_s = str(min(interval_range))
             max_s = str(max(interval_range))
@@ -704,10 +703,14 @@ def _cs_interval(df_data, dfs,
             idx_max = axis_range.index(max_s)
             s_min = axis_range[:idx_min]
             s_max = axis_range[idx_max+1:]
-            df_data['<'+min_s] = df_data[s_min].astype(float).sum(1)
+            min_str = '<'+min_s
+            max_str = max_s+'<'
+            min_df_cols = df_data[s_min].astype(float).sum(1)
             df_data.drop(s_min, axis=1, inplace=True)
-
-            df_data[max_s+'<'] = df_data[s_max].astype(float).sum(1)
+            cols = df_data.columns.tolist()
+            least_idx_cols = cols.index(min_s)
+            df_data.insert(least_idx_cols, min_str, min_df_cols)
+            df_data[max_str] = df_data[s_max].astype(float).sum(1)
             df_data.drop(s_max, axis=1, inplace=True)
     else:
         min_max_d = []
@@ -736,7 +739,6 @@ def _cs_interval(df_data, dfs,
             for idx, p in enumerate(ph_data):
                 for ii in p:
                     df_data.at[idx, str(ii[0])] = ii[1]
-            len_axis = len(np.arange(min(interval_range), max(interval_range) + 1))
 
             min_s = str(min(interval_range))
             max_s = str(max(interval_range))
@@ -744,10 +746,14 @@ def _cs_interval(df_data, dfs,
             idx_max = axis_range.index(max_s)
             s_min = axis_range[:idx_min]
             s_max = axis_range[idx_max + 1:]
-            df_data['<' + min_s] = df_data[s_min].astype(float).sum(1)
+            min_str = '<' + min_s
+            max_str = max_s + '<'
+            min_df_cols = df_data[s_min].astype(float).sum(1)
             df_data.drop(s_min, axis=1, inplace=True)
-
-            df_data[max_s + '<'] = df_data[s_max].astype(float).sum(1)
+            cols = df_data.columns.tolist()
+            least_idx_cols = cols.index(min_s)
+            df_data.insert(least_idx_cols, min_str, min_df_cols)
+            df_data[max_str] = df_data[s_max].astype(float).sum(1)
             df_data.drop(s_max, axis=1, inplace=True)
     return df_data
 
