@@ -103,7 +103,14 @@ def analyse_interval(xml_files,
     :param xml_files:
     :return:
     """
-
+    if max(interval_range) >12:
+        print("interval_range > 12 to be implemented, instead using get_full_axis=True")
+        get_full_axis=True
+    if min(interval_range)<-12:
+        print("interval_range < -12 to be implemented, instead using get_full_axis=True")
+        get_full_axis = True
+    if interval_range== None:
+        get_full_axis= True
     if get_full_axis==False:
         if interval_range == None:
             interval_range = [-12, 12]
@@ -145,10 +152,3 @@ def analyse_interval(xml_files,
                            interval_range=interval_range)
     return df_data
 
-if __name__ == '__main__':
-    xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-    df = analyse_interval(xml_files, interval_range=[-6, 6],
-                          include_basic_stats=False,
-                          include_pitchclass=False,get_full_axis=False)
-    df.to_csv("/Users/chris/Downloads/corpus_study_full_example.csv", sep=';')
-    print(df)
