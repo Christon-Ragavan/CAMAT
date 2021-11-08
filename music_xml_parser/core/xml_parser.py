@@ -927,14 +927,10 @@ class XMLParser(XMLToolBox):
             self.logger.info(f"File Found - {self.path}")
 
         df_data = self.strip_xml()
-
         df_data = self.compute_measure_onset(df_data)
         df_data = self.compute_voice_onset(df_data)
-
         df_data = self.compute_tie_duration(df_data)
-
         df_data = self.convert_pitch_midi(df_data)
-
         df_data = self.compute_upbeat(df_data)
         df_data = self.remove_df_cols(df_data)
         return df_data

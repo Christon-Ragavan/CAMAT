@@ -72,9 +72,7 @@ def with_xml_file(file: str,
     parser_o = XMLParser(path=file, logger=logger)
     df_xml = parser_o.xml_parse()
     t_pid, t_pn = get_parts(df_xml)
-
     logger.info("Successful")
-
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
 
@@ -93,3 +91,15 @@ def with_xml_file(file: str,
            t_pn
 
 
+if __name__=='__main__':
+    import utils
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
+    m_df = with_xml_file(file=xml_file,
+                                  do_save=False,
+                                  save_file_name='mozart.csv')
+
+    ambitus = ambitus(m_df,
+                                 output_as_midi=False)
+
+    utils.display_table(data=ambitus,
+                           columns=['Part ID', 'min', 'max', 'Semitones Difference'])

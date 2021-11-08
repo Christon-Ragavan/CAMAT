@@ -4,10 +4,22 @@ import os
 import numpy as np
 import pandas as pd
 from IPython.display import display, HTML
+import warnings
 
 np.seterr(all="ignore")
 
-
+def _gen_alpha(N):
+    letters = []
+    for i in range(N):
+        newCharacter = i % 26
+        i //= 26
+        s = "" + chr(newCharacter + ord('A'))
+        while i != 0:
+            newCharacter = i % 26
+            i //= 26
+            s = chr(newCharacter + ord('A')) + s
+        letters.append(s)
+    return letters
 
 def export_as_csv(data, columns,
                   save_file_name :str=None,
@@ -23,10 +35,14 @@ def export_as_csv(data, columns,
     columns (list): list of column header in strings
     save_at (str) : path the csv to be saved
     """
+    N = np.shape(data)[1]
+    if len(columns) != N:
+        warnings.warn(
+            f"Number of data column is not equal to the column names.\nExpected {N} column names but got {len(columns)}: {columns} instead. \nSetting default column names")
+        columns = _gen_alpha(N=N)
     if '.csv' not in  save_file_name:
         save_file_name = save_file_name+'.csv'
     if save_at==None:
-
         base_die = os.getcwd().replace('ipynb', os.path.join('data', 'exports'))
         save_at = os.path.join(base_die, save_file_name)
     pd_data = pd.DataFrame(data, columns=columns)
@@ -37,7 +53,10 @@ def export_as_csv(data, columns,
         return pd_data
 
 def display_table(data, columns, do_return_pd=False, sep=',', index=False, header=True):
-
+    N = np.shape(data)[1]
+    if len(columns) != N:
+        warnings.warn(f"Number of data column is not equal to the column names.\nExpected {N} column names but got {len(columns)}: {columns} instead. \nSetting default column names")
+        columns = _gen_alpha(N=N)
     pd_data = pd.DataFrame(data, columns=columns)
     display(HTML(pd_data.to_html(index=False)))
     if do_return_pd:

@@ -613,46 +613,12 @@ def _cs_pitch_histogram(df_data, dfs, FileNames):
     df_data = df_data.merge(data_all, on='FileName', how='outer')
     return df_data
 
-# def _cs_pitch_histogram(df_data, dfs, FileNames):
-#     midi_min_max = []
-#     ph_data = []
-#     for df in dfs:
-#         data = pitch_histogram(df,
-#                                do_plot=False,
-#                                do_plot_full_axis=False,
-#                                visulize_midi_range=None,
-#                                filter_dict=None)
-#         data = np.array(data)
-#         midi_min_max.append(min(data[:, 0]))
-#         midi_min_max.append(max(data[:, 0]))
-#         ph_data.append(data)
-#
-#     axis_range = np.arange(start=int(min(midi_min_max)), stop=int(max(midi_min_max)))
-#     data_all = []
-#     for idx, p in enumerate(ph_data):
-#         data_f = np.full(shape=(len(axis_range), 3), fill_value=0)
-#         data_f[:, 0] = axis_range
-#         data_f = pd.DataFrame(data_f, columns=['Midi', 'Pitch', 'Freq'])
-#         for i in p:
-#             r = data_f.index[data_f['Midi'] == int(i[0])]
-#             data_f.loc[r, 'Pitch'] = str(i[1])
-#             data_f.loc[r, 'Freq'] = int(i[2])
-#         data_f = data_f.T
-#         n_l = [FileNames[idx] for _ in range(len(data_f))]
-#         col_names = ['PitchHist' for _ in range(len(data_f.columns))]
-#         data_f.columns = col_names
-#
-#         data_f['FileName'] = n_l
-#         data_all.append(data_f)
-#         del data_f
-#     data_all = pd.concat(data_all, ignore_index=True, sort=False)
-#     df_data = df_data.merge(data_all, on='FileName', how='outer')  # ,suffixes = ('', '_n'))
-#     return df_data
-
 def _cs_interval(df_data, dfs,
                  part_info,
                  separate_parts=True,
-                 get_full_axis=True, interval_range=[-12, 12]):
+                 get_full_axis=True,
+                 interval_range=[-12, 12],
+                 get_in_percentage=False):
 
 
     if separate_parts:
@@ -676,26 +642,23 @@ def _cs_interval(df_data, dfs,
             min_max_d.append(min(data[:, 0]))
             min_max_d.append(max(data[:, 0]))
             ph_data.append(data)
+        axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
+        axis_range = [str(i) for i in axis_range]
+
+        for i in axis_range:
+            df_data[i] = 0
+        for idx, p in enumerate(ph_data):
+            for ii in p:
+                df_data.at[idx, str(ii[0])] = ii[1]
+
+        if get_in_percentage:
+            c_idx = _column_index(df_data, axis_range)
+            df_data.iloc[:, min(c_idx):max(c_idx)] = df_data.iloc[:, min(c_idx):max(c_idx)].apply(
+                lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
 
         if get_full_axis:
-            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
-            axis_range = [str(i) for i in axis_range]
-
-            for i in axis_range:
-                df_data[i] = 0
-            for idx, p in enumerate(ph_data):
-                for ii in p:
-                    df_data.at[idx, str(ii[0])] = ii[1]
+            pass
         else:
-            axis_range = np.arange(start=int(min(min_max_d)), stop=int(max(min_max_d)) + 1)
-            axis_range = [str(i) for i in axis_range]
-
-            for i in axis_range:
-                df_data[i] = 0
-            for idx, p in enumerate(ph_data):
-                for ii in p:
-                    df_data.at[idx, str(ii[0])] = ii[1]
-            len_axis = len(np.arange(min(interval_range), max(interval_range)+1))
 
             min_s = str(min(interval_range))
             max_s = str(max(interval_range))
@@ -758,8 +721,17 @@ def _cs_interval(df_data, dfs,
     return df_data
 
 
+def _column_index(df, query_cols):
+    cols = df.columns.values
+    sidx = np.argsort(cols)
+    return sidx[np.searchsorted(cols,query_cols,sorter=sidx)]
 
-def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
+
+def _cs_pitchclass_histogram(df_data,
+                             dfs,
+                             part_info,
+                             separate_parts=True,
+                             get_in_percentage=False):
     if separate_parts==False:
         pc_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
         ph_data = []
@@ -771,7 +743,6 @@ def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
             ph_data.append(data)
         for i in pc_names:
             df_data[i] =0
-        unique_name = np.squeeze(df_data[['FileName']].drop_duplicates().to_numpy())
         row_idx = df_data.index[df_data['PartID'] == 'AllParts'].tolist()
 
         for idx, p in zip(row_idx,ph_data):
@@ -804,6 +775,7 @@ def _cs_pitchclass_histogram(df_data, dfs, part_info, separate_parts=True):
         for idx, p in enumerate(ph_data):
             for ii in p:
                 df_data.at[idx, ii[0]] = ii[1]
-
+    if get_in_percentage:
+        c_idx = _column_index(df_data, pc_names)
+        df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
     return df_data
-

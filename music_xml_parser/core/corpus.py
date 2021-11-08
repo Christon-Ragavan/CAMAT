@@ -1,7 +1,6 @@
 import numpy as np
 import sys
 import os
-#sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'core'), ''))
 sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
 
 try:
@@ -17,10 +16,6 @@ np.seterr(all="ignore")
 
 def analyse_basic_statistics(xml_files, get_in_midi=False):
     """
-    # Basic Statistics - Ambitues, total measure, parts, Timesignatures (in one cell)
-    # Pitchclass
-    # Intervals +/-12 notes (and <> end bins)
-
     :param xml_files:
     :return:
     """
@@ -48,15 +43,10 @@ def analyse_basic_statistics(xml_files, get_in_midi=False):
     df_data = _cs_total_meas(df_data, df_list, part_info)
     df_data = _cs_ambitus(df_data, df_list, get_in_midi=get_in_midi)
     df_data = _cs_time_signature(df_data, df_list,part_info)
-    # df_data = _cs_pitchclass_histogram(df_data, df_list, part_info)
     return df_data
 
 def analyse_pitch_class(xml_files, include_basic_stats=True, get_in_midi=False):
     """
-    # Basic Statistics - Ambitues, total measure, parts, Timesignatures (in one cell)
-    # Pitchclass
-    # Intervals +/-12 notes (and <> end bins)
-
     :param xml_files:
     :return:
     """
@@ -94,12 +84,9 @@ def analyse_interval(xml_files,separate_parts=True,
                      include_basic_stats=True,
                      include_pitchclass=False,
                      get_full_axis=False,
-                     get_in_midi=False):
+                     get_in_midi=False,
+                     get_in_percentage=False):
     """
-    # Basic Statistics - Ambitues, total measure, parts, Timesignatures (in one cell)
-    # Pitchclass
-    # Intervals +/-12 notes (and <> end bins)
-
     :param xml_files:
     :return:
     """
@@ -147,11 +134,27 @@ def analyse_interval(xml_files,separate_parts=True,
         df_data = _cs_ambitus(df_data, df_list, get_in_midi=get_in_midi)
         df_data = _cs_time_signature(df_data, df_list,part_info)
     if include_pitchclass:
-        df_data = _cs_pitchclass_histogram(df_data, df_list, part_info)
+        df_data = _cs_pitchclass_histogram(df_data, df_list, part_info=part_info,separate_parts=separate_parts,
+                                           get_in_percentage=get_in_percentage)
     df_data = _cs_interval(df_data,
                            df_list,
-                           part_info,
+                           part_info=part_info,
                            separate_parts=separate_parts,
                            get_full_axis=get_full_axis,
-                           interval_range=interval_range)
+                           interval_range=interval_range,get_in_percentage=get_in_percentage)
     return df_data
+
+
+if __name__=='__main__':
+    xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
+
+    df =analyse_interval(xml_files,
+                         separate_parts=True,
+                         # To get info on part level. Currently only True is working
+                         interval_range=[-6, 6],
+                         # Please give two number, first a lower number followed by greater -> example[-7, 7]
+                         include_basic_stats=True,
+                         include_pitchclass=True,
+                         get_full_axis=False,
+                         get_in_percentage=True)  # If true you will get full min and max interval axis of all the files in xml_files(list)
+    print(df)
