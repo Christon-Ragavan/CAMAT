@@ -24,3 +24,4 @@ from .web_scrapper import get_file_from_server, \
     get_files_from_server
 
 from .corpus import analyse_pitch_class, analyse_interval, analyse_basic_statistics
+from .search import simple_interval_search

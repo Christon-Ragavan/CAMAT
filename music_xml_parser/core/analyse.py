@@ -290,7 +290,6 @@ def interval(df_data: pd.DataFrame,
         part = 'all'
     if type(part) is str and part != 'all':
         part = int(part)
-
     p_df1 = df_data.copy()
     p_df1.dropna(subset=["MIDI"], inplace=True)
     u_parts = np.unique(df_data['PartID'].to_numpy())
@@ -303,23 +302,38 @@ def interval(df_data: pd.DataFrame,
         pass
     else:
         raise Exception("Parts not found, give Valid Parts")
-
     if part == 'all':
-        part_df = df_data.copy()
+        intervals_p = []
+        for c_p in u_parts:
+            grouped = p_df1.groupby(p_df1.PartID)
+            try:
+                p_all = grouped.get_group(int(c_p)).copy()
+            except:
+                p_all = grouped.get_group(str(c_p)).copy()
+            p_all.dropna(subset=["MIDI"], inplace=True)
+            midi_p = p_all['MIDI'].to_numpy()
+            diff_p = [int(t - s) for s, t in zip(midi_p, midi_p[1:])]
+            intervals_p.extend(diff_p)
+        labels, c = np.unique(intervals_p, return_counts=True)
+
     elif part in u_parts:
         grouped = p_df1.groupby(p_df1.PartID)
         try:
             part_df = grouped.get_group(int(part)).copy()
         except:
             part_df = grouped.get_group(str(part)).copy()
+        part_df.dropna(subset=["MIDI"], inplace=True)
+        midi_p = part_df['MIDI'].to_numpy()
+        diff_p = [int(t - s) for s, t in zip(midi_p, midi_p[1:])]
+        labels, c = np.unique(diff_p, return_counts=True)
     else:
         part_df = df_data.copy()
+        part_df.dropna(subset=["MIDI"], inplace=True)
+        midi_p = part_df['MIDI'].to_numpy()
+        diff_p = [int(t - s) for s, t in zip(midi_p, midi_p[1:])]
+        labels, c = np.unique(diff_p, return_counts=True)
 
-    part_df.dropna(subset=["MIDI"], inplace=True)
-    midi = part_df['MIDI'].to_numpy()
-    diff = [int(t - s) for s, t in zip(midi, midi[1:])]
 
-    labels, c = np.unique(diff, return_counts=True)
     if do_plot:
         barplot_intervals(labels, counts=c)
     data = [[int(i), int(c)] for i, c in zip(labels, c)]
@@ -620,7 +634,6 @@ def _cs_interval(df_data, dfs,
                  interval_range=[-12, 12],
                  get_in_percentage=False):
 
-
     if separate_parts:
         min_max_d = []
         ph_data = []
@@ -650,7 +663,6 @@ def _cs_interval(df_data, dfs,
         for idx, p in enumerate(ph_data):
             for ii in p:
                 df_data.at[idx, str(ii[0])] = ii[1]
-
         if get_in_percentage:
             c_idx = _column_index(df_data, axis_range)
             df_data.iloc[:, min(c_idx):max(c_idx)] = df_data.iloc[:, min(c_idx):max(c_idx)].apply(
