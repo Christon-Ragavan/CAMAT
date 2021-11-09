@@ -668,12 +668,12 @@ def _cs_interval(df_data, dfs,
             s_max = axis_range[idx_max+1:]
             min_str = '<'+min_s
             max_str = max_s+'<'
-            min_df_cols = df_data[s_min].astype(float).sum(1)
+            min_df_cols = df_data[s_min].astype(int).sum(1)
             df_data.drop(s_min, axis=1, inplace=True)
             cols = df_data.columns.tolist()
             least_idx_cols = cols.index(min_s)
             df_data.insert(least_idx_cols, min_str, min_df_cols)
-            df_data[max_str] = df_data[s_max].astype(float).sum(1)
+            df_data[max_str] = df_data[s_max].astype(int).sum(1)
             df_data.drop(s_max, axis=1, inplace=True)
     else:
         min_max_d = []
@@ -775,6 +775,7 @@ def _cs_pitchclass_histogram(df_data,
         for idx, p in enumerate(ph_data):
             for ii in p:
                 df_data.at[idx, ii[0]] = ii[1]
+
     if get_in_percentage:
         c_idx = _column_index(df_data, pc_names)
         df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)

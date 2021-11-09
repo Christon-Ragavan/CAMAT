@@ -151,10 +151,10 @@ if __name__=='__main__':
     df =analyse_interval(xml_files,
                          separate_parts=True,
                          # To get info on part level. Currently only True is working
-                         interval_range=[-6, 6],
+                         interval_range=[-12, 12],
                          # Please give two number, first a lower number followed by greater -> example[-7, 7]
-                         include_basic_stats=True,
-                         include_pitchclass=True,
+                         include_basic_stats=False,
+                         include_pitchclass=False,
                          get_full_axis=False,
-                         get_in_percentage=True)  # If true you will get full min and max interval axis of all the files in xml_files(list)
+                         get_in_percentage=False)  # If true you will get full min and max interval axis of all the files in xml_files(list)
     print(df)
