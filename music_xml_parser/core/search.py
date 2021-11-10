@@ -80,8 +80,11 @@ def simple_interval_search(xml_file, interval, return_details=False):
     p_c = np.array(np.unique(sel_pitchs, return_counts=True)).T
     p_c_s = p_c[p_c[:, 1].argsort()[::-1]]
     sel_dfs = np.array(sel_dfs)
+    p_c_s = np.array(p_c_s)
 
     sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5])), columns=["Pitch", "MIDI",  "PartName", "PartID", "Measure","Onset"])
+    p_c_s = pd.DataFrame(list(zip(p_c_s[:, 0], p_c_s[:, 1])), columns=["Pitch", "Occurance"])
+
     if return_details:
         return sel_dfs
     else:
@@ -92,4 +95,5 @@ if __name__ == '__main__':
     xml_files = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
 
 
-    df = simple_interval_search(xml_files, interval=[2, 2])
+    df = simple_interval_search(xml_files, interval=[2, 2], return_details=False)
+    print(df)
