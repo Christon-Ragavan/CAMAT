@@ -2,7 +2,7 @@ import numpy as np
 import sys
 import os
 import math
-
+import pandas as pd
 sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
 
 try:
@@ -47,7 +47,7 @@ def _compute_intervals(df_data):
         df_data.at[idx, 'Interval'] = i
     return df_data
 
-def simple_interval_search(xml_file, interval):
+def simple_interval_search(xml_file, interval, return_details=False):
     i_len = len(interval)
     c_df = with_xml_file(file=xml_file,
                          plot_pianoroll=False,
@@ -57,7 +57,8 @@ def simple_interval_search(xml_file, interval):
                          do_save=False,
                          get_measure_Onset=False)
     i_df = _compute_intervals(df_data=c_df)
-    s_df = i_df[["Onset", "Duration", "Pitch", "Octave", "MIDI", "Measure", "PartID", "PartName", "Interval"]].copy()
+    # s_df = i_df[["Onset", "Duration", "Pitch", "Octave", "MIDI", "Measure", "PartID", "PartName", "Interval"]].copy()
+    s_df = i_df[["Pitch", "MIDI",  "PartName", "PartID", "Measure","Onset"]].copy()
 
     int_l = i_df['Interval'].tolist()
     sel_index = []
@@ -68,17 +69,27 @@ def simple_interval_search(xml_file, interval):
         if interval == tc:
             sel_index.append(s)
     sel_dfs = []
+    sel_pitchs = []
     for si in sel_index:
-        s_df_t = s_df.iloc[si:si+i_len].copy()
-        sel_dfs.append(s_df_t)
+        s_df_t_1 = s_df.iloc[si].copy()
+        sel_dfs.append(s_df_t_1.tolist())
+        sel_pitchs.append(s_df_t_1['Pitch'])
+
     if len(sel_dfs)==0:
         print("No search found")
-    return sel_dfs
+    p_c = np.array(np.unique(sel_pitchs, return_counts=True)).T
+    p_c_s = p_c[p_c[:, 1].argsort()[::-1]]
+    sel_dfs = np.array(sel_dfs)
+
+    sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5])), columns=["Pitch", "MIDI",  "PartName", "PartID", "Measure","Onset"])
+    if return_details:
+        return sel_dfs
+    else:
+        return p_c_s
+
 
 if __name__ == '__main__':
     xml_files = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
 
 
     df = simple_interval_search(xml_files, interval=[2, 2])
-    for i in df:
-        print(i)
