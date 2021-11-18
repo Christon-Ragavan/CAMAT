@@ -39,7 +39,10 @@ def _get_file_path(file):
         if not isfile(f):
             f = join(os.getcwd().replace(basename(os.getcwd()), 'data'),
                         join('xmls_to_parse', 'hfm_database', file))
-        assert isfile(f), f"Please enter either the web https link or file name"
+        else:
+            print("Downloading the file")
+            f = ''
+        assert isfile(f), f"Please enter either the web https link or file name or make sure you have saved it in folder /xml_to_parse"
         assert isfile(f), f"File Not Found {f}"
 
     return f
@@ -136,6 +139,5 @@ class ZoomPan:
         fig.canvas.mpl_connect('button_press_event', onPress)
         fig.canvas.mpl_connect('button_release_event', onRelease)
         fig.canvas.mpl_connect('motion_notify_event', onMotion)
-
         # return the function
         return onMotion

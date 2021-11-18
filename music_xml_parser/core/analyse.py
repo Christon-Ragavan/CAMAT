@@ -792,3 +792,15 @@ def _cs_pitchclass_histogram(df_data,
         c_idx = _column_index(df_data, pc_names)
         df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
     return df_data
+
+if __name__=='__main__':
+    xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml'
+
+    import parse
+
+    dfx = parse.with_xml_file(xml_file)
+
+    # print(dfx)
+    pass
+
+

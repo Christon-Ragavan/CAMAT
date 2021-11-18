@@ -2,6 +2,7 @@
 Author: Christon Nadar
 License: The MIT license, https://opensource.org/licenses/MIT
 """
+
 import re
 import warnings
 from functools import reduce
@@ -35,7 +36,9 @@ def extract_links(url):
 
         try:
             if 'wikilink1' in link.get('class'):
-                data.append([str(link.text), str(root_url + link.get('href'))])
+                d = [str(link.text), str(root_url + link.get('href'))]
+                if ' (1' in d[0]:
+                    data.append(d)
         except:
             continue
     return data
@@ -107,7 +110,6 @@ def extract_tables(artist_meta, url):
     soup = bs(r.content, 'lxml')
     table = soup.find('table')
     thead = soup.find('thead')
-
     column_names = _convert_col(thead)
 
 
@@ -286,7 +288,7 @@ def scrape_database(database_csv, do_print=False):
     composer_url = "https://analyse.hfm-weimar.de/doku.php?id=komponisten"
     composer_data = extract_links(url=composer_url)
 
-    # print(composer_data)
+
     entrie_database_list = []
     for id, i in enumerate(composer_data):
         if do_print:
@@ -295,7 +297,6 @@ def scrape_database(database_csv, do_print=False):
             continue
         print(i[0], i[1])
         pd_data = extract_tables(i[0], i[1])
-        print(pd_data)
         entrie_database_list.append(pd_data)
     df_entrie_database = pd.concat(entrie_database_list,
                                    ignore_index=True,
@@ -437,7 +438,6 @@ def run_search(search_keywords,
                         'Life Time Range': None,
                         'Year Range': None}
 
-    database_csv_path = '/Users/chris/path/to/save/'
 
     df_s = run_search(search_keywords=search_keywords,
                       extract_database=False,
@@ -461,7 +461,6 @@ def run_search(search_keywords,
     else:
         df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
     df_entrie_database = df_entrie_database.replace(np.nan, '', regex=True)
-
     if extract_extire_database:
         df_entrie_database.reset_index(drop=True, inplace=True)
         if do_save_csv:
@@ -480,13 +479,13 @@ def run_search(search_keywords,
 
 
 if __name__=='__main__':
-    search_keywords = {'Composer': ['liszt',],
+    search_keywords = {'Composer': ['liszt', ],
                        'Movement Number': None,
                        'Title': ['Grandes', ],
                        'Key': ['A', ],
-                        'Life Time Year': None,
-                        'Life Time Range': None,
-                        'Year Range': None}
+                       'Life Time Year': None,
+                       'Life Time Range': None,
+                       'Year Range': None}
 
     # database_csv_path = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/database/'
     #
@@ -501,4 +500,3 @@ if __name__=='__main__':
                       save_extracted_database_path=database_csv_path,
                       save_search_output_path='search_output.csv')
 
-    # print(df_s)

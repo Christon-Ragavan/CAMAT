@@ -206,6 +206,7 @@ class XMLToolBox:
         self.part_id_counter = 0
         self.measure_id_counter = 0
         self.curr_measure_onset_df = 0.0
+        self.curr_measure_duration_list = 0.0
         for part in self.root.iter('part'):
             self.part_id_counter += 1
             self.measure_id_counter = 0
@@ -855,6 +856,7 @@ class XMLToolBox:
         if diff_tag.size !=0:
             for x in diff_tag:
                 gp.loc[int(x), 'UpbeatTag']='True'
+
         self.upbeat_measure_info = gp.copy()
         column_names = ["#Note_Debug",
                         "Onset",
@@ -912,6 +914,32 @@ class XMLToolBox:
             df = self._re_compute_onset_upbeat(df)
         return df
 
+    def upbeat_detection(self,df):
+        df_c = df.copy()
+        df_c['Upbeat_d'] = ['none' for _ in range(len(df_c))]
+        df_c['Measure_durr'] = [0 for _ in range(len(df_c))]
+        u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
+
+        intervals_p = []
+        for c_p in u_parts:
+            grouped = df_c.groupby(df_c.PartID)
+            try:
+                p_all = grouped.get_group(int(c_p)).copy()
+            except:
+                p_all = grouped.get_group(str(c_p)).copy()
+
+            p_all.drop_duplicates(subset=['Measure',
+                                         'MeasureOnset'],
+                                 keep="last", inplace=True)
+            # print(p_all)
+            moff = np.squeeze(p_all[['MeasureOnset']].to_numpy(dtype=float))
+            meau_i = np.squeeze(p_all[['Measure']].to_numpy(dtype=float))
+
+            upbeat_measure_dur = abs(moff[:-1] - moff[1:])
+            # print(upbeat_measure_dur, len(upbeat_measure_dur))
+            # print(meau_i, len(meau_i))
+        return df
+
 
 class XMLParser(XMLToolBox):
     def __init__(self, path, *args, **kwargs):
@@ -931,6 +959,7 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_voice_onset(df_data)
         df_data = self.compute_tie_duration(df_data)
         df_data = self.convert_pitch_midi(df_data)
-        df_data = self.compute_upbeat(df_data)
+        # df_data = self.compute_upbeat(df_data)
+        # df_data = self.upbeat_detection(df_data)
         df_data = self.remove_df_cols(df_data)
         return df_data

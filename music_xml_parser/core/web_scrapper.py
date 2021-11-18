@@ -9,13 +9,8 @@ import requests
 
 warnings.filterwarnings("ignore", 'This pattern has match groups')
 
-
-
-
-
 def get_file_from_server(xml_link, save_at=None):
     """
-
     :param xml_link:
     :param save_at:
     :return:
@@ -71,4 +66,5 @@ def get_files_from_server(xml_link, save_at=None):
                 file.write(response.content)
             saved_links.append(s)
             print(">>> %s downloaded!\n" % file_name)
+
     return saved_links
