@@ -1,1 +1,1 @@
-find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+find . | grep -E "(__pycache__|\.pyc|.ipynb_checkpoints|\.pyo$)" | xargs rm -rf
