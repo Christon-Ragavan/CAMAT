@@ -16,7 +16,7 @@ def _replaceing_pd_value(row, col, old_val, new_val):
 
     pass
 
-def _inseart_row_in_pd(row_number, df, row_value):
+def _inseart_row_in_pd(row_number, df, row_value, reset_index=True):
     """
     insert row in the dataframe
 
@@ -27,7 +27,10 @@ def _inseart_row_in_pd(row_number, df, row_value):
     """
     dfA = df.iloc[:row_number, ]
     dfB = df.iloc[row_number:, ]
-    df = dfA.append(row_value).append(dfB).reset_index(drop=True)
+    if reset_index:
+        df = dfA.append(row_value).append(dfB).reset_index(drop=True)
+    else:
+        df = dfA.append(row_value).append(dfB)
     return df
 
 def _get_file_path(file):
@@ -35,13 +38,15 @@ def _get_file_path(file):
         f = get_file_from_server(file)
         print("File at: ", f)
     else:
-        f = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file))
-        if not isfile(f):
+        try:
+            f = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file))
+            assert isfile(f)==True
+        except:
             f = join(os.getcwd().replace(basename(os.getcwd()), 'data'),
-                        join('xmls_to_parse', 'hfm_database', file))
-        else:
-            print("Downloading the file")
-            f = ''
+                     join('xmls_to_parse', 'hfm_database', file))
+        if isfile(f) == False:
+            print("CHRISTON DOWNLOAD!!!")
+
         assert isfile(f), f"Please enter either the web https link or file name or make sure you have saved it in folder /xml_to_parse"
         assert isfile(f), f"File Not Found {f}"
 

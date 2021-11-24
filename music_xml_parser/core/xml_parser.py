@@ -49,6 +49,7 @@ class XMLToolBox:
         self.note_counter_list = []
         self.df_data_tie = pd.DataFrame()
         self.measure_duration_dict = dict()
+        self.measure_duration_list = []
         self.measure_onset_list = []
 
         self.step = []
@@ -256,6 +257,7 @@ class XMLToolBox:
 
                         if m_itt.tag == 'note':
                             self.note_counter += 1
+                            self.measure_duration_list.append(self.curr_measure_onset)
                             self.time_signature_list.append(self.curr_time_signature)
                             self.time_signature_list_adj.append(self.curr_time_signature_adj)
                             self.glb_part_id_list.append(self.curr_part_id)
@@ -299,6 +301,7 @@ class XMLToolBox:
                                 self.curr_measure_divisions = float(division_i.text)
 
                     self.note_counter += 1
+                    self.measure_duration_list.append(self.curr_measure_onset)
                     self.time_signature_list.append(self.curr_time_signature)
                     self.time_signature_list_adj.append(self.curr_time_signature_adj)
                     self.measure_onset_df.append(self.curr_measure_onset_df)
@@ -325,10 +328,11 @@ class XMLToolBox:
             self.logger.debug(f"self.measure_num_per_note   :{len(self.measure_num_per_note_list)}")
             self.logger.debug(f"self.glb_part_id_list       :{len(self.glb_part_id_list)}")
             self.logger.debug(f"self.part_name_list         :{len(self.part_name_list)}")
-            self.logger.debug(f"measure_onset_list         :{len(self.measure_onset_list)}")
+            self.logger.debug(f"measure_onset_list          :{len(self.measure_onset_list)}")
             self.logger.debug(f"self.note_counter_list      :{len(self.note_counter_list)}")
-            self.logger.debug(f"self.measure_onset_df      :{len(self.measure_onset_df)}")
-            self.logger.debug(f"self.time_signature_list     :{len(self.time_signature_list)}")
+            self.logger.debug(f"self.measure_onset_df       :{len(self.measure_onset_df)}")
+            self.logger.debug(f"self.time_signature_list    :{len(self.time_signature_list)}")
+            self.logger.debug(f"measure_duration_list       :{len(self.measure_duration_list)}")
             self.logger.debug(f"curr_measure_num            :{self.curr_measure_num}")
 
         assert len(self.step) == len(self.octave) == len(self.tie) == len(self.duration) == len(self.gracenote_tags), \
@@ -355,6 +359,7 @@ class XMLToolBox:
              self.tie,
              self.gracenote_tags,
              self.measure_onset_df,
+             self.measure_duration_list,
              self.time_signature_list,
              self.time_signature_list_adj]).T,
                                columns=["#Note_Debug",
@@ -369,6 +374,7 @@ class XMLToolBox:
                                         'TieType',
                                         'GraceTag',
                                         'MeasureOnset',
+                                        'MeasureDuration',
                                         'TimeSignature',
                                         'TimeSignatureAdjusted'])
         set_dtypes = {'#Note_Debug': int,
@@ -383,6 +389,7 @@ class XMLToolBox:
                       'TieType': str,
                       'GraceTag': str,
                       'MeasureOnset': float,
+                      'MeasureDuration': float,
                       'TimeSignature': str,
                       'TimeSignatureAdjusted': str
                       }
@@ -572,8 +579,6 @@ class XMLToolBox:
         idx_new_measure_onsets = self._compute_idx_new_measure_for_multi_parts(
             measure_num_list)  # computing number of measure needed in list
 
-        # for id, i in enumerate (idx_ne11w_measure_onsets):
-        #     print(id, i)
 
         assert len(idx_new_measure_onsets) == len(
             self.measure_onset_list), "Check the lengths len(idx_new_measure_onsets){} !=len(measure_onset) {}".format(
@@ -661,6 +666,28 @@ class XMLToolBox:
         return df
 
     def remove_df_cols(self, df, drop_colms_labels=None):
+        column_names = ["#Note_Debug",
+                        "Onset",
+                        "Duration",
+                        "Pitch",
+                        "Octave",
+                        "MIDI",
+                        "Measure",
+                        "Voice",
+                        "PartID",
+                        "PartName",
+                        "MeasureOnset",
+                        "MeasureOnset_ref",
+                        "MeasureDuration",
+                        "MeasureDurrDiff",
+                        "TimeSignature",
+                        "TimeSignatureAdjusted",
+                        "Upbeat",
+                        "ChordTag",
+                        "TieType",
+                        "GraceTag" ]
+        df = df.reindex(columns=column_names)
+
         if drop_colms_labels is None:
             drop_colms_labels = ['#Note_Debug', 'MeasureOnset_ref'] ##Note_Debug
         df = df.drop(drop_colms_labels, axis=1)
@@ -675,8 +702,10 @@ class XMLToolBox:
                       'TieType': str,
                       'GraceTag': str,
                       'MeasureOnset': float,
+                      'MeasureDurrDiff': float,
                       'TimeSignature': str,
-                      'TimeSignatureAdjusted': str
+                      'TimeSignatureAdjusted': str,
+                      'Upbeat':str
                       }
         df_data = df.astype(set_dtypes)
         return df_data
@@ -762,7 +791,6 @@ class XMLToolBox:
 
     def check_upbeat(self, df):
         up_beat_dur_per_measure = df.groupby(["Measure", "Voice", "PartID"]).agg({"Duration": np.sum}).reset_index()
-        print(up_beat_dur_per_measure)
         pass
 
     def testing_compute_voice_onset(self, df):
@@ -837,8 +865,8 @@ class XMLToolBox:
                       'PartID': int,
                       'Duration': float}
         gp = gp.astype(set_dtypes)
-        # assert len(self.measure_duration_dict) == len(gp),f"Assering the lenth of unique measure duration with pd " \
-        #                                                    f"measure measure_duration_dict:{len(self.measure_duration_dict)}, GP:{len(gp)}"
+        # assert len(self.measure_duration_dict) == len(gp),f"Asserting the length of unique measure duration with pd " \
+        # f"measure measure_duration_dict:{len(self.measure_duration_dict)}, GP:{len(gp)}"
         measure_durr_data = []
         for md in self.measure_duration_dict:
             c_mea, c_part = md.split('_', 1)
@@ -877,9 +905,44 @@ class XMLToolBox:
                         "ChordTag",
                         "TieType",
                         "GraceTag"]
-
         df = df.reindex(columns=column_names)
         return df
+
+    def _recompute_df_upbeat_mid(self, ub_st_idx, ub_en_idx,index_to_reset, df_c):
+        cn = ['#Note_Debug',
+              'Onset',
+              'Duration',
+              'Measure',
+              'PartID',
+              'Voice',
+              'Pitch',
+              'Octave',
+              'MIDI',
+              'MeasureOnset_ref',
+              'Upbeat',
+              'MeasureDurrDiff',
+              'PartName',
+              'ChordTag',
+              'TieType',
+              'GraceTag',
+              'MeasureOnset',
+              'MeasureDuration',
+              'TimeSignature',
+              'TimeSignatureAdjusted']
+
+        df_c = df_c.reindex(columns=cn)
+
+        assert ub_st_idx<index_to_reset<ub_en_idx, f"Resetting index not in range"
+        reseting_idx_list = np.arange(index_to_reset-1, ub_en_idx)
+        for i in reseting_idx_list:
+
+            if i+1 <= ub_en_idx:
+                n_onset = df_c.loc[i, 'Onset']+ df_c.loc[i, 'Duration']
+                df_c.loc[i+1, 'Onset'] = n_onset
+                df_c.loc[i+1, 'Measure'] = int(df_c.loc[i+1, 'Measure'])-1
+
+        return df_c
+
 
     def compute_upbeat(self, df):
         df['Upbeat'] = ['none' for _ in range(len(df))]
@@ -914,32 +977,158 @@ class XMLToolBox:
             df = self._re_compute_onset_upbeat(df)
         return df
 
-    def upbeat_detection(self,df):
-        df_c = df.copy()
-        df_c['Upbeat_d'] = ['none' for _ in range(len(df_c))]
-        df_c['Measure_durr'] = [0 for _ in range(len(df_c))]
+    def upbeat_detection(self,df_c):
+        df_c['Upbeat'] = ['none' for _ in range(len(df_c))]
+        df_c['MeasureDurrDiff'] = [ 0.0 for _ in range(len(df_c))]
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
-
-        intervals_p = []
         for c_p in u_parts:
             grouped = df_c.groupby(df_c.PartID)
             try:
                 p_all = grouped.get_group(int(c_p)).copy()
             except:
                 p_all = grouped.get_group(str(c_p)).copy()
+            p_all = p_all.drop_duplicates(subset='Onset', keep='last')
+            gp_d1 = p_all.groupby(['Onset', 'Measure', 'PartID','MeasureDuration'], as_index=False)['Duration'].sum()
 
-            p_all.drop_duplicates(subset=['Measure',
-                                         'MeasureOnset'],
-                                 keep="last", inplace=True)
+            gp_d1 = gp_d1.groupby([ 'Measure', 'PartID', 'MeasureDuration'], as_index=False)['Duration'].sum()
+
+            gp_d1["ck_upbeat"]  = np.where(gp_d1["MeasureDuration"] == gp_d1["Duration"],  False,True)
+            gp_d1['MeasureDurrDiff'] = gp_d1['MeasureDuration'] - gp_d1['Duration']
+            gp_d2 = gp_d1[['Measure', 'PartID', 'ck_upbeat', 'MeasureDurrDiff']]
+            gp_d2 = gp_d2.to_numpy()
+            for i in gp_d2:
+                df_c.loc[(df_c["Measure"] == i[0]) & (df_c["PartID"] == i[1]),"Upbeat"] = i[2]
+                df_c.loc[(df_c["Measure"] == i[0]) & (df_c["PartID"] == i[1]),"MeasureDurrDiff"] = i[3]
+        return df_c
+
+    def upbeat_correction(self, df_c):
+        u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
+        for c_p in u_parts:
+            grouped = df_c.groupby(df_c.PartID)
+            try:
+                p1 = grouped.get_group(int(c_p)).copy()
+            except:
+                p1 = grouped.get_group(str(c_p)).copy()
+            measure_info = df_c['Measure'].to_numpy(np.int)
+
+            first_mearsure = min(measure_info)
+            last_mearsure = max(measure_info)
+
             # print(p_all)
-            moff = np.squeeze(p_all[['MeasureOnset']].to_numpy(dtype=float))
-            meau_i = np.squeeze(p_all[['Measure']].to_numpy(dtype=float))
 
-            upbeat_measure_dur = abs(moff[:-1] - moff[1:])
-            # print(upbeat_measure_dur, len(upbeat_measure_dur))
-            # print(meau_i, len(meau_i))
-        return df
+            gp1 = p1[['Measure', 'PartID', 'MeasureDuration', 'MeasureDurrDiff', 'Upbeat']]
+            gp1 = gp1.loc[(gp1["Upbeat"] == True)].drop_duplicates()
+            gp1['rest_up'] = gp1['MeasureDuration'] - gp1['MeasureDurrDiff']
+            gp1.reset_index(inplace=True)
 
+            for index, row in gp1.iterrows():
+                self.onset_rin = row['MeasureDurrDiff']
+                self.onset_rin_prev = row['MeasureDurrDiff']
+
+                if row['Measure'] in [first_mearsure, last_mearsure]:
+                    if row['Measure'] == first_mearsure:
+                        copy_idx = min(df_c.index[df_c['PartID'] == row['PartID']])
+                        uppend_idx = copy_idx
+
+                    elif row['Measure'] == last_mearsure:
+                        copy_idx = max(df_c.index[df_c['PartID'] == row['PartID']])
+
+                        uppend_idx = copy_idx+1
+
+                    n_v = df_c.iloc[[copy_idx]].copy()
+                    n_v.loc[:, '#Note_Debug'] = 'added_UB'
+                    n_v.loc[:, 'Pitch'] = 'rest'
+                    n_v.loc[:, 'Octave'] = 'rest'
+                    n_v.loc[:, 'MIDI'] = np.nan
+                    if row['Measure'] == first_mearsure:
+                        n_v.loc[:, 'Onset'] = 0.0
+                        df_z = df_c.loc[ (df_c["Measure"] == row['Measure']) & (df_c["PartID"] == row['PartID'])]
+
+                        for r_idx, r_i in df_z.iterrows():
+
+                            if r_i['ChordTag'] == 'chord':
+                                # preserving last onset_value if there is chord.
+                                # TODO: Check for trid and four chord voice.
+                                df_c.loc[r_idx, 'Onset']= self.onset_rin_prev
+                            else:
+                                df_c.loc[r_idx, 'Onset']= self.onset_rin
+                                self.onset_rin += r_i['Duration']
+                    else:
+
+                        # To find the end of the last note n_v['Onset']+n_v['Duration']
+                        # TODO: Test for chords
+                        n_v.loc[:, 'Onset'] = n_v['Onset']+n_v['Duration']
+                    n_v.loc[:, 'Duration'] = row['MeasureDurrDiff']
+                    n_v.loc[:, 'MeasureDurrDiff'] = np.nan
+                    n_v.loc[:, 'Upbeat'] = True
+                    n_v.loc[:, 'ChordTag'] = 'none'
+                    n_v.loc[:, 'TieType'] = 'none'
+                    n_v.loc[:, 'GraceTag'] = 'none'
+                    df_c = _inseart_row_in_pd(row_number=uppend_idx, df=df_c, row_value=n_v)
+                    # p_all = _inseart_row_in_pd(row_number=uppend_idx, df=p_all, row_value=n_v, reset_index=True)
+                else:
+                    pass
+
+        for c_p2 in u_parts:
+            # print("------------------------")
+            grouped = df_c.groupby(df_c.PartID)
+            try:
+                p2 = grouped.get_group(int(c_p2)).copy()
+            except:
+                p2 = grouped.get_group(str(c_p2)).copy()
+            measure_info = df_c['Measure'].to_numpy(np.int)
+            first_mearsure = min(measure_info)
+            last_mearsure = max(measure_info)
+
+            min_idx_parts = min(list(p2.index.values))
+            max_idx_parts = max(list(p2.index.values))
+
+            gp11 = p2[['Measure', 'PartID', 'MeasureDuration', 'MeasureDurrDiff', 'Upbeat']]
+            gp11 = gp11.loc[(gp11["Upbeat"] == True)].drop_duplicates()
+            gp11['rest_up'] = gp11['MeasureDuration'] - gp11['MeasureDurrDiff']
+            gp11.reset_index(inplace=True)
+
+            for index, row in gp11.iterrows():
+                # TODO: First find if there is upbeat in the seccussive measure
+                # TODO:
+                if row['Measure'] in [first_mearsure, last_mearsure]:
+                    continue
+                else:
+
+                    gp22 = gp11.iloc[index:index+2]
+
+                    assert len(gp22) ==2, f"Please check Index, only two should be selected to find consecutive measure for summing"
+                    #to check if there are consicutive measure add up ???
+                    m_ck = gp22['Measure'].to_numpy()
+                    assert len(m_ck) == 2, f"Please check Index, only two should be selected to find consecutive measure for summing"
+                    # check for consecutive measure
+                    if m_ck[0]+1 == m_ck[1]:
+                        u = np.unique(gp22['MeasureDuration'].to_numpy())
+                        assert len(
+                            u) == 1, f"Problem Detecting Upbeat or special case to be implemented - Please use " \
+                                     f"another xml files. "
+                        d_u = np.squeeze(u)
+                        md_sum = gp22['MeasureDurrDiff'].to_numpy().sum()
+                        if d_u == md_sum:
+                            # print("TWO  consecutive measure with upbeat detected")
+                            # print(p_all)
+                            index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
+
+                            df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
+                                                          ub_en_idx=max_idx_parts,index_to_reset=index_to_reset,
+                                                          df_c=df_c)
+                        # if np.sum(gp2['MeasureDurrDiff'].to_numpy()) == u[0]:
+                        #     print("UPBEAT DETECTED In the middle of the measure -  TO BE IMPLEMENTED")
+
+                    else:
+                        pass
+
+
+                    # # except:
+                    #     pass
+
+        return df_c
+            # gp_d1 = p_all.groupby(['Onset', 'Measure', 'PartID', 'MeasureDuration'], as_index=False)['Duration'].sum()
 
 class XMLParser(XMLToolBox):
     def __init__(self, path, *args, **kwargs):
@@ -960,6 +1149,7 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_tie_duration(df_data)
         df_data = self.convert_pitch_midi(df_data)
         # df_data = self.compute_upbeat(df_data)
-        # df_data = self.upbeat_detection(df_data)
+        df_data = self.upbeat_detection(df_data)
+        df_data = self.upbeat_correction(df_data)
         df_data = self.remove_df_cols(df_data)
         return df_data

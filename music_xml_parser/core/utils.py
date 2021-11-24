@@ -53,10 +53,13 @@ def export_as_csv(data, columns,
         return pd_data
 
 def display_table(data, columns, do_return_pd=False, sep=',', index=False, header=True):
+    pd_data = pd.DataFrame(data, columns=columns)
+    display(HTML(pd_data.to_html(index=False)))
     N = np.shape(data)[1]
     if len(columns) != N:
         warnings.warn(f"Number of data column is not equal to the column names.\nExpected {N} column names but got {len(columns)}: {columns} instead. \nSetting default column names")
         columns = _gen_alpha(N=N)
+    print(columns)
     pd_data = pd.DataFrame(data, columns=columns)
     display(HTML(pd_data.to_html(index=False)))
     if do_return_pd:
