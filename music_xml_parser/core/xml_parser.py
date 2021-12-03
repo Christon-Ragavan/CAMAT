@@ -999,9 +999,12 @@ class XMLToolBox:
             for i in gp_d2:
                 df_c.loc[(df_c["Measure"] == i[0]) & (df_c["PartID"] == i[1]),"Upbeat"] = i[2]
                 df_c.loc[(df_c["Measure"] == i[0]) & (df_c["PartID"] == i[1]),"MeasureDurrDiff"] = i[3]
+
         return df_c
 
     def upbeat_correction(self, df_c):
+        # ck_ = set(df_c['Upbeat'].tolist())
+        # pr
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
         for c_p in u_parts:
             grouped = df_c.groupby(df_c.PartID)
@@ -1009,7 +1012,7 @@ class XMLToolBox:
                 p1 = grouped.get_group(int(c_p)).copy()
             except:
                 p1 = grouped.get_group(str(c_p)).copy()
-            measure_info = df_c['Measure'].to_numpy(np.int)
+            measure_info = p1['Measure'].to_numpy(np.int)
 
             first_mearsure = min(measure_info)
             last_mearsure = max(measure_info)
@@ -1076,9 +1079,12 @@ class XMLToolBox:
                 p2 = grouped.get_group(int(c_p2)).copy()
             except:
                 p2 = grouped.get_group(str(c_p2)).copy()
-            measure_info = df_c['Measure'].to_numpy(np.int)
+            measure_info = p2['Measure'].to_numpy(np.int)
+            # print(p2)
             first_mearsure = min(measure_info)
             last_mearsure = max(measure_info)
+            # print(last_mearsure)
+
 
             min_idx_parts = min(list(p2.index.values))
             max_idx_parts = max(list(p2.index.values))
@@ -1090,38 +1096,38 @@ class XMLToolBox:
 
             for index, row in gp11.iterrows():
                 # TODO: First find if there is upbeat in the seccussive measure
-                # TODO:
                 if row['Measure'] in [first_mearsure, last_mearsure]:
                     continue
                 else:
 
                     gp22 = gp11.iloc[index:index+2]
+                    if  len(gp22) ==2:
 
-                    assert len(gp22) ==2, f"Please check Index, only two should be selected to find consecutive measure for summing"
-                    #to check if there are consicutive measure add up ???
-                    m_ck = gp22['Measure'].to_numpy()
-                    assert len(m_ck) == 2, f"Please check Index, only two should be selected to find consecutive measure for summing"
-                    # check for consecutive measure
-                    if m_ck[0]+1 == m_ck[1]:
-                        u = np.unique(gp22['MeasureDuration'].to_numpy())
-                        assert len(
-                            u) == 1, f"Problem Detecting Upbeat or special case to be implemented - Please use " \
-                                     f"another xml files. "
-                        d_u = np.squeeze(u)
-                        md_sum = gp22['MeasureDurrDiff'].to_numpy().sum()
-                        if d_u == md_sum:
-                            # print("TWO  consecutive measure with upbeat detected")
-                            # print(p_all)
-                            index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
+                        assert len(gp22) ==2, f"Please check Index, only two should be selected to find consecutive measure for summing \n{gp22} Last measure\n{last_mearsure} \n{p2}"
+                        # to check if there are consicutive measure add up ???
+                        m_ck = gp22['Measure'].to_numpy()
+                        assert len(m_ck) == 2, f"Please check Index, only two should be selected to find consecutive measure for summing\n{m_ck}"
+                        # check for consecutive measure
+                        if m_ck[0]+1 == m_ck[1]:
+                            u = np.unique(gp22['MeasureDuration'].to_numpy())
+                            assert len(
+                                u) == 1, f"Problem Detecting Upbeat or special case to be implemented - Please use " \
+                                         f"another xml files. "
+                            d_u = np.squeeze(u)
+                            md_sum = gp22['MeasureDurrDiff'].to_numpy().sum()
+                            if d_u == md_sum:
+                                # print("TWO  consecutive measure with upbeat detected")
+                                # print(p_all)
+                                index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
 
-                            df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
-                                                          ub_en_idx=max_idx_parts,index_to_reset=index_to_reset,
-                                                          df_c=df_c)
-                        # if np.sum(gp2['MeasureDurrDiff'].to_numpy()) == u[0]:
-                        #     print("UPBEAT DETECTED In the middle of the measure -  TO BE IMPLEMENTED")
+                                df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
+                                                              ub_en_idx=max_idx_parts,index_to_reset=index_to_reset,
+                                                              df_c=df_c)
+                            # if np.sum(gp2['MeasureDurrDiff'].to_numpy()) == u[0]:
+                            #     print("UPBEAT DETECTED In the middle of the measure -  TO BE IMPLEMENTED")
 
-                    else:
-                        pass
+                        else:
+                            pass
 
 
                     # # except:
@@ -1148,6 +1154,7 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_voice_onset(df_data)
         df_data = self.compute_tie_duration(df_data)
         df_data = self.convert_pitch_midi(df_data)
+        # print(df_data)
         # df_data = self.compute_upbeat(df_data)
         df_data = self.upbeat_detection(df_data)
         df_data = self.upbeat_correction(df_data)

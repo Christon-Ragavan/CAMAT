@@ -5,12 +5,17 @@ License: The MIT license, https://opensource.org/licenses/MIT
 
 import logging
 import os
+import pandas as pd
 from os.path import basename, isfile, join
 
 try:
     from .web_scrapper import get_file_from_server
+    from .search_database import extract_links, run_search, scrape_database
+
 except:
     from web_scrapper import get_file_from_server
+    from search_database import extract_links, run_search, scrape_database
+
 
 def _replaceing_pd_value(row, col, old_val, new_val):
 
@@ -44,12 +49,22 @@ def _get_file_path(file):
         except:
             f = join(os.getcwd().replace(basename(os.getcwd()), 'data'),
                      join('xmls_to_parse', 'hfm_database', file))
-        if isfile(f) == False:
-            print("CHRISTON DOWNLOAD!!!")
 
+        if isfile(f) == False:
+            print("FILE NOT FOUND in ./ ")
+            print("Getting xml links from the database...")
+            print("Paering database...")
+
+            web_database_csv_path = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database',
+                                                                             'composer_web_database.csv'))
+            if os.path.isfile(web_database_csv_path) == False:
+                web_database_csv = scrape_database(web_database_csv_path, do_print=False)
+            else:
+                web_database_csv = pd.read_csv(web_database_csv_path, sep=';')
+            f_link = web_database_csv[web_database_csv['xml_file_name'].str.match(file)]['url'].tolist()[0]
+            f = get_file_from_server(f_link)
         assert isfile(f), f"Please enter either the web https link or file name or make sure you have saved it in folder /xml_to_parse"
         assert isfile(f), f"File Not Found {f}"
-
     return f
 
 def set_up_logger(name):

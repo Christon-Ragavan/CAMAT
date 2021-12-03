@@ -287,8 +287,6 @@ def search_database_intern2(df, col, keywords):
 def scrape_database(database_csv, do_print=False):
     composer_url = "https://analyse.hfm-weimar.de/doku.php?id=komponisten"
     composer_data = extract_links(url=composer_url)
-
-
     entrie_database_list = []
     for id, i in enumerate(composer_data):
         if do_print:
@@ -303,8 +301,9 @@ def scrape_database(database_csv, do_print=False):
                                    verify_integrity=True,
                                    copy=False)
     df_entrie_database = df_entrie_database.drop_duplicates()
-    df_entrie_database.to_csv(database_csv, index=False, sep=';')
+    df_entrie_database['xml_file_name'] = [os.path.basename(i) for i in  df_entrie_database['url'].tolist()]
 
+    df_entrie_database.to_csv(database_csv, index=False, sep=';')
     return df_entrie_database
 
 
