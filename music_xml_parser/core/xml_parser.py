@@ -984,10 +984,11 @@ class XMLToolBox:
         return df
 
     def upbeat_detection(self,df_c):
+        ROUND = 2
         df_c['Upbeat'] = ['none' for _ in range(len(df_c))]
         df_c['MeasureDurrDiff'] = [0 for _ in range(len(df_c))]
         df_c['LocalOnset'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
-        # df_c.LocalOnset = df_c.LocalOnset.round(5)
+        df_c.LocalOnset = df_c.LocalOnset.round(ROUND)
 
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
         for c_p in u_parts:
@@ -1003,42 +1004,41 @@ class XMLToolBox:
             gp_d1 = p_all.groupby(['Onset', 'Measure', 'PartID', 'MeasureDuration'], as_index=False)['Duration'].sum()
 
             gp_d1 = gp_d1.groupby(['Measure', 'PartID', 'MeasureDuration'], as_index=False)['Duration'].sum()
-            # gp_d1.Duration = gp_d1.Duration.round(5)
+            gp_d1.Duration = gp_d1.Duration.round(ROUND)
 
             gp_d1["ck_upbeat"]  = np.where((gp_d1["MeasureDuration"] == gp_d1["Duration"]),  False, True)
 
             gp_d1['MeasureDurrDiff'] = gp_d1['MeasureDuration'] - gp_d1['Duration']
-            # gp_d1.MeasureDurrDiff = gp_d1.MeasureDurrDiff.round(5)
+            gp_d1.MeasureDurrDiff = gp_d1.MeasureDurrDiff.round(ROUND)
+            # gp_d1.Onset = gp_d1.Onset.round(ROUND)
 
             gp_d2 = gp_d1[['Measure', 'PartID', 'ck_upbeat', 'MeasureDuration', 'MeasureDurrDiff']].copy()
+            if False:
+                # Setting tied notes to False
+                for tt in gp_tt:
+                    curr_dur_diff = gp_d2.loc[(gp_d2["Measure"] == tt),"MeasureDurrDiff"].to_numpy()[0]
+                    curr_mea_dur = gp_d2.loc[(gp_d2["Measure"] == tt),"MeasureDuration"].to_numpy()[0]
+                    if curr_dur_diff <0:
+                        curr_mea_dur = abs(curr_mea_dur)
+                        curr_dur_diff = abs(curr_dur_diff)
+                        if curr_dur_diff>curr_mea_dur:
+                            r = curr_dur_diff%curr_mea_dur
+                            if r == 0:
+                                gp_d2.loc[(gp_d2["Measure"] == tt), "ck_upbeat"] = False
+                            else:
+                                pass
+                    tt_n = tt.copy()
+                    for i in range(tt_n, tt_n+1):
+                        tt_n +=1
+                        print("testing -- ",tt_n)
 
-            # Setting tied notes to False
-            # for tt in gp_tt:
-            #     curr_dur_diff = gp_d2.loc[(gp_d2["Measure"] == tt),"MeasureDurrDiff"].to_numpy()[0]
-            #     curr_mea_dur = gp_d2.loc[(gp_d2["Measure"] == tt),"MeasureDuration"].to_numpy()[0]
-            #     if curr_dur_diff <0:
-            #         curr_mea_dur = abs(curr_mea_dur)
-            #         curr_dur_diff = abs(curr_dur_diff)
-            #         if curr_dur_diff>curr_mea_dur:
-            #             r = curr_dur_diff%curr_mea_dur
-            #             if r == 0:
-            #                 gp_d2.loc[(gp_d2["Measure"] == tt), "ck_upbeat"] = False
-            #             else:
-            #                 pass
-            #                 # TODO: we need to recalculate at measure level
-            #     tt_n = tt.copy()
-            #     print("testing >>>>>>>>>>", tt_n)
-            #     for i in range(tt_n, tt_n+1):
-            #         tt_n +=1
-            #         print("testing -- ",tt_n)
-
-                    # try:
-            #             if curr_dur_diff == gp_d2.loc[(gp_d2["Measure"] == tt_n), "MeasureDurrDiff"].to_numpy()[0]:
-            #                 gp_d2.loc[(gp_d2["Measure"] == tt_n), "ck_upbeat"] = False
-            #                 break
-            #         except:
-            #             pass
-            #     gp_d2.loc[(gp_d2["Measure"] == tt),"ck_upbeat"] = False
+                        try:
+                            if curr_dur_diff == gp_d2.loc[(gp_d2["Measure"] == tt_n), "MeasureDurrDiff"].to_numpy()[0]:
+                                gp_d2.loc[(gp_d2["Measure"] == tt_n), "ck_upbeat"] = False
+                                break
+                        except:
+                            pass
+                    gp_d2.loc[(gp_d2["Measure"] == tt),"ck_upbeat"] = False
 
             gp_d2 = gp_d2.to_numpy()
             for i in gp_d2:
@@ -1059,12 +1059,10 @@ class XMLToolBox:
 
             first_mearsure = min(measure_info)
             last_mearsure = max(measure_info)
-
             gp1 = p1[['Measure', 'PartID', 'MeasureDuration', 'MeasureDurrDiff', 'Upbeat']]
             gp1 = gp1.loc[(gp1["Upbeat"] == True)].drop_duplicates()
             gp1['rest_up'] = gp1['MeasureDuration'] - gp1['MeasureDurrDiff']
             gp1.reset_index(inplace=True)
-
             for index, row in gp1.iterrows():
                 self.onset_rin = row['MeasureDurrDiff']
                 self.onset_rin_prev = row['MeasureDurrDiff']
@@ -1108,8 +1106,7 @@ class XMLToolBox:
                     n_v.loc[:, 'GraceTag'] = 'none'
                     df_c = _inseart_row_in_pd(row_number=uppend_idx, df=df_c, row_value=n_v)
                     # p_all = _inseart_row_in_pd(row_number=uppend_idx, df=p_all, row_value=n_v, reset_index=True)
-                else:
-                    pass
+                else:pass
 
         for c_p2 in u_parts:
             # print("------------------------")
@@ -1128,12 +1125,13 @@ class XMLToolBox:
             gp11 = gp11.loc[(gp11["Upbeat"] == True)].drop_duplicates()
             gp11['rest_up'] = gp11['MeasureDuration'] - gp11['MeasureDurrDiff']
             gp11.reset_index(inplace=True)
-
+            print(gp11)
             for index, row in gp11.iterrows():
                 # TODO: First find if there is upbeat in the seccussive measure
                 if row['Measure'] in [first_mearsure, last_mearsure]:
                     continue
                 else:
+                    print(row['Measure'])
 
                     gp22 = gp11.iloc[index:index+2]
                     if len(gp22) == 2:
@@ -1151,23 +1149,22 @@ class XMLToolBox:
                             # If the sum of two consicutive measure is qual to the total duration then merge them into one measure - Upbeat=True
                             if d_u == md_sum:
                                 #TWO  consecutive measure with upbeat detected
-                                # print(p_all)
                                 index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
-
+                                print("----> index_to_reset :",index_to_reset)
+                                print(f"min_idx_parts {min_idx_parts} max_idx_parts {max_idx_parts} index_to_reset {index_to_reset} ")
+                                # print(df_c)
                                 df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
-                                                              ub_en_idx=max_idx_parts,index_to_reset=index_to_reset,
+                                                              ub_en_idx=max_idx_parts, index_to_reset=index_to_reset,
                                                               df_c=df_c)
                             # if np.sum(gp2['MeasureDurrDiff'].to_numpy()) == u[0]:
                             #     print("UPBEAT DETECTED In the middle of the measure -  TO BE IMPLEMENTED")
 
                         else:
                             pass
-                    # else:
-                        # print("-------------YES----------")
-                        # print(gp22)
-                        # print("-------------YES----------")
+                    else:
+                        print("Indes is not 2")
 
-
+                        pass
                     # TODO:
                     # 1. Cross check notes if they are less than measure
                     # 2. Cross check notes if they are longer than measure + tied values should be "start"
@@ -1175,7 +1172,6 @@ class XMLToolBox:
                     #     pass
 
         return df_c
-            # gp_d1 = p_all.groupby(['Onset', 'Measure', 'PartID', 'MeasureDuration'], as_index=False)['Duration'].sum()
 
 class XMLParser(XMLToolBox):
     def __init__(self, path, *args, **kwargs):
@@ -1195,12 +1191,12 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_voice_onset(df_data)
         df_data = self.convert_pitch_midi(df_data)
 
-        df_data = self.upbeat_detection(df_data)
-        df_data = self.upbeat_correction(df_data)
+        # df_data = self.upbeat_detection(df_data)
+        # df_data = self.upbeat_correction(df_data)
 
 
         df_data = self.compute_tie_duration(df_data)
-        df_data = self.remove_df_cols(df_data)
+        # df_data = self.remove_df_cols(df_data)
 
 
         return df_data
