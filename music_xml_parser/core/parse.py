@@ -116,7 +116,23 @@ if __name__=='__main__':
     # xml_file = 'BaJoSe_BWV2_COM_6-6_CantataAch_004_00015.xml'
 
     # print(df_s)
+    xml_files = ['MoWo_K171_COM_1-4_StringQuar_003_00867.xml',
+                 'MoWo_K171_COM_2-4_StringQuar_003_00868.xml',
+                 'MoWo_K171_COM_3-4_StringQuar_003_00869.xml',
+                 'MoWo_K171_COM_4-4_StringQuar_003_00870.xml']
 
-    m_df = with_xml_file(file=xml_file,plot_pianoroll=False,
-                         do_save=False)
-    print(m_df)
+    # Zuvor müssen die Dateien im Data-Ordner gespeichert werden.
+    # Die vier Dateinamen stehen zwischen in einfachen Apostrophen ' '
+    # und sind durch Kommata voneinander getrennt.
+    import corpus
+    df = corpus.analyse_interval(xml_files,
+                                         separate_parts=True,
+                                         include_basic_stats=True,
+                                         include_pitchclass=True,
+                                         interval_range=[-5, 5],
+                                         get_full_axis=False,
+                                         get_in_percentage=False)
+    print(df)
+    # m_df = with_xml_file(file=xml_file,plot_pianoroll=False,
+    #                      do_save=False)
+    # print(m_df)

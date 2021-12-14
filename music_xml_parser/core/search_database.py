@@ -302,8 +302,13 @@ def scrape_database(database_csv, do_print=False):
                                    copy=False)
     df_entrie_database = df_entrie_database.drop_duplicates()
     df_entrie_database['xml_file_name'] = [os.path.basename(i) for i in  df_entrie_database['url'].tolist()]
+    try:
+        df_entrie_database.to_csv(database_csv, index=False, sep=';')
+    except:
+        web_database_csv_path = os.getcwd().replace('ipynb', os.path.join('data', 'xmls_to_parse', 'hfm_database',
+                                                                     'composer_web_database.csv'))
+        df_entrie_database.to_csv(web_database_csv_path, index=False, sep=';')
 
-    df_entrie_database.to_csv(database_csv, index=False, sep=';')
     return df_entrie_database
 
 

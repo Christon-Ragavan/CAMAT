@@ -1125,13 +1125,11 @@ class XMLToolBox:
             gp11 = gp11.loc[(gp11["Upbeat"] == True)].drop_duplicates()
             gp11['rest_up'] = gp11['MeasureDuration'] - gp11['MeasureDurrDiff']
             gp11.reset_index(inplace=True)
-            print(gp11)
             for index, row in gp11.iterrows():
                 # TODO: First find if there is upbeat in the seccussive measure
                 if row['Measure'] in [first_mearsure, last_mearsure]:
                     continue
                 else:
-                    print(row['Measure'])
 
                     gp22 = gp11.iloc[index:index+2]
                     if len(gp22) == 2:
@@ -1150,8 +1148,6 @@ class XMLToolBox:
                             if d_u == md_sum:
                                 #TWO  consecutive measure with upbeat detected
                                 index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
-                                print("----> index_to_reset :",index_to_reset)
-                                print(f"min_idx_parts {min_idx_parts} max_idx_parts {max_idx_parts} index_to_reset {index_to_reset} ")
                                 # print(df_c)
                                 df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
                                                               ub_en_idx=max_idx_parts, index_to_reset=index_to_reset,
@@ -1162,7 +1158,6 @@ class XMLToolBox:
                         else:
                             pass
                     else:
-                        print("Indes is not 2")
 
                         pass
                     # TODO:

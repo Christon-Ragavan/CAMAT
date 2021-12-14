@@ -53,10 +53,17 @@ def _get_file_path(file):
         if isfile(f) == False:
             print("FILE NOT FOUND in ./ ")
             print("Getting xml links from the database...")
-            print("Paering database...")
+            print("Parsing database...")
 
-            web_database_csv_path = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database',
+            try:
+                web_database_csv_path = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database',
                                                                              'composer_web_database.csv'))
+                assert os.path.isfile(web_database_csv_path), "Maybe loading scraping from ipynb folder"
+            except:
+                web_database_csv_path = os.getcwd().replace('ipynb',
+                                                            os.path.join('data', 'xmls_to_parse', 'hfm_database',
+                                                                         'composer_web_database.csv'))
+
             if os.path.isfile(web_database_csv_path) == False:
                 web_database_csv = scrape_database(web_database_csv_path, do_print=False)
             else:

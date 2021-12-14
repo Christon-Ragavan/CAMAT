@@ -89,10 +89,3 @@ def simple_interval_search(xml_file, interval, return_details=False):
         return sel_dfs
     else:
         return p_c_s
-
-if __name__ == '__main__':
-    xml_files = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
-    df = simple_interval_search(xml_files, interval=[2, 2], return_details=False)
-    print(df)
-    # Statistis include rest
-    #
