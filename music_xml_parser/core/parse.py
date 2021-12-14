@@ -136,6 +136,6 @@ if __name__=='__main__':
     #                                      get_in_percentage=False)
     # print(df)
     m_df = with_xml_file(file=xml_file,
-                         plot_pianoroll=False,
+                         plot_pianoroll=True,
                          do_save=False,ignore_upbeat=False, ignore_ties=False)
     print(m_df)

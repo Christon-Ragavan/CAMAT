@@ -109,8 +109,11 @@ def pianoroll_parts(func, *args, **kwargs):
                     upbeat = True
                 else:
                     upbeat = False
+                try:
+                    measure = measure[:total_measure+1]
+                except:
+                    measure = measure[:total_measure]
 
-                measure = measure[:total_measure]
                 midi = df['MIDI'].replace({np.nan: 0}).to_list()
                 partid = list(np.squeeze(df['PartID'].to_numpy(dtype=int)))
                 part_name = list(np.squeeze(df['PartName'].to_numpy(dtype=str)))

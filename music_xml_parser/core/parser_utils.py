@@ -89,6 +89,9 @@ def set_up_logger(name):
     return logger
 
 class ZoomPan:
+    """
+    https://stackoverflow.com/questions/11551049/matplotlib-plot-zooming-with-scroll-wheel
+    """
     def __init__(self):
         self.press = None
         self.cur_xlim = None
