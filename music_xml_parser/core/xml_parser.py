@@ -1191,12 +1191,12 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_voice_onset(df_data)
         df_data = self.convert_pitch_midi(df_data)
 
-        # df_data = self.upbeat_detection(df_data)
-        # df_data = self.upbeat_correction(df_data)
+        df_data = self.upbeat_detection(df_data)
+        df_data = self.upbeat_correction(df_data)
 
 
         df_data = self.compute_tie_duration(df_data)
-        # df_data = self.remove_df_cols(df_data)
+        df_data = self.remove_df_cols(df_data)
 
 
         return df_data
