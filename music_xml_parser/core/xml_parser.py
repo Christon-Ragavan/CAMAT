@@ -17,7 +17,6 @@ except:
 pd.set_option('display.max_rows', 1000000)
 pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
-# pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
 
 
