@@ -104,8 +104,10 @@ if __name__=='__main__':
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_1-5_MissaLhomm_002_00956.xml'
     # xml_file = 'DuGui_Duf1004_COM_1-5_MissaLhomm_002_00956.xml'
     # xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV2_COM_6-6_CantataAch_004_00015.xml'
+    # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_2-5_MissaLhomm_002_00957.xml'
     xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_2-5_MissaLhomm_002_00957.xml'
-    # xml_file = 'newetest.xml'
+    # xml_file = 'upbeat_tie5.xml'
+    # xml_file = 'upbeat_tie4.xml'
     # xml_file = 'newetestchord.xml'
     # xml_file = 'BaJoSe_BWV2_COM_6-6_CantataAch_004_00015.xml'
 
