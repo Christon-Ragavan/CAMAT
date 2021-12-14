@@ -1169,10 +1169,12 @@ class XMLToolBox:
         return df_c
 
 class XMLParser(XMLToolBox):
-    def __init__(self, path, *args, **kwargs):
-        super().__init__(path, *args, **kwargs)
+    def __init__(self, path, ignore_upbeat, ignore_ties, *args, **kwargs):
+        super().__init__(path,ignore_upbeat, ignore_ties, *args, **kwargs)
         self.path = path
         self.logger = kwargs['logger']
+        self.ignore_upbeat = ignore_ties
+        self.ignore_ties = ignore_ties
 
     def xml_parse(self, *args, **kwargs):
         if isfile(self.path) == False:
@@ -1185,12 +1187,11 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_measure_onset(df_data)
         df_data = self.compute_voice_onset(df_data)
         df_data = self.convert_pitch_midi(df_data)
-
-        df_data = self.upbeat_detection(df_data)
-        df_data = self.upbeat_correction(df_data)
-
-
-        df_data = self.compute_tie_duration(df_data)
+        if not self.ignore_upbeat :
+            df_data = self.upbeat_detection(df_data)
+            df_data = self.upbeat_correction(df_data)
+        if not self.ignore_ties:
+            df_data = self.compute_tie_duration(df_data)
         df_data = self.remove_df_cols(df_data)
 
 

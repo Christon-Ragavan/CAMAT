@@ -39,6 +39,8 @@ def with_xml_file(file: str,
                   get_measure_onset:bool=False,
                   get_upbeat_info=False,
                   filter_dict=None,
+                  ignore_upbeat=False,
+                  ignore_ties=False,
                   *args,
                   **kwargs):
 
@@ -75,7 +77,7 @@ def with_xml_file(file: str,
             save_at_fn = join(save_at, save_file_name)
 
     logger.info("Extracting")
-    parser_o = XMLParser(path=file, logger=logger)
+    parser_o = XMLParser(path=file, logger=logger, ignore_upbeat=ignore_upbeat, ignore_ties=ignore_ties)
     df_xml = parser_o.xml_parse()
     t_pid, t_pn = get_parts(df_xml)
     logger.info("Successful")
@@ -109,9 +111,9 @@ if __name__=='__main__':
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_3-5_MissaLhomm_002_00958.xml'
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_4-5_MissaLhomm_002_00959.xml'
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_5-5_MissaLhomm_002_00960.xml'
-    xml_file = 'https://analyse.hfm-weimar.de/database/02/PrJode_Jos0602_COM_1-5_MissaLhomm_002_00066.xml'
+    # xml_file = 'https://analyse.hfm-weimar.de/database/02/PrJode_Jos0602_COM_1-5_MissaLhomm_002_00066.xml'
     # xml_file = 'upbeat_tie5.xml'
-    # xml_file = 'upbeat_tie4.xml'
+    xml_file = 'upbeat_tie4.xml'
     # xml_file = 'newetestchord.xml'
     # xml_file = 'BaJoSe_BWV2_COM_6-6_CantataAch_004_00015.xml'
 
@@ -124,15 +126,16 @@ if __name__=='__main__':
     # Zuvor müssen die Dateien im Data-Ordner gespeichert werden.
     # Die vier Dateinamen stehen zwischen in einfachen Apostrophen ' '
     # und sind durch Kommata voneinander getrennt.
-    import corpus
-    df = corpus.analyse_interval(xml_files,
-                                         separate_parts=True,
-                                         include_basic_stats=True,
-                                         include_pitchclass=True,
-                                         interval_range=[-5, 5],
-                                         get_full_axis=False,
-                                         get_in_percentage=False)
-    print(df)
-    # m_df = with_xml_file(file=xml_file,plot_pianoroll=False,
-    #                      do_save=False)
-    # print(m_df)
+    # import corpus
+    # df = corpus.analyse_interval(xml_files,
+    #                                      separate_parts=True,
+    #                                      include_basic_stats=True,
+    #                                      include_pitchclass=True,
+    #                                      interval_range=[-5, 5],
+    #                                      get_full_axis=False,
+    #                                      get_in_percentage=False)
+    # print(df)
+    m_df = with_xml_file(file=xml_file,
+                         plot_pianoroll=False,
+                         do_save=False,ignore_upbeat=False, ignore_ties=False)
+    print(m_df)
