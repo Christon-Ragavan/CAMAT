@@ -138,5 +138,5 @@ if __name__=='__main__':
     # print(df)
     m_df = with_xml_file(file=xml_file,
                          plot_pianoroll=False,
-                         do_save=False,ignore_upbeat=False, ignore_ties=False)
+                         do_save=False,ignore_upbeat=True, ignore_ties=False)
     print(m_df)

@@ -987,9 +987,7 @@ class XMLToolBox:
         ROUND = 2
         df_c['Upbeat'] = ['none' for _ in range(len(df_c))]
         df_c['MeasureDurrDiff'] = [0 for _ in range(len(df_c))]
-        df_c['LocalOnset'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
 
-        df_c.LocalOnset = df_c.LocalOnset.round(ROUND)
 
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
         for c_p in u_parts:
@@ -1175,6 +1173,12 @@ class XMLToolBox:
                     #     pass
 
         return df_c
+    def compute_local_onset(self, df_c):
+        ROUND = 2
+        df_c['LocalOnset'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
+
+        df_c.LocalOnset = df_c.LocalOnset.round(ROUND)
+        return df_c
 
 class XMLParser(XMLToolBox):
     def __init__(self, path, ignore_upbeat, ignore_ties, *args, **kwargs):
@@ -1195,6 +1199,7 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_measure_onset(df_data)
         df_data = self.compute_voice_onset(df_data)
         df_data = self.convert_pitch_midi(df_data)
+        df_data = self.compute_local_onset(df_data)
         if not self.ignore_upbeat :
             df_data = self.upbeat_detection(df_data)
 
