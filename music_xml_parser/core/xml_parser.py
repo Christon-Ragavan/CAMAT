@@ -1094,11 +1094,14 @@ class XMLToolBox:
                                 df_c.loc[r_idx, 'Onset']= self.onset_rin_prev
                             else:
                                 df_c.loc[r_idx, 'Onset']= self.onset_rin
+                                df_c.loc[r_idx, 'LocalOnset']= self.onset_rin
                                 self.onset_rin += r_i['Duration']
                     else:
                         # To find the end of the last note n_v['Onset']+n_v['Duration']
                         # TODO: Test for chords
                         n_v.loc[:, 'Onset'] = n_v['Onset']+n_v['Duration']
+                        n_v.loc[:, 'LocalOnset'] = abs(n_v['MeasureOnset'] - n_v['Onset'])
+
 
                     n_v.loc[:, 'Duration'] = row['MeasureDurrDiff']
                     n_v.loc[:, 'MeasureDurrDiff'] = np.nan
