@@ -112,16 +112,17 @@ if __name__=='__main__':
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_4-5_MissaLhomm_002_00959.xml'
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/DuGui_Duf1004_COM_5-5_MissaLhomm_002_00960.xml'
     # xml_file = 'https://analyse.hfm-weimar.de/database/02/PrJode_Jos0602_COM_1-5_MissaLhomm_002_00066.xml'
-    # xml_file = 'upbeat_tie5.xml'
-    xml_file = 'upbeat_tie4.xml'
+    # xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
+    xml_file = 'upbeat_tie5.xml'
+    # xml_file = 'upbeat_tie4.xml'
     # xml_file = 'newetestchord.xml'
     # xml_file = 'BaJoSe_BWV2_COM_6-6_CantataAch_004_00015.xml'
 
     # print(df_s)
-    xml_files = ['MoWo_K171_COM_1-4_StringQuar_003_00867.xml',
-                 'MoWo_K171_COM_2-4_StringQuar_003_00868.xml',
-                 'MoWo_K171_COM_3-4_StringQuar_003_00869.xml',
-                 'MoWo_K171_COM_4-4_StringQuar_003_00870.xml']
+    # xml_files = ['MoWo_K171_COM_1-4_StringQuar_003_00867.xml',
+    #              'MoWo_K171_COM_2-4_StringQuar_003_00868.xml',
+    #              'MoWo_K171_COM_3-4_StringQuar_003_00869.xml',
+    #              'MoWo_K171_COM_4-4_StringQuar_003_00870.xml']
 
     # Zuvor müssen die Dateien im Data-Ordner gespeichert werden.
     # Die vier Dateinamen stehen zwischen in einfachen Apostrophen ' '
@@ -136,6 +137,6 @@ if __name__=='__main__':
     #                                      get_in_percentage=False)
     # print(df)
     m_df = with_xml_file(file=xml_file,
-                         plot_pianoroll=True,
+                         plot_pianoroll=False,
                          do_save=False,ignore_upbeat=False, ignore_ties=False)
     print(m_df)

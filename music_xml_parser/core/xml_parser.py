@@ -918,6 +918,7 @@ class XMLToolBox:
               'Onset',
               'Duration',
               'Measure',
+              'LocalOnset',
               'PartID',
               'Voice',
               'Pitch',
@@ -987,6 +988,7 @@ class XMLToolBox:
         df_c['Upbeat'] = ['none' for _ in range(len(df_c))]
         df_c['MeasureDurrDiff'] = [0 for _ in range(len(df_c))]
         df_c['LocalOnset'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
+
         df_c.LocalOnset = df_c.LocalOnset.round(ROUND)
 
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
@@ -1048,6 +1050,7 @@ class XMLToolBox:
     def upbeat_correction(self, df_c):
         # ck_ = set(df_c['Upbeat'].tolist())
         u_parts = np.unique(np.squeeze(df_c[['PartID']].to_numpy()))
+
         for c_p in u_parts:
             grouped = df_c.groupby(df_c.PartID)
             try:
@@ -1124,6 +1127,7 @@ class XMLToolBox:
             gp11 = gp11.loc[(gp11["Upbeat"] == True)].drop_duplicates()
             gp11['rest_up'] = gp11['MeasureDuration'] - gp11['MeasureDurrDiff']
             gp11.reset_index(inplace=True)
+
             for index, row in gp11.iterrows():
                 # TODO: First find if there is upbeat in the seccussive measure
                 if row['Measure'] in [first_mearsure, last_mearsure]:
@@ -1148,9 +1152,11 @@ class XMLToolBox:
                                 #TWO  consecutive measure with upbeat detected
                                 index_to_reset = p2[p2['Measure'] == m_ck[1]].index[0]
                                 # print(df_c)
+
                                 df_c = self._recompute_df_upbeat_mid(ub_st_idx=min_idx_parts,
                                                               ub_en_idx=max_idx_parts, index_to_reset=index_to_reset,
                                                               df_c=df_c)
+
                             # if np.sum(gp2['MeasureDurrDiff'].to_numpy()) == u[0]:
                             #     print("UPBEAT DETECTED In the middle of the measure -  TO BE IMPLEMENTED")
 
@@ -1188,7 +1194,9 @@ class XMLParser(XMLToolBox):
         df_data = self.convert_pitch_midi(df_data)
         if not self.ignore_upbeat :
             df_data = self.upbeat_detection(df_data)
+
             df_data = self.upbeat_correction(df_data)
+
         if not self.ignore_ties:
             df_data = self.compute_tie_duration(df_data)
         df_data = self.remove_df_cols(df_data)

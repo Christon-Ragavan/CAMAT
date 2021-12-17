@@ -1,32 +1,32 @@
-2021-12-14 17:21:45,999:INFO:__main__:parse.py:79:Extracting
-2021-12-14 17:21:46,002:INFO:__main__:xml_parser.py:1184:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/xml_pool/upbeat_tie4.xml
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:216: ------------- part part P1 1-------------
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 0 measure idtag 1  curr_onset 0.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 1 measure idtag 2  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 2 measure idtag 3  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 3 measure idtag 4  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 4 measure idtag 5  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 5 measure idtag 6  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 6 measure idtag 7  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 7 measure idtag 8  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 8 measure idtag 9  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 9 measure idtag 10  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 10 measure idtag 11  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:223:measure 11 measure idtag 12  curr_onset 4.0
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:323:self.step                   :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:324:self.octave                 :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:325:self.tie                    :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:326:self.duration               :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:327:self.chord_tags             :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:328:self.voice_num              :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:329:self.GraceNote              :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:330:self.measure_num_per_note   :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:331:self.glb_part_id_list       :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:332:self.part_name_list         :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:333:measure_onset_list          :12
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:334:self.note_counter_list      :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:335:self.measure_onset_df       :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:336:self.time_signature_list    :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:337:measure_duration_list       :56
-2021-12-14 17:21:46,002:DEBUG:__main__:xml_parser.py:338:curr_measure_num            :12
-2021-12-14 17:21:46,195:INFO:__main__:parse.py:83:Successful
+2021-12-17 15:53:36,312:INFO:__main__:parse.py:79:Extracting
+2021-12-17 15:53:36,318:INFO:__main__:xml_parser.py:1189:File Found - /Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/xml_parser/music_xml_parser/data/xmls_to_parse/xml_pool/upbeat_tie5.xml
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:215: ------------- part part P1 1-------------
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 0 measure idtag 1  curr_onset 0.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 1 measure idtag 2  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 2 measure idtag 3  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 3 measure idtag 4  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 4 measure idtag 5  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 5 measure idtag 6  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 6 measure idtag 7  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 7 measure idtag 8  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 8 measure idtag 9  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 9 measure idtag 10  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 10 measure idtag 11  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:222:measure 11 measure idtag 12  curr_onset 4.0
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:322:self.step                   :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:323:self.octave                 :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:324:self.tie                    :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:325:self.duration               :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:326:self.chord_tags             :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:327:self.voice_num              :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:328:self.GraceNote              :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:329:self.measure_num_per_note   :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:330:self.glb_part_id_list       :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:331:self.part_name_list         :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:332:measure_onset_list          :12
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:333:self.note_counter_list      :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:334:self.measure_onset_df       :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:335:self.time_signature_list    :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:336:measure_duration_list       :51
+2021-12-17 15:53:36,318:DEBUG:__main__:xml_parser.py:337:curr_measure_num            :12
+2021-12-17 15:53:36,460:INFO:__main__:parse.py:83:Successful
