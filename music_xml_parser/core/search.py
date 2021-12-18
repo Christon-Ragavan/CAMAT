@@ -4,6 +4,7 @@ import os
 import math
 import pandas as pd
 sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
+sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'core'), ''))
 
 try:
     from .analyse import interval
