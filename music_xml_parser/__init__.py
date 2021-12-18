@@ -6,6 +6,8 @@ from .core import analyse,\
     parser_utils, \
     search_database,\
     utils, \
-    web_scrapper
+    web_scrapper,\
+    search,\
+    corpus
 
 
