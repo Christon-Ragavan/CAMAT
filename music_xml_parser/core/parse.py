@@ -139,4 +139,5 @@ if __name__=='__main__':
     m_df = with_xml_file(file=xml_file,
                          plot_pianoroll=False,
                          do_save=False,ignore_upbeat=True, ignore_ties=False)
-    print(m_df)
+    # mp_ts_dict_2d = mp.analyse.metric_profile_split_time_signature(m_df,
+    #                                      1                          do_plot=True)

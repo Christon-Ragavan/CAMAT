@@ -943,8 +943,13 @@ class XMLToolBox:
         for i in reseting_idx_list:
 
             if i+1 <= ub_en_idx:
+                if df_c.loc[i+1, 'Upbeat'] == True:
+                    ub_mea_onset_diff = df_c.loc[i + 1, 'MeasureOnset'] - df_c.loc[i, 'MeasureOnset']
+
+
                 n_onset = df_c.loc[i, 'Onset'] + df_c.loc[i, 'Duration']
                 df_c.loc[i+1, 'Onset'] = n_onset
+                df_c.loc[i+1, 'MeasureOnset'] = int(df_c.loc[i+1, 'MeasureOnset']) - ub_mea_onset_diff
                 df_c.loc[i+1, 'Measure'] = int(df_c.loc[i+1, 'Measure'])-1
 
         return df_c

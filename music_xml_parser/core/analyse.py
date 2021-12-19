@@ -54,12 +54,6 @@ def metric_profile_split_time_signature(df_data: pd.DataFrame,
     return mp_tc_dict
 
 
-def duration_histogram(df_data: pd.DataFrame,
-                       with_pitch=False,
-                       do_plot=True):
-    pass
-
-
 def time_signature_histogram(df_data: pd.DataFrame, do_plot=False, do_adjusted=False, filter_dict=None):
     if filter_dict is not None:
         df_data = filter(df_data, filter_dict)
@@ -346,11 +340,16 @@ def metric_profile(df_data: pd.DataFrame,
                    do_plot=True,
                    filter_dict=None):
     df_c = df_data.copy()
+
     if filter_dict is not None:
         df_c = filter(df_c, filter_dict)
 
     df_c.dropna(subset=["MIDI"], inplace=True)
+
     df_c['metricprofile'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
+    assert ((df_c['metricprofile']<0).any().any()) == False
+
+
     if plot_with == None:
         u, c = np.unique(df_c['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u = [i + 1 for i in u]
@@ -794,13 +793,14 @@ def _cs_pitchclass_histogram(df_data,
     return df_data
 
 if __name__=='__main__':
-    xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml'
+    # xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml'
+    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
 
     import parse
 
-    dfx = parse.with_xml_file(xml_file)
+    filter_dict_t = {'PartID': '1'}
 
+    dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
-    pass
-
+    mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=True)
 
