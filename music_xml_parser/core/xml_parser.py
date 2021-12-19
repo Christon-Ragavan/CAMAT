@@ -940,17 +940,24 @@ class XMLToolBox:
 
         assert ub_st_idx<index_to_reset<ub_en_idx, f"Resetting index not in range"
         reseting_idx_list = np.arange(index_to_reset-1, ub_en_idx)
+        c = 0
         for i in reseting_idx_list:
 
             if i+1 <= ub_en_idx:
+                # ub_mea_onset_diff = 0
+                n_onset = df_c.loc[i, 'Onset'] + df_c.loc[i, 'Duration']
+                df_c.loc[i + 1, 'Onset'] = n_onset
+                df_c.loc[i + 1, 'Measure'] = int(df_c.loc[i + 1, 'Measure']) - 1
                 if df_c.loc[i+1, 'Upbeat'] == True:
                     ub_mea_onset_diff = df_c.loc[i + 1, 'MeasureOnset'] - df_c.loc[i, 'MeasureOnset']
+                    if df_c.loc[i+1, 'LocalOnset'] == 0.0:
+                        if df_c.loc[i, 'Measure']  ==df_c.loc[i+1, 'Measure']:
+                            df_c.loc[i+1, 'LocalOnset'] = df_c.loc[i, 'LocalOnset']+df_c.loc[i, 'Duration']
 
 
-                n_onset = df_c.loc[i, 'Onset'] + df_c.loc[i, 'Duration']
-                df_c.loc[i+1, 'Onset'] = n_onset
+
                 df_c.loc[i+1, 'MeasureOnset'] = int(df_c.loc[i+1, 'MeasureOnset']) - ub_mea_onset_diff
-                df_c.loc[i+1, 'Measure'] = int(df_c.loc[i+1, 'Measure'])-1
+
 
         return df_c
 

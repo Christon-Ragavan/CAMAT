@@ -801,6 +801,7 @@ if __name__=='__main__':
     filter_dict_t = {'PartID': '1'}
 
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
-    # print(dfx)
-    mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=True)
+    print(dfx)
+    mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
+    print(mp_ts_dict_2d)
 
