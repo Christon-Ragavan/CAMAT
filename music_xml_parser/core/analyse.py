@@ -353,8 +353,6 @@ def metric_profile(df_data: pd.DataFrame,
     if plot_with == None:
         # u, c = np.unique(df_c['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
         u, c = np.unique(df_c['LocalOnset'].to_numpy(dtype=float), axis=0, return_counts=True)
-        for i,ii in zip(u,c):
-            print(i+1, ":", ii)
 
         u = [i + 1 for i in u]
         if do_plot:
@@ -809,5 +807,5 @@ if __name__=='__main__':
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
     mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
-    print(mp_ts_dict_2d)
+    # print(mp_ts_dict_2d)
 
