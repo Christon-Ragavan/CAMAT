@@ -348,10 +348,14 @@ def metric_profile(df_data: pd.DataFrame,
 
     df_c['metricprofile'] = pd.to_numeric(df_c['Onset']) - pd.to_numeric(df_c['MeasureOnset'])
     assert ((df_c['metricprofile']<0).any().any()) == False
-
+    #
 
     if plot_with == None:
-        u, c = np.unique(df_c['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
+        # u, c = np.unique(df_c['metricprofile'].to_numpy(dtype=float), axis=0, return_counts=True)
+        u, c = np.unique(df_c['LocalOnset'].to_numpy(dtype=float), axis=0, return_counts=True)
+        for i,ii in zip(u,c):
+            print(i+1, ":", ii)
+
         u = [i + 1 for i in u]
         if do_plot:
             barplot_mp(u, counts=c, x_label=x_label, y_label='Occurrences')
@@ -360,7 +364,9 @@ def metric_profile(df_data: pd.DataFrame,
     else:
         if plot_with == 'Pitch':
 
-            n_df = df_c[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            n_df = df_c[['MIDI', 'LocalOnset']].to_numpy(dtype=float)
+            # u, c = np.unique(df_c['LocalOnset'].to_numpy(dtype=float), axis=0, return_counts=True)
+
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [int(i) for i in u[:, 0]]
             pitch = [midi2str(int(i)) for i in u[:, 0]]
@@ -801,7 +807,7 @@ if __name__=='__main__':
     filter_dict_t = {'PartID': '1'}
 
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
-    print(dfx)
+    # print(dfx)
     mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
     print(mp_ts_dict_2d)
 

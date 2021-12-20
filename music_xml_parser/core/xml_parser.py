@@ -18,10 +18,6 @@ pd.set_option('display.max_rows', 1000000)
 pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
 
-
-
-# TODO: change curr_measure_onset
-
 class XMLToolBox:
     def __init__(self, file_path, *args, **kwargs):
         self.logger = kwargs['logger']
