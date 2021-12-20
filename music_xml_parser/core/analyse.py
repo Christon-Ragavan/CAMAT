@@ -809,7 +809,7 @@ if __name__=='__main__':
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
     # mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
-    mp = quarterlength_duration_histogram(dfx, plot_with = 'pitchclass')
+    mp = metric_profile(dfx, plot_with = 'PitchClass')
     print(mp)
     # print(mp_ts_dict_2d)
 
