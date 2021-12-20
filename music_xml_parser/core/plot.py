@@ -551,6 +551,9 @@ def plot_3d_ql_pc(np_bs_data, xlabel='Notes', ylabel='ylabel'):
     ax1.set_yticks(np.arange(len(bs_uni)))
 
     ax1.bar3d(x, y, z, dx, dy, dz, color=rgba, zsort='average')
+    # print(n_uni)
+    # for i in n_uni:
+    #     print(i)
     ax1.set_xticklabels([pitchclassid2pitchclass(int(i))for i in n_uni])
 
     ax1.set_yticklabels([str(i) for i in bs_uni])

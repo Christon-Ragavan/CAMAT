@@ -219,13 +219,15 @@ def quarterlength_duration_histogram(df_data: pd.DataFrame,
             p = [midi2pitchclass(i)[1] for i in n_df[:, 0]]
             d = n_df[:, 1]
             n_df = [[i, ii] for i, ii in zip(p,d)]
-            n_df = np.array(n_df,dtype='<U21')
+            # n_df = np.array(n_df,dtype='<U21')
+            n_df = np.array(n_df,dtype=float)
             u, c = np.unique(n_df, axis=0, return_counts=True)
-            p = [str(i) for i in u[:, 0]]
+            # p = [str(i) for i in u[:, 0]]
+            p = [int(i) for i in u[:, 0]]
             p_str = [pitchclassid2pitchclass(int(i)) for i in u[:, 0]]
             d = [float(i) for i in u[:, 1]]
             pd_data_s = pd.DataFrame(np.array([p, d, c]).T, columns=['Pitch', 'Duration', 'Count'])
-            convert_dict = {'Count': int, 'Duration': float}
+            convert_dict = {'Pitch': int,'Count': int, 'Duration': float}
             pd_data_s = pd_data_s.astype(convert_dict)
             data = pd_data_s.to_numpy()
 
@@ -806,6 +808,8 @@ if __name__=='__main__':
 
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
-    mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
+    # mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
+    mp = quarterlength_duration_histogram(dfx, plot_with = 'pitchclass')
+    print(mp)
     # print(mp_ts_dict_2d)
 
