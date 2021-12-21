@@ -370,15 +370,16 @@ def metric_profile(df_data: pd.DataFrame,
             u, c = np.unique(n_df, axis=0, return_counts=True)
             p = [int(i) for i in u[:, 0]]
             pitch = [midi2str(int(i)) for i in u[:, 0]]
+            mf_f = [i+1 for i in u[:, 1]]
 
-            pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['Pitch', 'metricprofile', 'Count'])
+            pd_data_s = pd.DataFrame(np.array([p, mf_f, c]).T, columns=['Pitch', 'metricprofile', 'Count'])
             convert_dict = {'Count': int, 'metricprofile': float}
             pd_data_s = pd_data_s.astype(convert_dict)
             data = pd_data_s.to_numpy()
 
             if do_plot:
                 beat_stength_3d(data, ylabel=x_label, plot_with=plot_with)
-            data_f = pd.DataFrame(np.array([p, pitch, u[:, 1], c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
+            data_f = pd.DataFrame(np.array([p, pitch, mf_f, c]).T, columns=['MIDI', 'Pitch', 'metricprofile', 'Count'])
             convert_dict_2 = {'Count': int, 'metricprofile': float}
             data_f = data_f.astype(convert_dict_2)
             data_2 = data_f.to_numpy()
@@ -401,15 +402,16 @@ def metric_profile(df_data: pd.DataFrame,
             p = [int(i) for i in u[:, 0]]
 
             pc_n = [pitchclassid2pitchclass(int(i)) for i in u[:, 0]]
+            mf_f = [i+1 for i in u[:, 1]]
 
-            pd_data_s = pd.DataFrame(np.array([p, u[:, 1], c]).T, columns=['PitchClass', 'metricprofile', 'Count'])
+            pd_data_s = pd.DataFrame(np.array([p, mf_f, c]).T, columns=['PitchClass', 'metricprofile', 'Count'])
             convert_dict = {'Count': int, 'metricprofile': float}
             pd_data_s = pd_data_s.astype(convert_dict)
             data = pd_data_s.to_numpy()
 
             if do_plot:
                 beat_stength_3d(data, ylabel= x_label, plot_with=plot_with)
-            data_f = pd.DataFrame(np.array([pc_n, u[:, 1], c]).T,
+            data_f = pd.DataFrame(np.array([pc_n, mf_f, c]).T,
                                   columns=[ 'Pitch', 'metricprofile', 'Count'])
             convert_dict_2 = {'Count': int, 'metricprofile': float}
             data_f = data_f.astype(convert_dict_2)
@@ -812,7 +814,7 @@ if __name__=='__main__':
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
     # mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
-    mp = metric_profile(dfx, plot_with = 'Pitch')
-    print(mp)
+    mp = metric_profile(dfx, plot_with = 'PitchClass', do_plot=True)
+    # print(mp)
     # print(mp_ts_dict_2d)
 
