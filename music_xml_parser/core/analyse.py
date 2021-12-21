@@ -385,8 +385,11 @@ def metric_profile(df_data: pd.DataFrame,
 
             return data_2
         elif plot_with == 'PitchClass':
+            #
+            # n_df = df_c[['MIDI', 'metricprofile']].to_numpy(dtype=float)
 
-            n_df = df_c[['MIDI', 'metricprofile']].to_numpy(dtype=float)
+            n_df = df_c[['MIDI', 'LocalOnset']].to_numpy(dtype=float)
+
             m_pc = np.array([midi2pitchclass(i)[1] for i in n_df[:,0]])
 
             n_df[:,0] = m_pc
@@ -809,7 +812,7 @@ if __name__=='__main__':
     dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
     # print(dfx)
     # mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
-    mp = metric_profile(dfx, plot_with = 'PitchClass')
+    mp = metric_profile(dfx, plot_with = 'Pitch')
     print(mp)
     # print(mp_ts_dict_2d)
 

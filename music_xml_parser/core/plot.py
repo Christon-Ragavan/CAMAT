@@ -449,6 +449,7 @@ def beat_stength_3d(np_bs_data, xlabel = 'Notes', ylabel='ylabel', plot_with=Non
     ax1.set_xticklabels([midi_dict[i]for i in n_uni])
     l = [i+1 for i in bs_uni]
     ax1.set_yticklabels([str(i) for i in l])
+    # ax1.set_yticklabels([str(i) for i in bs_uni])
     ax1.set_xlabel(xlabel)
     ax1.set_ylabel(ylabel)
     ax1.set_zlabel('Occurrence')
