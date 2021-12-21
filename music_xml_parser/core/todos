@@ -1,5 +1,0 @@
-Interval search
-
-- Here the autodownload is fine! (But it's not possible to include several files at once, right?)
-- The searches work fine (but I have to check them in detail again)
-- However, the last column 'Onset' should be related to the measure: the beat position within the measure named in the column before! (btw: 'midi' doesn't need '.0') Local onset

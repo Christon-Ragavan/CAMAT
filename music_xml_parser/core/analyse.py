@@ -803,18 +803,3 @@ def _cs_pitchclass_histogram(df_data,
         df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
     return df_data
 
-if __name__=='__main__':
-    # xml_file = 'https://analyse.hfm-weimar.de/database/04/BaJoSe_BWV7_COM_7-7_CantataChr_004_00043.xml'
-    xml_file = 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml'
-
-    import parse
-
-    filter_dict_t = {'PartID': '1'}
-
-    dfx = parse.with_xml_file(xml_file, filter_dict=filter_dict_t)
-    # print(dfx)
-    # mp_ts_dict_2d = metric_profile_split_time_signature(dfx, do_plot=False)
-    mp = metric_profile(dfx, plot_with = 'PitchClass', do_plot=True)
-    # print(mp)
-    # print(mp_ts_dict_2d)
-
