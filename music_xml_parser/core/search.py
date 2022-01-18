@@ -58,8 +58,6 @@ def simple_interval_search(xml_file, interval, return_details=False):
                          do_save=False,
                          get_measure_Onset=False)
     i_df = _compute_intervals(df_data=c_df)
-    print(i_df)
-    # s_df = i_df[["Onset", "Duration", "Pitch", "Octave", "MIDI", "Measure", "PartID", "PartName", "Interval"]].copy()
     s_df = i_df[["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure", "LocalOnset","Onset"]].copy()
     int_l = i_df['Interval'].tolist()
     sel_index = []
