@@ -160,7 +160,6 @@ class ZoomPan:
             self.cur_ylim -= dy
             ax.set_xlim(self.cur_xlim)
             ax.set_ylim(self.cur_ylim)
-
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest

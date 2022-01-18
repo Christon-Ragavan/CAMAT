@@ -58,17 +58,17 @@ def simple_interval_search(xml_file, interval, return_details=False):
                          do_save=False,
                          get_measure_Onset=False)
     i_df = _compute_intervals(df_data=c_df)
+    print(i_df)
     # s_df = i_df[["Onset", "Duration", "Pitch", "Octave", "MIDI", "Measure", "PartID", "PartName", "Interval"]].copy()
-    s_df = i_df[["Pitch", "MIDI",  "PartName", "PartID", "Measure","Onset"]].copy()
-
+    s_df = i_df[["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure", "LocalOnset","Onset"]].copy()
     int_l = i_df['Interval'].tolist()
     sel_index = []
 
     for s in range(len(int_l)):
         e = s+i_len
         tc = int_l[s:e]
-        if interval == tc:
-            sel_index.append(s)
+        if interval == tc: # checking exact interval match
+            sel_index.append(s-1)
     sel_dfs = []
     sel_pitchs = []
     for si in sel_index:
@@ -83,10 +83,19 @@ def simple_interval_search(xml_file, interval, return_details=False):
     sel_dfs = np.array(sel_dfs)
     p_c_s = np.array(p_c_s)
 
-    sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5])), columns=["Pitch", "MIDI",  "PartName", "PartID", "Measure","Onset"])
+    sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5], sel_dfs[:, 6], sel_dfs[:, 7])), columns=["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure","LocalOnset","Onset"])
     p_c_s = pd.DataFrame(list(zip(p_c_s[:, 0], p_c_s[:, 1])), columns=["Pitch", "Occurance"])
 
     if return_details:
         return sel_dfs
     else:
         return p_c_s
+
+if __name__=="__main__":
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/BeLuva_Op18_1-6_1-4_StringQuar_003_00104.xml'
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/BeLuva_Op18_1-6_1-4_StringQuar_003_00104.xml'
+
+    results_01 = simple_interval_search(xml_file,
+                                       interval=[2, -2, -1, 1],
+                                       return_details=True)
+    print(results_01)
