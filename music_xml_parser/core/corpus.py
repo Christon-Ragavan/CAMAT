@@ -3,7 +3,7 @@ import sys
 import os
 
 sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'ipynb'), ''))
-
+import os
 try:
     from .analyse import _cs_get_part_list, _cs_initialize_df, _cs_total_parts, _cs_total_meas, _cs_ambitus, \
         _cs_time_signature, _cs_pitchclass_histogram, _cs_interval
@@ -118,7 +118,7 @@ def analyse_interval(xml_files, separate_parts=True,
         n_xml_files = []
         for xf in xml_files:
             f = get_file_from_server(xf)
-            n_xml_files.append(f)
+            n_xml_files.append(os.path.basename(f))
     else:
         n_xml_files = xml_files
         # raise Exception("Please download the files and save it in the data folder")
@@ -171,6 +171,5 @@ if __name__ == '__main__':
                           include_pitchclass=False,
                           get_full_axis=False,
                           get_in_percentage=False)  # If true you will get full min and max interval axis of all the files in xml_files(list)
-
 
     print(df)

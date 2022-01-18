@@ -801,5 +801,6 @@ def _cs_pitchclass_histogram(df_data,
     if get_in_percentage:
         c_idx = _column_index(df_data, pc_names)
         df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
+
     return df_data
 

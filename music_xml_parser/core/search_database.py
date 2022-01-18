@@ -461,10 +461,11 @@ def run_search(search_keywords,
         if df_entrie_database.empty:
             df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
         print("saved at ", save_extracted_database_path)
-
     else:
         df_entrie_database = scrape_database(save_extracted_database_path, do_print=do_print)
+
     df_entrie_database = df_entrie_database.replace(np.nan, '', regex=True)
+
     if extract_extire_database:
         df_entrie_database.reset_index(drop=True, inplace=True)
         if do_save_csv:
@@ -492,7 +493,7 @@ if __name__=='__main__':
                        'Year Range': None}
 
     # database_csv_path = '/Users/chris/DocumentLocal/workspace/hfm/scripts_in_progress/database/'
-    #
+
     database_csv_path = os.getcwd().replace('core', os.path.join('data', 'xmls_to_parse', 'hfm_database'))
 
     assert os.path.isdir(database_csv_path), "File not Found"
