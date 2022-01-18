@@ -126,7 +126,6 @@ def analyse_interval(xml_files, separate_parts=True,
     FileNames = [i.replace('.xml', '') for i in n_xml_files]
 
     for xf in n_xml_files:
-        print("processing", xf)
         c_df = with_xml_file(file=xf,
                              plot_pianoroll=False,
                              plot_inline_ipynb=False,
