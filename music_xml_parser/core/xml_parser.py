@@ -1208,9 +1208,8 @@ class XMLParser(XMLToolBox):
         df_data = self.compute_voice_onset(df_data)
         df_data = self.convert_pitch_midi(df_data)
         df_data = self.compute_local_onset(df_data)
-        if not self.ignore_upbeat :
+        if not self.ignore_upbeat:
             df_data = self.upbeat_detection(df_data)
-
             df_data = self.upbeat_correction(df_data)
 
         if not self.ignore_ties:

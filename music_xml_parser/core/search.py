@@ -89,11 +89,3 @@ def simple_interval_search(xml_file, interval, return_details=False):
     else:
         return p_c_s
 
-if __name__=="__main__":
-    xml_file = 'https://analyse.hfm-weimar.de/database/03/BeLuva_Op18_1-6_1-4_StringQuar_003_00104.xml'
-    xml_file = 'https://analyse.hfm-weimar.de/database/03/BeLuva_Op18_1-6_1-4_StringQuar_003_00104.xml'
-
-    results_01 = simple_interval_search(xml_file,
-                                       interval=[2, -2, -1, 1],
-                                       return_details=True)
-    print(results_01)
