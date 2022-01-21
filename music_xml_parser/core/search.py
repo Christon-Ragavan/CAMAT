@@ -67,25 +67,36 @@ def simple_interval_search(xml_file, interval, return_details=False):
         tc = int_l[s:e]
         if interval == tc: # checking exact interval match
             sel_index.append(s-1)
-    sel_dfs = []
-    sel_pitchs = []
-    for si in sel_index:
-        s_df_t_1 = s_df.iloc[si].copy()
-        sel_dfs.append(s_df_t_1.tolist())
-        sel_pitchs.append(s_df_t_1['Pitch'])
 
-    if len(sel_dfs)==0:
-        print("No search found")
-    p_c = np.array(np.unique(sel_pitchs, return_counts=True)).T
-    p_c_s = p_c[p_c[:, 1].argsort()[::-1]]
-    sel_dfs = np.array(sel_dfs)
-    p_c_s = np.array(p_c_s)
+    if len(sel_index)==0:
+        print("No Interval Found")
+        return 'No Interval Found'
 
-    sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5], sel_dfs[:, 6], sel_dfs[:, 7])), columns=["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure","LocalOnset","Onset"])
-    p_c_s = pd.DataFrame(list(zip(p_c_s[:, 0], p_c_s[:, 1])), columns=["Pitch", "Occurance"])
-
-    if return_details:
-        return sel_dfs
     else:
-        return p_c_s
+        sel_dfs = []
+        sel_pitchs = []
+        for si in sel_index:
+            s_df_t_1 = s_df.iloc[si].copy()
+            sel_dfs.append(s_df_t_1.tolist())
+            sel_pitchs.append(s_df_t_1['Pitch'])
+        p_c = np.array(np.unique(sel_pitchs, return_counts=True)).T
+        p_c_s = p_c[p_c[:, 1].argsort()[::-1]]
+        sel_dfs = np.array(sel_dfs)
+        p_c_s = np.array(p_c_s)
 
+        sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5], sel_dfs[:, 6], sel_dfs[:, 7])), columns=["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure","LocalOnset","Onset"])
+        p_c_s = pd.DataFrame(list(zip(p_c_s[:, 0], p_c_s[:, 1])), columns=["Pitch", "Occurance"])
+
+        if return_details:
+            return sel_dfs
+        else:
+            return p_c_s
+
+if __name__=="__main__":
+    xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
+
+    results_01 = simple_interval_search(xml_file,
+                                       interval=[2, 2],
+                                       return_details=False)
+
+    print(results_01)  # durch diesen Befehl wird eine einfach Tabelle dargestellt.
