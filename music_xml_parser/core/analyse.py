@@ -503,7 +503,7 @@ def _cs_get_part_list(dfs):
 
 
 def _cs_total_meas(df_data, dfs, part_info, separate_parts=True):
-    df_data['TotalMeasure'] = [0 for i in range(len(df_data))]
+    df_data['TotalMeasure'] = [0 for _ in range(len(df_data))]
     if separate_parts==False:
         ph_data = []
         for idx, df in enumerate(dfs):
@@ -517,13 +517,16 @@ def _cs_total_meas(df_data, dfs, part_info, separate_parts=True):
         for idx, df in enumerate(dfs):
             for p in part_info[idx]:
                 grouped = df.groupby(df.PartID)
+
                 try:
                     part_df = grouped.get_group(int(p)).copy()
                 except:
                     part_df = grouped.get_group(str(p)).copy()
+
                 data = len(list(set(part_df['Measure'].drop_duplicates().to_numpy())))
                 ph_data.append(data)
-            data = len(list(df[['Measure','PartID']].drop_duplicates().to_numpy()))
+            data = len(list(set(df['Measure'].drop_duplicates().to_numpy())))
+            # data = len(list(df[['Measure','PartID']].drop_duplicates().to_numpy()))
             ph_data.append(data)
         for idx, p in enumerate(ph_data):
             df_data.at[idx, 'TotalMeasure'] = p

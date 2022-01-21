@@ -80,14 +80,15 @@ def with_xml_file(file: str,
     parser_o = XMLParser(path=file, logger=logger, ignore_upbeat=ignore_upbeat, ignore_ties=ignore_ties)
     df_xml = parser_o.xml_parse()
     t_pid, t_pn = get_parts(df_xml)
+
     logger.info("Successful")
     if filter_dict is not None:
         df_xml = filter(df_xml, filter_dict)
 
     # upbeat_info = parser_o.upbeat_measure_info
     upbeat_info = []
-
     measure_onset_data = parser_o._compute_measure_n_onset()
+
     if do_save:
         df_xml.to_csv(save_at_fn, sep=';')
     return df_xml, \

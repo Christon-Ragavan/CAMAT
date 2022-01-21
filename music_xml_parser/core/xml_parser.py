@@ -1211,7 +1211,6 @@ class XMLParser(XMLToolBox):
         if not self.ignore_upbeat:
             df_data = self.upbeat_detection(df_data)
             df_data = self.upbeat_correction(df_data)
-
         if not self.ignore_ties:
             df_data = self.compute_tie_duration(df_data)
         df_data = self.remove_df_cols(df_data)

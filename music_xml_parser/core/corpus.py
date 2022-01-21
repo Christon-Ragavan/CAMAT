@@ -114,6 +114,7 @@ def analyse_interval(xml_files, separate_parts=True,
         interval_range = None
 
     df_list = []
+    df_list_no_ties = []
     if 'https' in xml_files[0]:
         n_xml_files = []
         for xf in xml_files:
@@ -134,12 +135,22 @@ def analyse_interval(xml_files, separate_parts=True,
                              do_save=False,
                              x_axis_res=2,
                              get_measure_Onset=False)
+        c_df_no_ties = with_xml_file(file=xf,
+                             plot_pianoroll=False,
+                             plot_inline_ipynb=False,
+                             save_at=None,
+                             save_file_name=None,
+                             do_save=False,
+                             x_axis_res=2,
+                             get_measure_Onset=False,
+                             ignore_ties=True)
         df_list.append(c_df)
+        df_list_no_ties.append(c_df_no_ties)
     part_info = _cs_get_part_list(df_list)
     df_data = _cs_initialize_df(FileNames, part_info)
     if include_basic_stats:
         df_data = _cs_total_parts(df_data, df_list, part_info)
-        df_data = _cs_total_meas(df_data, df_list, part_info)
+        df_data = _cs_total_meas(df_data, df_list_no_ties, part_info)
         df_data = _cs_ambitus(df_data, df_list, get_in_midi=get_in_midi)
         df_data = _cs_time_signature(df_data, df_list, part_info)
     if include_pitchclass:
@@ -162,14 +173,21 @@ if __name__ == '__main__':
                 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_4-4_StringQuar_003_00870.xml']
 
 
-    df = analyse_interval(xml_files,
-                          separate_parts=True,
-                          # To get info on part level. Currently only True is working
-                          interval_range=[-6, 6],
-                          # Please give two number, first a lower number followed by greater -> example[-7, 7]
-                          include_basic_stats=False,
-                          include_pitchclass=False,
-                          get_full_axis=False,
-                          get_in_percentage=False)  # If true you will get full min and max interval axis of all the files in xml_files(list)
+    # df = analyse_interval(xml_files,
+    #                       separate_parts=True,
+    #                       # To get info on part level. Currently only True is working
+    #                       interval_range=[-6, 6],
+    #                       # Please give two number, first a lower number followed by greater -> example[-7, 7]
+    #                       include_basic_stats=False,
+    #                       include_pitchclass=False,
+    #                       get_full_axis=False,
+    #                       get_in_percentage=False)  # If true you will get full min and max interval axis of all the files in xml_files(list)
 
+    df = analyse_interval(xml_files,
+                         separate_parts=True,
+                         include_basic_stats=True,
+                         include_pitchclass=True,
+                         interval_range=[-5, 5],
+                         get_full_axis=False,
+                         get_in_percentage=False)
     print(df)
