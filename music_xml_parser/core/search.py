@@ -96,7 +96,7 @@ if __name__=="__main__":
     xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
 
     results_01 = simple_interval_search(xml_file,
-                                       interval=[2, 2],
+                                       interval=[2, 2, 122, -120],
                                        return_details=False)
 
     print(results_01)  # durch diesen Befehl wird eine einfach Tabelle dargestellt.
