@@ -661,8 +661,15 @@ class XMLToolBox:
             nn_onset_list.append(c_off)
         df.insert(loc=3, column='onset_cl', value=nn_onset_list)
         return df
+    def _shift_local_onset(self, df):
+        local_o = df['LocalOnset'].tolist()
+        local_o = list(map(lambda x:x+1, local_o))
+        df['LocalOnset'] = local_o
 
+        return df
     def remove_df_cols(self, df, drop_colms_labels=None):
+        df = self._shift_local_onset(df)
+
         column_names = ["#Note_Debug",
                         "Onset",
                         "Duration",

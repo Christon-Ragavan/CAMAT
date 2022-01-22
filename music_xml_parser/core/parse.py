@@ -102,3 +102,15 @@ def with_xml_file(file: str,
            t_pn
 
 
+
+if __name__ == '__main__':
+    xml_file = 'PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml'
+
+    df = with_xml_file(xml_file,
+                         separate_parts=True,
+                         include_basic_stats=True,
+                         include_pitchclass=True,
+                         interval_range=[-5, 5],
+                         get_full_axis=False,
+                         get_in_percentage=False)
+    print(df)
