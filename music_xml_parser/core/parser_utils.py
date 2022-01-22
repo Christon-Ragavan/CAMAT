@@ -43,10 +43,13 @@ def _inseart_row_in_pd(row_number, df, row_value, reset_index=True):
 def _get_file_path(file):
     if 'https:' in file:
         f = get_file_from_server(file)
-        path_p = os.path.normpath(f).split(os.sep)
-        path_idx = path_p.index('xml_parser')
-        d = "../" + "/".join(path_p[path_idx:])
-        print("File at: ", d)
+        try:
+            path_p = os.path.normpath(f).split(os.sep)
+            path_idx = path_p.index('music_xml_parser')
+            d = "../" + "/".join(path_p[path_idx:])
+            print("File at: ", d)
+        except:
+            pass
     else:
         try:
             f = join(os.getcwd().replace(basename(os.getcwd()), 'data'), join('xmls_to_parse', 'xml_pool', file))
