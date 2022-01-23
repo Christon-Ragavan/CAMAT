@@ -7,11 +7,11 @@ import numpy as np
 
 np.seterr(all="ignore")
 try:
-    from utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
+    from utils import midi2str, midi2pitchclass, pitchclassid2pitchclass, _shift_local_onset
     from parser_utils import *
     from plot import *
 except:
-    from .utils import midi2str, midi2pitchclass, pitchclassid2pitchclass
+    from .utils import midi2str, midi2pitchclass, pitchclassid2pitchclass, _shift_local_onset
     from .plot import *
 
 
@@ -743,6 +743,7 @@ def _cs_interval(df_data, dfs,
             df_data.insert(least_idx_cols, min_str, min_df_cols)
             df_data[max_str] = df_data[s_max].astype(float).sum(1)
             df_data.drop(s_max, axis=1, inplace=True)
+
     return df_data
 
 
@@ -806,4 +807,5 @@ def _cs_pitchclass_histogram(df_data,
         df_data.iloc[:,min(c_idx):max(c_idx)] = df_data.iloc[:,min(c_idx):max(c_idx)].apply(lambda x: round(x.div(x.sum()).mul(100), 2), axis=1).astype(float)
 
     return df_data
+
 

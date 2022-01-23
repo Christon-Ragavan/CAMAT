@@ -9,9 +9,12 @@ sys.path.append(os.getcwd().replace(os.path.join('music_xml_parser', 'core'), ''
 try:
     from .analyse import interval
     from .parse import with_xml_file
+    from .utils import _shift_local_onset
 except:
     from analyse import interval
     from parse import with_xml_file
+    from utils import _shift_local_onset
+
 
 np.seterr(all="ignore")
 
@@ -86,17 +89,13 @@ def simple_interval_search(xml_file, interval, return_details=False):
 
         sel_dfs = pd.DataFrame(list(zip(sel_dfs[:, 0], sel_dfs[:, 1],sel_dfs[:, 2],sel_dfs[:, 3],sel_dfs[:, 4],sel_dfs[:, 5], sel_dfs[:, 6], sel_dfs[:, 7])), columns=["Pitch", "Octave", "MIDI",  "PartName", "PartID", "Measure","LocalOnset","Onset"])
         p_c_s = pd.DataFrame(list(zip(p_c_s[:, 0], p_c_s[:, 1])), columns=["Pitch", "Occurance"])
-
+        try:
+            sel_dfs = _shift_local_onset(sel_dfs)
+        except:
+            raise Warning("Error in local onset shift. The local onset start from 0.0 instead of 1")
+            pass
         if return_details:
             return sel_dfs
         else:
             return p_c_s
 
-if __name__=="__main__":
-    xml_file = 'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml'
-
-    results_01 = simple_interval_search(xml_file,
-                                       interval=[2, 2, 122, -120],
-                                       return_details=False)
-
-    print(results_01)  # durch diesen Befehl wird eine einfach Tabelle dargestellt.

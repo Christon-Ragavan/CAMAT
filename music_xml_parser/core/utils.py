@@ -53,21 +53,25 @@ def export_as_csv(data, columns,
         return pd_data
 
 def display_table(data, columns, do_return_pd=False, sep=',', index=False, header=True):
-    N = np.shape(data)[1]
-    if len(columns) != N:
-        warnings.warn(
-            f"Number of data column is not equal to the column names.\nExpected {N} column names but got {len(columns)}: {columns} instead. \nSetting default column names")
-        columns = _gen_alpha(N=N)
+    try:
+        N = np.shape(data)[1]
+        if len(columns) != N:
+            warnings.warn(
+                f"Number of data column is not equal to the column names.\nExpected {N} column names but got {len(columns)}: {columns} instead. \nSetting default column names")
+            columns = _gen_alpha(N=N)
 
-    if isinstance(data, pd.DataFrame):
-        pd_data = data
-        pd_data.columns = columns
-    else:
-        pd_data = pd.DataFrame(data, columns=columns)
+        if isinstance(data, pd.DataFrame):
+            pd_data = data
+            pd_data.columns = columns
+        else:
+            pd_data = pd.DataFrame(data, columns=columns)
 
-    display(HTML(pd_data.to_html(index=False)))
-    if do_return_pd:
-        return pd_data
+        display(HTML(pd_data.to_html(index=False)))
+        if do_return_pd:
+            return pd_data
+    except:
+        print("Check the input data")
+        pass
 
 
 def str2midi(note_string):
@@ -140,9 +144,19 @@ def pitchclassid2pitchclass(id, sharp=True):
         names = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
     return names[id]
 
+def _shift_local_onset(df):
+    local_o = df['LocalOnset'].tolist()
+    local_o = [round(float(i)+1,2) for i in local_o]
+    df.drop('LocalOnset', axis=1, inplace=True)
+    df['LocalOnset'] = local_o
+    return df
+
 def print_full_df(x):
-    pd.set_option('display.max_rows', len(x))
-    display(HTML(x.to_html()))
-    # pd.reset_option('display.max_rows')
-    pd.set_option('display.max_rows', 10)
+    if len(x)==0:
+        print("Empty list")
+    else:
+        pd.set_option('display.max_rows', len(x))
+        display(HTML(x.to_html()))
+        # pd.reset_option('display.max_rows')
+        pd.set_option('display.max_rows', 10)
 

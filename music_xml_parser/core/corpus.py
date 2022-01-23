@@ -163,31 +163,3 @@ def analyse_interval(xml_files, separate_parts=True,
                            get_full_axis=get_full_axis,
                            interval_range=interval_range, get_in_percentage=get_in_percentage)
     return df_data
-
-
-if __name__ == '__main__':
-    # xml_files = ['PrJode_Jos1102_COM_1-5_MissaLasol_002_00137.xml', 'BaJoSe_BWV18_COM_5-5_CantataGle_004_00110.xml']
-    xml_files = ['https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_1-4_StringQuar_003_00867.xml',
-                'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_2-4_StringQuar_003_00868.xml',
-                'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_3-4_StringQuar_003_00869.xml',
-                'https://analyse.hfm-weimar.de/database/03/MoWo_K171_COM_4-4_StringQuar_003_00870.xml']
-
-
-    # df = analyse_interval(xml_files,
-    #                       separate_parts=True,
-    #                       # To get info on part level. Currently only True is working
-    #                       interval_range=[-6, 6],
-    #                       # Please give two number, first a lower number followed by greater -> example[-7, 7]
-    #                       include_basic_stats=False,
-    #                       include_pitchclass=False,
-    #                       get_full_axis=False,
-    #                       get_in_percentage=False)  # If true you will get full min and max interval axis of all the files in xml_files(list)
-
-    df = analyse_interval(xml_files,
-                         separate_parts=True,
-                         include_basic_stats=True,
-                         include_pitchclass=True,
-                         interval_range=[-5, 5],
-                         get_full_axis=False,
-                         get_in_percentage=False)
-    print(df)

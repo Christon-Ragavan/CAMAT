@@ -665,11 +665,8 @@ class XMLToolBox:
         local_o = df['LocalOnset'].tolist()
         local_o = list(map(lambda x:x+1, local_o))
         df['LocalOnset'] = local_o
-
         return df
     def remove_df_cols(self, df, drop_colms_labels=None):
-
-        df = self._shift_local_onset(df) #this line can be commented out if there is no need of shifting the local onset
 
         column_names = ["#Note_Debug",
                         "Onset",
