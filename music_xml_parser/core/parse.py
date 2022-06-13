@@ -44,6 +44,19 @@ def with_xml_file(file: str,
                   *args,
                   **kwargs):
 
+    def _create_data_dir():
+        print("os.getcwd()", os.getcwd())
+        print("os.getcwd()", os.getcwd())
+        print("os.getcwd()", os.getcwd())
+        rootdir = os.getcwd().replace(os.path.join('core', 'parse.py'), 'data')
+        os.mkdir(rootdir)
+        os.chdir(rootdir)
+        for sub_dir_l1 in ['exports', 'xmls_to_parse']:
+            os.mkdir(sub_dir_l1)
+        os.chdir(os.path.join(rootdir, 'xmls_to_parse'))
+        for sub_dir_l2 in ['hfm_database', 'xml_pool']:
+            os.mkdir(sub_dir_l2)
+
     def get_parts(df):
         n_df = df[['PartID', 'PartName']].to_numpy(dtype=str)
         u = np.unique(n_df, axis=0)
@@ -51,6 +64,10 @@ def with_xml_file(file: str,
         pid = [int(i)for i in u[:,0]]
         return pid, pn
 
+    try:
+        _create_data_dir()
+    except:
+        pass
     file = _get_file_path(file=file)
 
     if '.xml' not in basename(file):

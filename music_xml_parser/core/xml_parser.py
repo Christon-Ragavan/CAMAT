@@ -14,9 +14,9 @@ try:
     from .parser_utils import set_up_logger, _inseart_row_in_pd
 except:
     from parser_utils import set_up_logger, _inseart_row_in_pd
-pd.set_option('display.max_rows', 1000000)
-pd.set_option('display.max_columns', 1000000)
-pd.set_option('display.width', 1000000)
+pd.set_option('display.max_rows', 10)
+pd.set_option('display.max_columns', 100)
+pd.set_option('display.width', 100)
 
 class XMLToolBox:
     def __init__(self, file_path, *args, **kwargs):
